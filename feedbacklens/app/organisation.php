@@ -17,4 +17,9 @@ class organisation extends Model
     	return $this->hasMany(User::class,'ORG_ID','ORG_ID');
     }
 
+    public function domains()
+    {
+    	return $this->hasMany(domain::class,'ORG_ID','ORG_ID');
+    }
+
 }

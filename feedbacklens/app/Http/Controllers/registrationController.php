@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use JWTAuth;
+use Tymon\JWTAuthExceptions\JWTException;
 
 use App\Mail\Welcome;
 use Illuminate\Http\Request;
@@ -12,7 +14,7 @@ class registrationController extends Controller
     public function store(Request $request)
     {
   
-             $this->validate($request,[
+            /* $this->validate($request,[
                    
                    'fname' =>'required',
                    'lname'=>'required',
@@ -21,15 +23,18 @@ class registrationController extends Controller
                    'address'=>'required',
                    'organisation'=>'required',
 
-             	]);
+             	]);*/
 
 
-/*if(\App\organisation::where('SUPER_USER',request('email')))
+/*if(count(\App\organisation::where('SUPER_USER',request('email'))->get()) == 1)
 {
 	//return redirect()->back()->withErrors(['Email has been taken']);
-	dd(\App\organisation::where('SUPER_USER',request('email')));
+	return redirect()->back()->withErrors('Email has been taken');
 }*/
 
+//$users = \DB::table('fl_org')->where('SUPER_USER', '=', request('email'))->get();
+//dd(count($users));
+//\Mail::to($user->EMAIL)->send(new Welcome);
        $org = new \App\organisation;
        //dd($request);
        $org->ORG_NAME = request('organisation');
@@ -55,10 +60,14 @@ class registrationController extends Controller
 
        $user->save();
 
-       Auth()->login($user);
+       //Auth()->login($user);
 
-       \Mail::to($user->EMAIL)->send(new Welcome);
-           	return redirect('/');
+        \Mail::to($user->EMAIL)->send(new Welcome);
+           	return response()->json(['success' => 'registration successful'], 200);
+      //  return \Redirect::to('/')->with('user', 'pratik');
+
+       //return \View::make('welcome')->with('user', $user->FIRST_NAME);
+       //return $user;
 
 
     }

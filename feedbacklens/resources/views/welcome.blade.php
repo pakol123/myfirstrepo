@@ -80,6 +80,16 @@
             <div class="content">
                 <div class="title m-b-md">
                     Laravel
+
+                    <?php
+                    echo \Session::get('myname'); 
+                       //echo $myname;
+                    if(Auth()->check())
+                    {
+                       //echo Auth()->user()->FIRST_NAME;
+
+                    }
+                    ?>
                 </div>
 
                 <div class="links">

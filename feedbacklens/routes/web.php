@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::get('/registration',function()
 {
@@ -25,7 +25,7 @@ Route::post('/registration','registrationController@store');
 Route::get('/login',function()
 {
 return view('login');
-})->middleware('guest');
+})->middleware('guest')->name('login');
 
 Route::post('/login','sessionController@checkuser');
 
@@ -33,5 +33,17 @@ Route::get('/logout',function()
 {
 Auth()->logout();
 return redirect('/');
+})->middleware('auth');*/
 
-})->middleware('auth');
+
+Route::get('/', function () {
+    return view('index');
+});
+
+
+
+Route::post('/api/registration', 'registrationController@store');
+Route::post('/api/login', 'sessionController@checkuser');
+
+
+
