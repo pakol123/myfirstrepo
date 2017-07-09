@@ -43,11 +43,11 @@ public function __construct()
 
 
 
-$credentials = $request->only('email', 'password');
-try {
+        $credentials = $request->only('email', 'password');
+        try {
             // verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 401);
+                return response()->json(['error' => 'Invalid Credentials'], 404);
             }
         } catch (JWTException $e) {
             // something went wrong
@@ -55,23 +55,6 @@ try {
         }
 
         // if no errors are encountered we can return a JWT
-        return response()->json(compact('token'));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return response()->json(['token'=>compact('token'), 'user'=>Auth()->User()]);
     }
-
-
-
 }
