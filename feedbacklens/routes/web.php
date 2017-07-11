@@ -46,5 +46,6 @@ Route::post('/api/registration', 'registrationController@store');
 Route::post('/api/login', 'sessionController@checkuser');
 
 Route::post('/api/domain/create','domainController@store');
+Route::get('/api/getuserdata','sessionController@getAuthenticatedUser');
 
 

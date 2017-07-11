@@ -16,7 +16,8 @@
         "app.i18n",
         "app.ui",
         "app.signin",
-        "app.domainInfo"
+        "app.domainInfo",
+        "app.users"
         ])
 }(),
 function() {
@@ -42,6 +43,11 @@ function() {
 function() {
     "use strict";
     angular.module("app.domainInfo", [])
+}(),
+
+function() {
+    "use strict";
+    angular.module("app.users", [])
 }(),
 
 function() {
@@ -94,7 +100,22 @@ function() {
     angular.module("app").config(["$routeProvider", "$authProvider", function(a,d) {
         var b, c;
         var currDate = new Date();
-        b = ["dashboard", "form/elements", "form/flDomainAdd", "page/404", "page/500", "page/blank", "page/forgot-password", "page/invoice", "page/lock-screen", "page/profile", "page/signin", "page/signup"], c = function(b) {
+        b = [
+                 "dashboard", 
+                 "form/elements", 
+                 "form/flDomainAdd", 
+                 "page/404", 
+                 "page/500", 
+                 "page/blank", 
+                 "page/forgot-password", 
+                 "page/invoice", 
+                 "page/lock-screen", 
+                 "page/profile", 
+                 "page/signin", 
+                 "page/signup",
+                 "page/flUsers"
+             ], 
+        c = function(b) {
             var c, d;
             return d = "/" + b, c = {
                 templateUrl: "app/" + b + ".html?" + currDate.getTime()
@@ -717,7 +738,7 @@ function() {
 // new controller for login
 function() {
     "use strict";
-    function a(a,b,c,d) {
+    function a(a,b,c,d,e) {
             
             var original;
             a.user = {
@@ -739,11 +760,11 @@ function() {
 
                     // Use Satellizer's $auth service to login
                     b.login(credentials)
-                    .then(function(data) {
+                    .then(function() {
                         // If login is successful, redirect to the users state
                         //c.path('/dashboard');
-                        d.currentUser = data.data.user;
-                        c.path('/form/flDomainAdd');
+                        return e.get('public/api/getuserdata');
+                        
                     }, function(error) {
 
                         a.loginError = true;
@@ -751,12 +772,33 @@ function() {
 
                       // Because we returned the $http.get request in the $auth.login
                       // promise, we can chain the next promise to the end here
-                    });
+                    }).then(function(response) {
+                       
+                        // Stringify the returned data to prepare it
+                        // to go into local storage
+                        var user = JSON.stringify(response.data.user);
+
+                        // Set the stringified user data into local storage
+                        localStorage.setItem('user', user);
+
+                        // The user's authenticated state gets flipped to
+                        // true so we can now show parts of the UI that rely
+                        // on the user being logged in
+                        d.authenticated = true;
+
+                        // Putting the user's data on $rootScope allows
+                        // us to access it anywhere across the app
+                        d.currentUser = response.data.user;
+
+                        // Everything worked out so we can now redirect to
+                        // the users state to view the data
+                       c.path('/form/flDomainAdd');
+                  });;
             }
 
         }
 
-        angular.module("app.signin").controller("loginCntrl", ["$scope","$auth","$location","$rootScope", a])
+        angular.module("app.signin").controller("loginCntrl", ["$scope","$auth","$location","$rootScope", "$http", a])
 }(),
 // end login controller
 
@@ -764,7 +806,7 @@ function() {
 
 function() {
     "use strict";
-    function a(a,b) {
+    function a(a,b,c,d) {
             
             var original;
             a.domain = {
@@ -778,25 +820,22 @@ function() {
 
             a.domain.pluginAlignment = "Center";
             a.domain.pluginColor = "White";
+            /*a.domain.orgId= b.currentUser.ORG_ID;
+            a.domain.createdBy= b.currentUser.USER_ID;*/
+            a.domain.orgId= 28;
+            a.domain.createdBy= 14;
 
             a.canSubmit = function() {
                 return a.addDomainForm.$valid && !angular.equals(a.domain, original);
             };
 
             a.submitDomainInfoForm = function() {
-                var req = {
-                 method: 'POST',
-                 url: 'http://example.com',
-                 data: { 
-                    test: 'test'
-                 }
-                }
-
-                $http(req).then(
-                    function(){
+               
+                c.post('public/api/domain/create', a.domain).success(
+                    function(data){
                         a.notify('success', "Successfully Added domain");
-                    }, 
-                    function(){
+                    }).error(function(error){
+                         alert(JSON.stringify(error));
                         a.notify('error', "Failed to add domain");
                     });
             }
@@ -804,19 +843,19 @@ function() {
             a.notify = function(type, msg) {
                 switch (type) {
                     case 'info':
-                        return logger.log(msg);
+                        return d.log(msg);
                     case 'success':
-                        return logger.logSuccess(msg);
+                        return d.logSuccess(msg);
                     case 'warning':
-                        return logger.logWarning(msg);
+                        return d.logWarning(msg);
                     case 'error':
-                        return logger.logError(msg);
+                        return d.logError(msg);
                 }
             };
 
         }
 
-        angular.module("app.domainInfo").controller("domainInfoController", ["$scope", "$rootScope", a])
+        angular.module("app.domainInfo").controller("domainInfoController", ["$scope", "$rootScope", "$http", "logger", a])
 }();
 
 // End domain controller

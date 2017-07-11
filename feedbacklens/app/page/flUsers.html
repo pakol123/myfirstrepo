@@ -1,0 +1,114 @@
+<div class="page page-general">
+
+    <div class="row">
+    	<div class="col-md-6">
+	        <div class="panel panel-default">
+	                <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Add User</strong></div>
+	                <div class="panel-body" >
+	                    <form name="form_signup" class="form-horizontal form-validation" data-ng-submit="submitForm()">
+	                    <div class="form-group">
+	                        <div class="col-sm-3">
+	                            <label for="">First Name</label>
+	                        </div>
+	                        <div class="col-sm-9">
+	                            <input  type="text"
+	                                	class="form-control"
+	                                    placeholder="First Name"
+	                                    data-ng-model="user.fname"
+	                                    required
+	                                    data-ng-minlength="2"
+	                                    data-ng-maxlength="30">
+	                         </div>
+	                    </div>
+	                                <div class="form-group">
+	                                   <div class="col-sm-3">
+	                                        <label for="">Lats Name</label>
+	                                    </div>
+	                                    <div class="col-sm-9">
+	                                        <input  type="text"
+	                                                class="form-control"
+	                                                placeholder="Last Name"
+	                                                data-ng-model="user.lname"
+	                                                required
+	                                                data-ng-minlength="2"
+	                                                data-ng-maxlength="30">
+	                                    </div>
+	                                </div>
+
+	                                <div class="form-group">
+	                                    <div class="col-sm-3">
+	                                        <label for="">Role</label>
+	                                    </div>
+	                                    <div class="col-sm-9">
+	                                        <span class="ui-select" style="margin-left: 0px">
+				                                <select data-ng-model="domain.pluginAlignment">
+				                                    <option>Admin</option>
+				                                    <option>Role 2</option>
+				                                    <option>Role 3</option>
+				                                </select>
+				                            </span>
+	                                    </div>
+	                                </div> 
+
+
+	                                <div class="form-group">
+	                                    <div class="col-sm-3">
+	                                        <label for="">Email</label>
+	                                    </div>
+	                                    <div class="col-sm-9">
+	                                        <input type="email"
+	                                               placeholder="Email"
+	                                               class="form-control"
+	                                               data-ng-model="user.email"
+	                                               required>
+	                                    </div>
+	                                </div>
+	                                <div class="form-group">
+	                                    <div class="col-sm-3">
+	                                        <label for="">Phone No</label>
+	                                    </div>
+	                                    <div class="col-sm-9">
+	                                        <input type="text"
+	                                               placeholder="Phone No"
+	                                               class="form-control"
+	                                               data-ng-model="user.phoneNo"
+	                                               required>
+	                                    </div>
+	                                </div> 
+	                        <button type="submit"
+	                                class="btn btn-primary btn-block btn-lg"
+	                                data-ng-disabled="!canSubmit()">Submit</button>
+	                        <div class="callout callout-info">
+	                            <p>Submit button will be active only when all fields are valid.</p>
+	                        </div>
+	                        <div class="divider"></div>
+	                        <div class="alert alert-info" data-ng-show="showInfoOnSubmit">This is just for demo. In real project, you will submit form with AJAX :)</div>                 
+	                    </form>
+	                </div>
+	            </div>
+	        </div>
+	        </div>
+	    </div>
+        <div class="col-md-6">
+           <!-- Pofile panel -->
+            <div class="panel panel-profile">
+                <div class="panel-heading bg-danger clearfix">
+                    <a href="" class="pull-left profile">
+                        <img alt="" src="images/g1.jpg" class="img-circle img80_80">
+                    </a>
+                    <h3>{{main.name}}</h3>
+                    <p>Project Manager</p>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge">14</span>
+                        <i class="ti-email"></i>
+                        Cras justo odio
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- end Pofile panel -->
+        </div>
+    </div>
+</div>

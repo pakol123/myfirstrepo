@@ -15,6 +15,32 @@ public function __construct()
 	//$this->middleware('guest');
 }
 
+
+public function getAuthenticatedUser()
+{
+    try
+    {
+        if(!$user = JWTAuth::parseToken()->authenticate())
+        {
+            return response()->json(['User not found'],404);
+        }
+  } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+
+    return response()->json(['token_expired'], $e->getStatusCode());
+
+  } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+
+    return response()->json(['token_invalid'], $e->getStatusCode());
+
+  } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
+
+    return response()->json(['token_absent'], $e->getStatusCode());
+
+  }
+
+    return response()->json(compact('user'));
+}
+
     public function checkuser(Request $request)
     {
 
@@ -44,6 +70,7 @@ public function __construct()
 
 
         $credentials = $request->only('email', 'password');
+
         try {
             // verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials)) {
@@ -55,6 +82,6 @@ public function __construct()
         }
 
         // if no errors are encountered we can return a JWT
-        return response()->json(['token'=>compact('token'), 'user'=>Auth()->User()]);
+        return response()->json(compact('token'));
     }
 }

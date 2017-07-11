@@ -35,6 +35,7 @@ class registrationController extends Controller
 //$users = \DB::table('fl_org')->where('SUPER_USER', '=', request('email'))->get();
 //dd(count($users));
 //\Mail::to($user->EMAIL)->send(new Welcome);
+
        $org = new \App\organisation;
        //dd($request);
        $org->ORG_NAME = request('organisation');
@@ -62,7 +63,7 @@ class registrationController extends Controller
 
        //Auth()->login($user);
 
-        \Mail::to($user->EMAIL)->send(new Welcome);
+        //\Mail::to($user->EMAIL)->send(new Welcome);
            	return response()->json(['success' => 'registration successful'], 200);
       //  return \Redirect::to('/')->with('user', 'pratik');
 

@@ -29,24 +29,20 @@ class domainController extends Controller
     {
         
       $domain = new domain;
-      $domain->ORG_ID = 51;
-      $domain->DOMAIN_URL = request('DOMAIN_NAME');
-      $domain->DOMAIN_SECTOR=request('DOMAIN_SECTOR');
+      $domain->ORG_ID = request('orgId');
+      $domain->DOMAIN_URL = request('domainName');
+      $domain->DOMAIN_SECTOR=request('domainSector');
       $domain->START_DATE= Carbon::now();
-      $domain->created_by = 1;
+      $domain->created_by = request('createdBy');
       $domain->Save();
-
-
       
       $plugin = new plugin;
-      $plugin->ALIGNMENT = 'left';
-      $plugin->PLUGIN_COLOR = '#000000';
+      $plugin->ALIGNMENT = request('pluginAlignment');
+      $plugin->PLUGIN_COLOR = request('pluginColor');
       $plugin->ISACTIVE = false;
       $plugin->DOMAIN_ID = domain::latest()->first()->DOMAIN_ID;
-      $plugin->CREATED_BY = 1;
+      $plugin->CREATED_BY = request('createdBy');
       $plugin->Save();
-
-
 
       return response()->json(['success' => 'Domain and plugin registration successful'], 200);
     }
