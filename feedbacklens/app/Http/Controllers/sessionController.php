@@ -41,7 +41,7 @@ public function getAuthenticatedUser()
     return response()->json(compact('user'));
 }
 
-    public function checkuser(Request $request)
+    public function checkUser(Request $request)
     {
 
          /*if (\Auth::viaRemember()) {

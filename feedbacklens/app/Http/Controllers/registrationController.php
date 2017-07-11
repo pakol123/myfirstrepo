@@ -11,6 +11,32 @@ class registrationController extends Controller
 {
     //
 
+public function userAdd(Request $request)
+  {
+    $user = new \App\User;
+       $user->FIRST_NAME = request('fname');
+       $user->LAST_NAME = request('lname');
+       $user->EMAIL = request('email');
+       $user->PASSWORD = bcrypt(request('password'));
+       $user->ORG_ID = request('orgId'); // session data
+       $user->PLAN_ID = 1;
+       $user->ADDRESS=request('address');
+       $user->PHONE_NO = request('phone');
+       $user->ROLE_ID = 2;
+       $user->IS_ACTIVE = 1;
+       $user->CREATED_BY = request('userId'); // Session data
+
+       $user->save();
+
+       //Auth()->login($user);
+
+        //\Mail::to($user->EMAIL)->send(new Welcome);
+            return response()->json(['success' => 'registration successful'], 200);
+  }
+
+
+
+
     public function store(Request $request)
     {
   

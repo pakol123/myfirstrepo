@@ -43,9 +43,15 @@ Route::get('/', function () {
 
 
 Route::post('/api/registration', 'registrationController@store');
-Route::post('/api/login', 'sessionController@checkuser');
+Route::post('/api/login', 'sessionController@checkUser');
 
 Route::post('/api/domain/create','domainController@store');
 Route::get('/api/getuserdata','sessionController@getAuthenticatedUser');
+Route::post('api/adduser','registrationController@userAdd');
+Route::post('/api/fetchRole',function()
+	{
 
+        return \App\Role()->get(['ROLE_ID','ROLE_NAME']);
+
+	});
 
