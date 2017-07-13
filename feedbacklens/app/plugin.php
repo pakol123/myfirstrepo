@@ -23,8 +23,8 @@ class plugin extends Model
    public static function create(Request $request)
    {
       $plugin = new plugin;
-      $plugin->ALIGNMENT = "left";
-      $plugin->PLUGIN_COLOR = "#000000";
+      $plugin->ALIGNMENT = Request("alignment");
+      $plugin->PLUGIN_COLOR = Request("color");
       $plugin->ISACTIVE = false;
       $plugin->DOMAIN_ID = domain::latest()->first()->DOMAIN_ID;
       $plugin->CREATED_BY = 1;

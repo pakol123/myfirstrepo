@@ -56,3 +56,5 @@ Route::post('/api/fetchRole',function()
 
 	});
 
+Route::post('api/domain/pluginupdate','pluginController@update');
+Route::post('api/domain/addsubcat','subcategoryController@create');

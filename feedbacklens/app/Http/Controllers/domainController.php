@@ -28,6 +28,8 @@ class domainController extends Controller
     public function store(Request $request)
     {
         
+  
+//dd($request);  
       $domain = new domain;
       $domain->ORG_ID = request('orgId');
       $domain->DOMAIN_URL = request('domainName');
@@ -37,17 +39,13 @@ class domainController extends Controller
       $domain->Save();
       
 
-      /*$plugin = new plugin;
-      $plugin->ALIGNMENT = request('pluginAlignment');
-      $plugin->PLUGIN_COLOR = request('pluginColor');
-      $plugin->ISACTIVE = false;
-      $plugin->DOMAIN_ID = domain::latest()->first()->DOMAIN_ID;
-      $plugin->CREATED_BY = request('createdBy');
+      $domain->subcategories()->attach([1,2,3,4],["ISACTIVE"=>1,"CREATED_BY"=>1,"CREATED_AT"=>null]);
 
-      $plugin->Save();*/
 
       $plugin = plugin::create($request);
       $plugin->Save();
+
+
 
       return response()->json(['success' => 'Domain and plugin registration successful'], 200);
     }
