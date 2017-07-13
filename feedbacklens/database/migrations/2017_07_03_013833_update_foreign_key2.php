@@ -18,7 +18,7 @@ class UpdateForeignKey2 extends Migration
 
         Schema::table('fl_users', function(Blueprint $table)
     {
-        $table->foreign('PLAN_ID')->references('PLAN_ID')->on('fl_plan_master')->onDelete('cascade');
+        //$table->foreign('PLAN_ID')->references('PLAN_ID')->on('fl_plan_master')->onDelete('cascade');
         $table->foreign('ROLE_ID')->references('ROLE_ID')->on('fl_role_master')->onDelete('cascade');
         
         });
@@ -37,7 +37,7 @@ class UpdateForeignKey2 extends Migration
 
         Schema::table('fl_users', function(Blueprint $table)
     {
-     $table->dropForeign(['PLAN_ID']);
+    // $table->dropForeign(['PLAN_ID']);
      $table->dropForeign(['ROLE_ID']);
  });
     }

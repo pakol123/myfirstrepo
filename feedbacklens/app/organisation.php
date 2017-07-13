@@ -22,4 +22,9 @@ class organisation extends Model
     	return $this->hasMany(domain::class,'ORG_ID','ORG_ID');
     }
 
+    public function plans()
+    {
+           return $this->belongsToMany(plan::class,'fl_org_plan_map','ORG_ID','PLAN_ID')->withPivot('START_DATE','END_DATE','IS_ACTIVE');
+    }
+
 }

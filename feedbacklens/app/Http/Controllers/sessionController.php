@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use JWTAuth;
+use App\User;
 
 use Illuminate\Http\Request;
 
@@ -38,7 +39,10 @@ public function getAuthenticatedUser()
 
   }
 
-    return response()->json(compact('user'));
+    //return response()->json(compact('user'));
+  $id = $user->organisation->plans->where('IS_ACTIVE',0);
+  //($id[0]->NO_OF_DOMAINS);
+  return response()->json(array('user'=>$user,'no_of_domains'=>$id[0]->NO_OF_DOMAINS));
 }
 
     public function checkUser(Request $request)
@@ -84,4 +88,12 @@ public function getAuthenticatedUser()
         // if no errors are encountered we can return a JWT
         return response()->json(compact('token'));
     }
+
+public function allUsers(Request $request)
+{
+    //dd(user::all()->where('ORG_ID',request('ORG_ID')));
+   return response()->json(array('users'=>user::all()->where('ORG_ID',request('ORG_ID'))));
+
+}
+
 }

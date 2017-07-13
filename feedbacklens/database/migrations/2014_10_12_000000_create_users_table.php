@@ -19,8 +19,6 @@ class CreateUsersTable extends Migration
             $table->increments('USER_ID');
             $table->string('FIRST_NAME');
             $table->string('LAST_NAME');
-            $table->boolean('ISADMIN')->default(false);
-            $table->integer('PLAN_ID')->unsigned();
             $table->integer('ORG_ID')->unsigned();
             $table->string('EMAIL')->unique();
             $table->string('PASSWORD');

@@ -48,6 +48,7 @@ Route::post('/api/login', 'sessionController@checkUser');
 Route::post('/api/domain/create','domainController@store');
 Route::get('/api/getuserdata','sessionController@getAuthenticatedUser');
 Route::post('api/adduser','registrationController@userAdd');
+Route::get('api/allUsers','sessionController@allUsers');
 Route::post('/api/fetchRole',function()
 	{
 

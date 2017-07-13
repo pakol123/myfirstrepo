@@ -68,8 +68,14 @@ public function userAdd(Request $request)
        $org->SUPER_USER = request('email');
        $org->CREATED_BY = 1;
        $org->save();
+       
+       $org1 = \App\organisation::latest()->first();
+       $org1->plans()->attach(1,['START_DATE'=>null]);
 
+      
        $iid = \App\organisation::latest()->first()->ORG_ID;
+
+
        //dd($iid);
 
        $user = new \App\User;
@@ -78,7 +84,6 @@ public function userAdd(Request $request)
        $user->EMAIL = request('email');
        $user->PASSWORD = bcrypt(request('password'));
        $user->ORG_ID = $iid;
-       $user->PLAN_ID = 1;
        $user->ADDRESS=request('address');
        $user->PHONE_NO = request('phone');
        $user->ROLE_ID = 1;
