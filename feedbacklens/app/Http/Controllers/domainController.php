@@ -55,4 +55,11 @@ class domainController extends Controller
 
     }
 
+    public function getAllDomains(Request $request)
+    {
+         $domains =  \App\domain::all()->where('ORG_ID',Request('ORG_ID'));
+           return response()->json(array('domains'=>$domains));
+
+    }
+
 }
