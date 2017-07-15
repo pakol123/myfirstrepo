@@ -32,7 +32,7 @@
                         <div class="form-group">
                             <label for="domainSector">Plugin Alignment</label><br/>
                             <span class="ui-select custSelect">
-                                <select data-ng-model="domain.pluginAlignment">
+                                <select data-ng-model="domain.alignment">
                                     <option>Left</option>
                                     <option>Center</option>
                                     <option>Right</option>
@@ -42,7 +42,7 @@
                         <div class="form-group">
                             <label for="domainSector">Plugin Color</label><br/>
                             <span class="ui-select custSelect">
-                                <select data-ng-model="domain.pluginColor">
+                                <select data-ng-model="domain.color">
                                     <option>White</option>
                                     <option>Orange</option>
                                     <option>Blue</option>
@@ -53,6 +53,22 @@
                     </form>
                 </div>
             </div>
+
+            
         </div>
     </section>
+
+    <div class="row">
+        <div class="col-sm-4" data-ng-repeat="domain in domains">
+            <div class="panel mini-box">
+                <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-danger">
+                    <i class="ti-video-clapper"></i>
+                </span>
+                <div class="box-info">
+                    <p class="size-h2">0</p>
+                    <p class="text-muted">{{domain.DOMAIN_URL}}</p>
+                </div>
+            </div>                    
+        </div>
+    </div>
 </div>

@@ -10,19 +10,15 @@
         "angular-loading-bar",
         "duScroll",
         "satellizer",
-        "ui.router",
         "app.nav",
         "app.page",
         "app.i18n",
         "app.ui",
         "app.signin",
         "app.domainInfo",
-        "app.users"
+        "app.users",
+        "app.feedbacks",
         ])
-}(),
-function() {
-    "use strict";
-    angular.module("app.signin", [])
 }(),
 
 function() {
@@ -42,6 +38,11 @@ function() {
 
 function() {
     "use strict";
+    angular.module("app.signin", [])
+}(),
+
+function() {
+    "use strict";
     angular.module("app.domainInfo", [])
 }(),
 
@@ -52,8 +53,14 @@ function() {
 
 function() {
     "use strict";
+    angular.module("app.feedbacks", [])
+}(),
 
-    function a(a, b, c, d) {
+
+function() {
+    "use strict";
+
+    function a(a, b, c, d, z, y) {
         var e = new Date,
             f = e.getFullYear();
         a.main = {
@@ -92,12 +99,34 @@ function() {
         }, b.$on("$routeChangeSuccess", function(a, b, c) {
             d.scrollTo(0, 0)
         })
+
+        var sessionUserObjStr = sessionStorage.getItem('currentUser');
+        var sessionAuthenticated = sessionStorage.getItem('authenticated');
+
+        var sessionUserObj = angular.fromJson(sessionUserObjStr);
+
+        if(sessionUserObj) {
+            b.currentUser = sessionUserObj;
+            b.authenticated = sessionAuthenticated;
+        } else {
+            y.path("/");
+        }
+
+        b.logout = function() {
+          z.logout().then(function() {
+            sessionStorage.removeItem('currentUser');
+            sessionStorage.removeItem('authenticated');
+            b.authenticated = false;
+            b.currentUser = null;
+            y.path("/");
+          });
+        }
     }
-    angular.module("app").controller("AppCtrl", ["$scope", "$rootScope", "$route", "$document", a])
+    angular.module("app").controller("AppCtrl", ["$scope", "$rootScope", "$route", "$document", "$auth","$location", a])
 }(),
 function() {
     "use strict";
-    angular.module("app").config(["$routeProvider", "$authProvider", function(a,d) {
+    angular.module("app").config(["$routeProvider", "$authProvider", "$httpProvider", "$provide", function(a,d,e,f) {
         var b, c;
         var currDate = new Date();
         b = [
@@ -113,7 +142,8 @@ function() {
                  "page/profile", 
                  "page/signin", 
                  "page/signup",
-                 "page/flUsers"
+                 "page/flUsers",
+                 "page/flFeedbacks"
              ], 
         c = function(b) {
             var c, d;
@@ -132,10 +162,66 @@ function() {
             redirectTo: "/404"
         });
 
-        d.loginUrl = 'feedbacklens/public/api/login';
+        // This service is used to logout from current section if $http service returns any of token validation failure message
+        function redirectWhenLoggedOut($q, $injector, $location) {
+
+            return {
+
+              responseError: function(rejection) {
+                
+                var $state = $injector.get('$state');
+                var rejectionReasons = ['token_not_provided', 'token_expired', 'token_absent', 'token_invalid'];
+
+                angular.forEach(rejectionReasons, function(value, key) {
+                  if(rejection.data.error === value) {
+                      localStorage.removeItem('user');
+                      $location.path('/');
+                  }
+                });
+
+                return $q.reject(rejection);
+              }
+            }
+      }
+
+      f.factory('redirectWhenLoggedOut', redirectWhenLoggedOut);
+
+      // Setting $http intercept - redirectWhenLoggedOut
+      e.interceptors.push('redirectWhenLoggedOut');
+
+      d.loginUrl = 'myfirstrepo/feedbacklens/public/api/login';
 
     }])
 }(),
+
+function() {
+
+    function a(a, b) {
+
+      a.$on('$stateChangeStart', function(event, toState) {
+
+        var user = JSON.parse(sessionStorage.getItem('user'));            
+
+            /*if(user) {
+                  a.authenticated = true;
+                  a.currentUser = user;
+
+                  if(toState.name === "auth") {
+                    event.preventDefault();
+                    b.path('/');
+                  }
+            }*/ 
+            alert(sessionStorage.getItem('user'));
+
+            if(!user) {
+                a.authenticated = false;
+                a.currentUser = null;
+            }
+        });
+    }
+    angular.module('app').run(["$rootScope", "$location", a])
+}(),
+
 function() {
     function a(a) {
         a.useStaticFilesLoader({
@@ -774,25 +860,13 @@ function() {
                       // promise, we can chain the next promise to the end here
                     }).then(function(response) {
                        
-                        // Stringify the returned data to prepare it
-                        // to go into local storage
-                        var user = JSON.stringify(response.data.user);
+                        sessionStorage.setItem('currentUser', JSON.stringify(response.data.user));
+                        sessionStorage.authenticated = true;
 
-                        // Set the stringified user data into local storage
-                        localStorage.setItem('user', user);
-
-                        // The user's authenticated state gets flipped to
-                        // true so we can now show parts of the UI that rely
-                        // on the user being logged in
-                        d.authenticated = true;
-
-                        // Putting the user's data on $rootScope allows
-                        // us to access it anywhere across the app
+                        //console.log(JSON.stringify(response.data.user));
                         d.currentUser = response.data.user;
-
-                        // Everything worked out so we can now redirect to
-                        // the users state to view the data
-                       c.path('/form/flDomainAdd');
+                        d.authenticated = true;
+                        c.path('/form/flDomainAdd');
                   });;
             }
 
@@ -818,12 +892,14 @@ function() {
 
             original = angular.copy(a.domain);
 
-            a.domain.pluginAlignment = "Center";
-            a.domain.pluginColor = "White";
-            /*a.domain.orgId= b.currentUser.ORG_ID;
-            a.domain.createdBy= b.currentUser.USER_ID;*/
-            a.domain.orgId= 28;
-            a.domain.createdBy= 14;
+            a.domain.alignment = "Center";
+            a.domain.color = "White";
+            a.domain.orgId= b.currentUser.ORG_ID;
+            a.domain.createdBy= b.currentUser.USER_ID;
+            //a.domain.orgId= 28;
+           // a.domain.createdBy= 14;
+
+            a.domains = [];
 
             a.canSubmit = function() {
                 return a.addDomainForm.$valid && !angular.equals(a.domain, original);
@@ -834,11 +910,23 @@ function() {
                 c.post('public/api/domain/create', a.domain).success(
                     function(data){
                         a.notify('success', "Successfully Added domain");
+                        a.getAllDomains();
                     }).error(function(error){
-                         alert(JSON.stringify(error));
+                         
                         a.notify('error', "Failed to add domain");
                     });
             }
+
+            a.getAllDomains = function() {
+                c.get('public/api/domain/getAllDomains?ORG_ID='+b.currentUser.ORG_ID).success(
+                function(data){
+                    a.domains = data.domains;
+                }).error(function(error){
+                        
+                });
+            }
+
+            a.getAllDomains();
 
             a.notify = function(type, msg) {
                 switch (type) {
@@ -856,7 +944,93 @@ function() {
         }
 
         angular.module("app.domainInfo").controller("domainInfoController", ["$scope", "$rootScope", "$http", "logger", a])
-}();
+}(),
 
 // End domain controller
+
+function() {
+    "use strict";
+    function a(a,b,c,d,e) {
+            
+            var original;
+            a.user = {
+                 fname: "",
+                 lname: "",
+                 email: "",
+                 phone: "",
+                 address: ""
+            };
+
+            a.users = [];
+            original = angular.copy(a.user);
+
+            a.user.orgId = b.currentUser.ORG_ID;
+            a.user.createdBy = b.currentUser.USER_ID;
+            
+            a.roles = [];
+
+            
+            // create service of get roles
+            c.get('public/api/fetchRole').success(
+                function(data){
+                    a.roles = data;
+                    a.user.role = (a.roles[0].ROLE_ID).toString();
+                }).error(function(error){
+                        
+                });
+
+
+                // change following URL parameter passing method
+            a.getAllUsers = function() {
+                
+                c.get('public/api/allUsers?ORG_ID='+b.currentUser.ORG_ID).success(
+                function(data){
+                    a.users = data.users;
+                    alert(JSON.stringify(a.users));
+                }).error(function(error){
+                        
+                });
+            }
+
+            a.getAllUsers();
+
+
+            a.canSubmit = function() {
+                return a.addUserForm.$valid && !angular.equals(a.user, original);
+            };
+
+            a.submitUserInfoForm = function() {
+                c.post('public/api/adduser', a.user).success(
+                    function(data){
+                        a.notify('success', "Successfully added user");
+                        a.user = original;
+                        a.user.role = (a.roles[0].ROLE_ID).toString();
+                        a.getAllUsers();
+                    }).error(function(error){
+                        a.notify('error', "Failed to add user");
+                    });
+            }
+
+            a.notify = function(type, msg) {
+                switch (type) {
+                    case 'info':
+                        return d.log(msg);
+                    case 'success':
+                        return d.logSuccess(msg);
+                    case 'warning':
+                        return d.logWarning(msg);
+                    case 'error':
+                        return d.logError(msg);
+                }
+            };
+
+
+        }
+
+        angular.module("app.users").controller("userController", ["$scope", "$rootScope", "$http", "logger", "$compile", a])
+}();
+
+
+
+
 

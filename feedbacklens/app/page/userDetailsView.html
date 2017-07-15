@@ -1,0 +1,27 @@
+<div class="col-md-3">
+           <!-- Pofile panel -->
+            <div class="panel panel-profile">
+                <div class="panel-heading bg-danger clearfix">
+                    <a href="" class="pull-left profile">
+                        <img alt="" src="images/g1.jpg" class="img-circle img80_80">
+                    </a>
+	                <h3>{{currentUser.FIRST_NAME + ' ' + currentUser.LAST_NAME}}</h3>
+                    <p>{{currentUser.ROLE_NAME}}</p>
+                </div>
+                <ul class="list-group">
+                	<li class="list-group-item">
+                        <i class="ti-email"></i>
+                        {{currentUser.EMAIL}}
+                    </li>
+                	<li class="list-group-item">
+                        <span class="glyphicon glyphicon-earphone"></span>&nbsp;&nbsp;
+                        {{currentUser.PHONE_NO}}
+                    </li>
+                    <li class="list-group-item">
+                        <i class="ti-home"></i>
+                        {{currentUser.ADDRESS}}
+                    </li>
+                </ul>
+            </div>
+            <!-- end Pofile panel -->
+        </div>

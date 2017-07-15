@@ -35,7 +35,7 @@ class domainController extends Controller
       $domain->DOMAIN_URL = request('domainName');
       $domain->DOMAIN_SECTOR=request('domainSector');
       $domain->START_DATE= Carbon::now();
-      $domain->CREATED_BY = 1;
+      $domain->CREATED_BY = request('createdBy');
       $domain->Save();
       
 

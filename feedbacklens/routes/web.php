@@ -50,10 +50,10 @@ Route::get('/api/domain/getAllDomains','domainController@getAllDomains');
 Route::get('/api/getuserdata','sessionController@getAuthenticatedUser');
 Route::post('api/adduser','registrationController@userAdd');
 Route::get('api/allUsers','sessionController@allUsers');
-Route::post('/api/fetchRole',function()
+Route::get('/api/fetchRole',function()
 	{
 
-        return \App\Role()->get(['ROLE_ID','ROLE_NAME']);
+        return \App\Role::get(['ROLE_ID','ROLE_NAME']);
 
 	});
 
