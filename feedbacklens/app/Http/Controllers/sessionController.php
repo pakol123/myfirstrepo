@@ -41,8 +41,9 @@ public function getAuthenticatedUser()
 
     //return response()->json(compact('user'));
   $id = $user->organisation->plans->where('IS_ACTIVE',0);
+
   //($id[0]->NO_OF_DOMAINS);
-  return response()->json(array('user'=>$user,'no_of_domains'=>$id[0]->NO_OF_DOMAINS));
+  return response()->json(array('user'=>$user,'no_of_domains'=>$id[0]->NO_OF_DOMAINS,'role_name'=>$user->role->ROLE_NAME));
 }
 
     public function checkUser(Request $request)

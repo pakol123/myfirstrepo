@@ -25,11 +25,25 @@ class domainController extends Controller
 
     }
 
+     public function validateDomain()
+  {
+    if(count(\App\organisation::where('DOMAIN_URL',request('domainName'))->get()) == 1)
+{
+  return 1;
+}
+
+  }
+
     public function store(Request $request)
     {
         
   
 //dd($request);  
+
+      if($this->validateDomain() == 1)
+      {
+        return response()->json(['error' => 'Domain duplication'], 400);
+      }
       $domain = new domain;
       $domain->ORG_ID = request('orgId');
       $domain->DOMAIN_URL = request('domainName');

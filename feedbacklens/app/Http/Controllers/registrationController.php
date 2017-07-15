@@ -5,6 +5,7 @@ use JWTAuth;
 use Tymon\JWTAuthExceptions\JWTException;
 
 use App\Mail\Welcome;
+use App\Mail\activated;
 use Illuminate\Http\Request;
 use App\plan;
 
@@ -12,9 +13,38 @@ class registrationController extends Controller
 {
     //
 
+  public function validateOrganisation()
+  {
+    if(count(\App\organisation::where('ORG_NAME',request('organisation'))->get()) == 1)
+{
+  return 1;
+}
+
+  }
+
+
+  public function validateEmailandPhone()
+{
+    if(count(\App\user::where('EMAIL',request('email'))->get()) == 1)
+  {
+  return 1;
+  }
+}
+
+
+
+
 public function userAdd(Request $request)
   {
-    $user = new \App\User;
+       
+       if($this->validateEmailandPhone(request('email')) == 1)
+       {
+          
+          return response()->json(['error' => 'Email duplication'], 400);
+
+       }
+
+       $user = new \App\User;
        $user->FIRST_NAME = request('fname');
        $user->LAST_NAME = request('lname');
        $user->EMAIL = request('email');
@@ -62,6 +92,22 @@ public function userAdd(Request $request)
 //dd(count($users));
 //\Mail::to($user->EMAIL)->send(new Welcome);
 
+
+
+ if($this->validateEmailandPhone() == 1)
+       {
+          
+          return response()->json(['error' => 'Email duplication'], 400);
+
+       }
+
+        if($this->validateOrganisation() == 1)
+       {
+          
+          return response()->json(['error' => 'organisation duplication'], 400);
+
+       }
+
        $org = new \App\organisation;
        //dd($request);
        $org->ORG_NAME = request('organisation');
@@ -96,7 +142,7 @@ public function userAdd(Request $request)
 
        //Auth()->login($user);
 
-        //\Mail::to($user->EMAIL)->send(new Welcome);
+        \Mail::to($user->EMAIL)->send(new Welcome($org,$user));
             return response()->json(['success' => 'registration successful'], 200);
       //  return \Redirect::to('/')->with('user', 'pratik');
 
@@ -104,5 +150,23 @@ public function userAdd(Request $request)
        //return $user;
 
 
+    }
+
+    public function verifyUser($id)
+    {
+        $users = \App\User::get();
+        //dd($users);
+foreach ($users as $user) {
+    
+    if(md5($user->USER_ID) == $id)
+    {
+(\App\user::where('USER_ID',$user->USER_ID)->update(['IS_ACTIVE'=>1]));
+$org = $user->organisation;
+ \Mail::to($user->EMAIL)->send(new activated($org,$user));
+
+    }
+
+     
+}
     }
 }

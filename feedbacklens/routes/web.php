@@ -59,3 +59,4 @@ Route::get('/api/fetchRole',function()
 
 Route::post('api/domain/pluginupdate','pluginController@update');
 Route::post('api/domain/addsubcat','subcategoryController@create');
+Route::get('activate/user/{id}','registrationController@verifyUser');

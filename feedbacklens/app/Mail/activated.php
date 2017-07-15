@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use App\organisation;
 use App\User;
 
-class Welcome extends Mailable
+class activated extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,16 +18,13 @@ class Welcome extends Mailable
      *
      * @return void
      */
-
-    public $org;
+     public $org;
     public $user;
     public function __construct(organisation $org,user $user)
     {
         //
-        $this->org = $org;
+         $this->org = $org;
         $this->user = $user;
-
-        //dd($this->user);
     }
 
     /**
@@ -37,6 +34,6 @@ class Welcome extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.welcome');
+        return $this->view('emails.activated');
     }
 }

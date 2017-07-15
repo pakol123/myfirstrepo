@@ -43,6 +43,11 @@ class User extends Authenticatable
         return $this->belongsTo(organisation::class,'ORG_ID','ORG_ID');
      }
 
+     public function role()
+     {
+        return $this->belongsTo(role::class,'ROLE_ID','ROLE_ID');
+     }
+
 }
 
 
