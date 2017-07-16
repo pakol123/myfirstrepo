@@ -15,7 +15,7 @@ class domainController extends Controller
 {
     public function __construct()
     {
-    	 $this->middleware('jwt.auth');
+    	 //$this->middleware('jwt.auth');
     }
 
     public function index(Request $request)
@@ -69,9 +69,9 @@ class domainController extends Controller
 
     }
 
-    public function getAllDomains(Request $request)
+    public function getAllDomains(Request $request,$id)
     {
-         $domains =  \App\domain::all()->where('ORG_ID',Request('ORG_ID'));
+         $domains =  \App\domain::all()->where('ORG_ID',$id);
            return response()->json(array('domains'=>$domains));
 
     }

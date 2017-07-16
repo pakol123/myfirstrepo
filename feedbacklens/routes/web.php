@@ -46,7 +46,7 @@ Route::post('/api/registration', 'registrationController@store');
 Route::post('/api/login', 'sessionController@checkUser');
 
 Route::post('/api/domain/create','domainController@store');
-Route::get('/api/domain/getAllDomains','domainController@getAllDomains');
+Route::get('/api/domain/getAllDomains/{id}','domainController@getAllDomains');
 Route::get('/api/getuserdata','sessionController@getAuthenticatedUser');
 Route::post('api/adduser','registrationController@userAdd');
 Route::get('api/allUsers','sessionController@allUsers');
@@ -59,4 +59,5 @@ Route::get('/api/fetchRole',function()
 
 Route::post('api/domain/pluginupdate','pluginController@update');
 Route::post('api/domain/addsubcat','subcategoryController@create');
+Route::get('api/domain/getsubcat/{id}','subcategoryController@getsubcatbyDomains')
 Route::get('activate/user/{id}','registrationController@verifyUser');

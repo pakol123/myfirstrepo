@@ -33,6 +33,16 @@ public function update()
 	dd(\App\subcategory::where('DOMAIN_ID',Request('domainId'))->update($input));
 }
 
+public function getsubcatbyDomains($id)
+{
+
+$domain = new \App\domain;
+
+$subcategories = $domain->subcategories()->where('ISACTIVE',1);
+
+ return response()->json(array('subcategories'=>$subcategories));
+
+}
 
 
 
