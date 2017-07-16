@@ -29,5 +29,9 @@ public function domains()
     }
 
 
+public function feedbacks()
+{
+  return $this-.hasMany(feedback::class,'SUBCAT_ID','SUBCAT_ID');
+}
 
 }

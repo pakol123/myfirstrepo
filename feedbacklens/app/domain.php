@@ -27,5 +27,10 @@ public function subcategories()
            return $this->belongsToMany(subcategory::class,'fl_domain_subcat_map','DOMAIN_ID','SUBCAT_ID')->withPivot('CREATED_BY','CREATED_BY','ISACTIVE');
     }
 
+    public function feedbacks()
+    {
+        return $this->hasMany(feedback::class,'DOMAIN_ID','DOMAIN_ID');
+    }
+
 
 }

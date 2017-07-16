@@ -12,7 +12,7 @@ class subcategoryController extends Controller
     	 $this->middleware('jwt.auth');
     }
 
-public static function create(Request $request)
+public function create(Request $request)
 {
 
 $subcat = \App\subcategory::preparesubcat($request);
@@ -25,6 +25,14 @@ $id =  \App\domain::find(Request('domainId'))->DOMAIN_ID;
  return response()->json(['success' => 'subcategory added successful'], 200);
 
 }
+
+public function update()
+{
+	$input = $request->except(['token','domainId','pluginId']);
+
+	dd(\App\subcategory::where('DOMAIN_ID',Request('domainId'))->update($input));
+}
+
 
 
 
