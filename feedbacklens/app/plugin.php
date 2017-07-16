@@ -27,7 +27,7 @@ class plugin extends Model
       $plugin->PLUGIN_COLOR = Request("color");
       $plugin->ISACTIVE = false;
       $plugin->DOMAIN_ID = domain::latest()->first()->DOMAIN_ID;
-      $plugin->CREATED_BY = 1;
+      $plugin->CREATED_BY = Request("createdBy");
         
         return $plugin;
    }

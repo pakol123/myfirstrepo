@@ -16,6 +16,11 @@
 
             
             <link rel="stylesheet" href="styles/main.css">
+            <style>
+                .custSelect {
+                    margin-left: 0px;
+                }
+            </style>
 
     </head>
     <body data-ng-app="app" id="app" class="app" data-custom-page data-off-canvas-nav data-ng-controller="AppCtrl" data-ng-class=" {'layout-boxed': admin.layout === 'boxed'} ">

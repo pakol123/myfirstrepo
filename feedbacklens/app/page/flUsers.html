@@ -1,143 +1,113 @@
 <div class="page page-general" class="column" data-ng-controller="userController">
 
     <div class="row">
-    	<div class="col-md-6">
+    	<div class="col-md-12">
 	        <div class="panel panel-default">
-	                <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Add User</strong></div>
-	                <div class="panel-body" >
-	                    <form name="addUserForm" class="form-horizontal form-validation" data-ng-submit="submitUserInfoForm()">
-	                    <div class="form-group">
-	                        <div class="col-sm-3">
-	                            <label for="">First Name</label>
-	                        </div>
-	                        <div class="col-sm-9">
-	                            <input  type="text"
-	                                	class="form-control"
-	                                    placeholder="First Name"
-	                                    data-ng-model="user.fname"
-	                                    required
-	                                    data-ng-maxlength="100">
-	                         </div>
-	                    </div>
-	                                <div class="form-group">
-	                                   <div class="col-sm-3">
-	                                        <label for="">Last Name</label>
-	                                    </div>
-	                                    <div class="col-sm-9">
-	                                        <input  type="text"
-	                                                class="form-control"
-	                                                placeholder="Last Name"
-	                                                data-ng-model="user.lname"
-	                                                required
-	                                                data-ng-maxlength="100">
-	                                    </div>
-	                                </div>
+	            <div class="panel-heading" ng-click="isAddUserFormCollapsed = !isAddUserFormCollapsed"><strong><span class="glyphicon glyphicon-th"></span> Add User</strong></div>
+		            <div class="panel-body" uib-collapse="isAddUserFormCollapsed">
+		                <div class="col-md-6 col-md-offset-3">
+		                    <form name="addUserForm" class="form-horizontal form-validation" data-ng-submit="submitUserInfoForm()">
+			                    <div class="form-group">
+			                        <div class="col-sm-3">
+			                            <label for="">First Name</label>
+			                        </div>
+			                        <div class="col-sm-9">
+			                            <input  type="text"
+			                                	class="form-control"
+			                                    placeholder="First Name"
+			                                    data-ng-model="user.fname"
+			                                    required
+			                                    data-ng-maxlength="100">
+			                         </div>
+			                    </div>
+			                    <div class="form-group">
+			                        <div class="col-sm-3">
+			                            <label for="">Last Name</label>
+			                        </div>
+			                        <div class="col-sm-9">
+			                            <input  type="text"
+			                                class="form-control"
+			                                placeholder="Last Name"
+			                                data-ng-model="user.lname"
+			                                required
+			                                data-ng-maxlength="100">
+			                            </div>
+			                        </div>
 
-	                                <div class="form-group">
-	                                    <div class="col-sm-3">
-	                                        <label for="">Role</label>
-	                                    </div>
-	                                    <div class="col-sm-9">
-	                                        <span class="ui-select" style="margin-left: 0px">
-				                                <select data-ng-model="user.role">
-				                                    <option value="{{role.ROLE_ID}}" data-ng-repeat="role in roles">{{role.ROLE_NAME}}</option>
-				                                </select>
-				                            </span>
-	                                    </div>
-	                                </div> 
+			                    <div class="form-group">
+			                        <div class="col-sm-3">
+			                            <label for="">Role</label>
+			                        </div>
+				                    <div class="col-sm-9">
+				                        <span class="ui-select" style="margin-left: 0px">
+							                <select data-ng-model="user.role">
+							                    <option value="{{role.ROLE_ID}}" data-ng-repeat="role in roles">{{role.ROLE_NAME}}</option>
+							                </select>
+							            </span>
+				                    </div>
+			                    </div> 
 
-	                               <div class="form-group">
-	                                   <div class="col-sm-3">
-	                                        <label for="">Address</label>
-	                                    </div>
-	                                    <div class="col-sm-9">
-	                                        <input  type="text"
-	                                                class="form-control"
-	                                                placeholder="Address"
-	                                                data-ng-model="user.address"
-	                                                required
-	                                                data-ng-maxlength="200">
-	                                    </div>
-	                                </div>
+			                    <div class="form-group">
+			                        <div class="col-sm-3">
+			                            <label for="">Address</label>
+			                        </div>
+			                        <div class="col-sm-9">
+			                            <input  type="text"
+			                                class="form-control"
+			                                placeholder="Address"
+			                                data-ng-model="user.address"
+			                                required
+			                                data-ng-maxlength="200">
+			                        </div>
+			                    </div>
 
-	                                <div class="form-group">
-	                                    <div class="col-sm-3">
-	                                        <label for="">Email</label>
-	                                    </div>
-	                                    <div class="col-sm-9">
-	                                        <input type="email"
-	                                               placeholder="Email"
-	                                               class="form-control"
-	                                               data-ng-model="user.email"
-	                                               required
-	                                               data-ng-maxlength="150">
-	                                    </div>
-	                                </div>
-	                                <div class="form-group">
-	                                    <div class="col-sm-3">
-	                                        <label for="">Phone No</label>
-	                                    </div>
-	                                    <div class="col-sm-9">
-	                                        <input type="text"
-	                                               placeholder="Phone No"
-	                                               class="form-control"
-	                                               data-ng-model="user.phone"
-	                                               required
-	                                               data-ng-maxlength="20">
-	                                    </div>
-	                                </div> 
-	                        <button type="submit"
-	                                class="btn btn-primary btn-block btn-lg"
-	                                data-ng-disabled="!canSubmit()">Submit</button>
-	                        <!-- <div class="callout callout-info">
-	                            <p>Submit button will be active only when all fields are valid.</p>
-	                        </div> 
-	                        <div class="divider"></div>
-	                        <div class="alert alert-info" data-ng-show="showInfoOnSubmit">This is just for demo. In real project, you will submit form with AJAX :)</div> -->                
-	                    </form>
-	                </div>
+			                    <div class="form-group">
+			                        <div class="col-sm-3">
+			                            <label for="">Email</label>
+			                        </div>
+			                        <div class="col-sm-9">
+			                            <input type="email"
+			                                placeholder="Email"
+			                                class="form-control"
+			                                data-ng-model="user.email"
+			                                required
+			                                data-ng-maxlength="150">
+			                        </div>
+			                    </div>
+			                    <div class="form-group">
+			                        <div class="col-sm-3">
+			                            <label for="">Phone No</label>
+			                        </div>
+				                    <div class="col-sm-9">
+				                        <input type="text"
+				                            placeholder="Phone No"
+				                            class="form-control"
+				                            data-ng-model="user.phone"
+				                            required
+				                            data-ng-maxlength="20">
+				                    </div>
+			                    </div> 
+			                    <div class="text-right">
+				                    <button type="submit"
+				                        class="btn btn-primary btn-w-md"
+				                        data-ng-disabled="!canSubmit()" >Submit</button>
+			                    </div>    
+		                    </form>
+		                </div>
+		            </div> 
 	            </div>
 	        </div>
-	        
-       <!--  <div class="col-md-6"> -->
-           <!-- Pofile panel -->
-            <!-- <div class="panel panel-profile">
-                <div class="panel-heading bg-danger clearfix">
-                    <a href="" class="pull-left profile">
-                        <img alt="" src="images/g1.jpg" class="img-circle img80_80">
-                    </a>
-	                <h3>{{currentUser.FIRST_NAME + ' ' + currentUser.LAST_NAME}}</h3>
-                    <p>{{currentUser.ROLE_NAME}}</p>
-                </div>
-                <ul class="list-group">
-                	<li class="list-group-item">
-                        <i class="ti-email"></i>
-                        {{currentUser.EMAIL}}
-                    </li>
-                	<li class="list-group-item">
-                        <span class="glyphicon glyphicon-earphone"></span>&nbsp;&nbsp;
-                        {{currentUser.PHONE_NO}}
-                    </li>
-                    <li class="list-group-item">
-                        <i class="ti-home"></i>
-                        {{currentUser.ADDRESS}}
-                    </li>
-                </ul>
-            </div> -->
-            <!-- end Pofile panel -->
-        <!-- </div> -->
-
-        
+	       
     </div> <!-- row End -->
 	<div id="usersView" class="row">
-    		<div class="col-md-6" data-ng-repeat="userDetails in users">
+    		<div class="col-md-4" data-ng-repeat="userDetails in users">
            <!-- Pofile panel -->
             <div class="panel panel-profile">
-                <div class="panel-heading bg-danger clearfix">
+                <div class="panel-heading clearfix {{profileBackTheme[$index % 4]}}">
                     <a href="" class="pull-left profile">
                         <img alt="" src="images/g1.jpg" class="img-circle img80_80">
                     </a>
-	                <h3>{{userDetails.FIRST_NAME + ' ' + userDetails.LAST_NAME}}</h3>
+	                <h4>{{userDetails.FIRST_NAME + ' ' + userDetails.LAST_NAME}}</h4>
                     <p>{{userDetails.ROLE_NAME}}</p>
                 </div>
                 <ul class="list-group">

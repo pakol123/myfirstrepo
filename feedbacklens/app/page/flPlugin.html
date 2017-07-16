@@ -1,0 +1,109 @@
+<div class="page page-general" class="column" data-ng-controller="pluginController">
+	<div class="row">
+		<div class="col-md-12">
+			<section class="panel panel-default">
+		        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Domain</strong></div>
+		        <div class="panel-body">
+		            <div class="row">
+		                <div class="col-md-8 col-md-offset-3">
+		                    <form class="form-horizontal">
+		                        <div class="form-group">
+		                            <div class="col-sm-10">
+		                                <span class="ui-select custSelect" style="width: 70%">
+				                            <select ng-model="domainId" ng-change="onSelectDomain()">
+				                            	<option value=""><span style="color: grey;text-align: center">Select Domain</span></option>
+				                                <option value="{{domain.DOMAIN_ID}}" data-ng-repeat="domain in domains">{{domain.DOMAIN_URL}}</option>
+				                            </select>
+				                        </span>
+		                            </div>
+		                        </div>
+		                    </form>  
+		                </div>
+		            </div>
+		        </div>
+		    </section>
+	    </div>
+	</div>
+
+	<!-- Plugin Properties Section -->
+	<div ng-show="domainId != ''">
+	    <div class="row">
+	    	<div class="col-md-6">
+		    	<section class="panel panel-default">
+			        	<div class="panel-heading" ><strong><span class="glyphicon glyphicon-th"></span> Properties</strong></div>
+			        	<div class="panel-body">
+			                <form role="form" data-ng-submit="submitPlPropertyForm()" name="updatePlPrpertiesDomainForm">
+			                    <div class="form-group">
+			                        <label for="domainSector">Plugin Alignment</label><br/>
+			                        <span class="ui-select custSelect">
+			                            <select data-ng-model="plugin.ALIGNMENT" requred>
+			                                <option value="left">Left</option>
+			                                <option value="center">Center</option>
+			                                <option value="right">Right</option>
+			                            </select>
+			                        </span>
+			                    </div>
+			                    <div class="form-group">
+			                        <label for="domainSector">Plugin Color</label><br/>
+			                        <span class="ui-select custSelect">
+			                            <select data-ng-model="plugin.PLUGIN_COLOR" requred>
+			                                <option value="white">White</option>
+			                                <option value="orange">Orange</option>
+			                                <option value="blue">Blue</option>
+			                            </select>
+			                        </span>
+			                    </div>
+			                    <button type="submit" class="btn btn-primary btn-w-md" data-ng-disabled="!canSubmitPlProperties()">Submit</button>
+			                </form>
+		                </div>
+		            
+		        </section>
+		    </div>
+		</div>    
+		<div class="row">    
+		    <div class="col-md-6">
+		    	<section class="panel panel-default">
+			        	<div class="panel-heading" ><strong><span class="glyphicon glyphicon-th"></span> Categories</strong></div>
+			        	<div class="panel-body">
+			        		<div class="panel panel-success">
+				                <div class="panel-heading" ng-click="isAddCatFormCollapsed = !isAddCatFormCollapsed">
+				                    <h3 class="panel-title">Add New Category</h3>
+				                </div>
+				                <div class="panel-body" uib-collapse="isAddCatFormCollapsed">
+					                <form role="form" data-ng-submit="submitPlCategoryForm()" name="addCategoryForm">
+					                    <div class="form-group">
+				                            <!-- <label for="categoryName">Category Name*</label> -->
+				                            <input  type="text" 
+				                                    class="form-control" 
+				                                    placeholder="Category Name"
+				                                    data-ng-model="subCat.subcatName"
+				                                    maxlength="200" 
+				                                    required>
+				                        </div>
+					                    <button type="submit" class="btn btn-primary btn-w-md" data-ng-disabled="!canSubmitPlAddCategory()">Submit</button>
+					                </form>
+				                </div>
+				            </div>
+				                <div class="divider divider-md"></div>
+				                <div>
+				                	<ul class="list-group">
+					                    <li class="list-group-item" ng-repeat="category in subCategories">
+					                    	<div style="width: 75%; display: inline-block;">
+					                        	{{category.SUBCAT_NAME}}
+				                            </div>
+				                            <div style="width: 15%; display: inline-block;">
+				                            	<label class="ui-switch ui-switch-success ui-switch-sm"><input type="checkbox" value="option1" checked><i></i></label>
+				                            </div>
+				                            <div style="width: 5%; display: inline-block;text-align:right">
+				                            	<span><i class="ti-close"></i></span>
+				                            </div>    
+					                    </li>
+					                </ul>
+				                </div>
+				            
+		                </div>
+		        </section>
+		    </div>
+	    </div>
+    </div>
+ </div>

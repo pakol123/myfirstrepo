@@ -1,15 +1,9 @@
-<style>
-    .custSelect {
-        margin-left: 0px;
-    }
-</style>
 <div class="page" data-ng-controller="domainInfoController">
      <section class="panel panel-default">
-        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Add Domain Information</strong></div>
-        <div class="panel-body">
+        <div class="panel-heading" ng-click="isAddDomainFormCollapsed = !isAddDomainFormCollapsed"><strong><span class="glyphicon glyphicon-th"></span> Add Domain</strong></div>
+        <div class="panel-body" uib-collapse="isAddDomainFormCollapsed">
             <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-
+                <div class="col-md-6 col-md-offset-3">
                     <form role="form" data-ng-submit="submitDomainInfoForm()" name="addDomainForm">
                         <div class="form-group">
                             <label for="domainName">Domain Name*</label>

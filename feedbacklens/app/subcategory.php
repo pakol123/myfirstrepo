@@ -18,20 +18,23 @@ class subcategory extends Model
   $subcat = new \App\subcategory;
 $subcat->SUBCAT_NAME = Request("subcatName");
 $subcat->ISUSERDEF = 1;
-$subcat->CREATED_BY = 1;
+$subcat->CREATED_BY = Request('createdBy');
+
+//what about this one
+
 
 return $subcat;
     }
 
 public function domains()
     {
-           return $this->belongsToMany(domain::class,'fl_domain_subcat_map','SUBCAT_ID','DOMAIN_ID')->withPivot('CREATED_BY','CREATED_BY','ISACTIVE');
+           return $this->belongsToMany(domain::class,'fl_domain_subcat_map','SUBCAT_ID','DOMAIN_ID')->withPivot('CREATED_BY','CREATED_BY','ISACTIVE')->wherePivot('ISACTIVE',1);
     }
 
 
 public function feedbacks()
 {
-  return $this-.hasMany(feedback::class,'SUBCAT_ID','SUBCAT_ID');
+  return $this->hasMany(feedback::class,'SUBCAT_ID','SUBCAT_ID');
 }
 
 }

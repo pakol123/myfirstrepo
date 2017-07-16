@@ -10,14 +10,17 @@
         "angular-loading-bar",
         "duScroll",
         "satellizer",
+        "ui.router",
         "app.nav",
         "app.page",
         "app.i18n",
         "app.ui",
+        "app.ui.form",
         "app.signin",
         "app.domainInfo",
         "app.users",
         "app.feedbacks",
+        "app.plugin"
         ])
 }(),
 
@@ -34,6 +37,11 @@ function() {
 function() {
     "use strict";
     angular.module("app.ui", [])
+}(),
+
+function() {
+    "use strict";
+    angular.module("app.ui.form", [])
 }(),
 
 function() {
@@ -56,11 +64,16 @@ function() {
     angular.module("app.feedbacks", [])
 }(),
 
+function() {
+    "use strict";
+    angular.module("app.plugin", [])
+}(),
+
 
 function() {
     "use strict";
 
-    function a(a, b, c, d, z, y) {
+    function a(a, b, c, d, z, y, x, w) {
         var e = new Date,
             f = e.getFullYear();
         a.main = {
@@ -121,12 +134,37 @@ function() {
             y.path("/");
           });
         }
+
+        // Common method to get all domains by orgId
+        b.getAllDomains = function(orgId) {
+            return x.get('public/api/domain/getAllDomains/'+orgId);
+        }
+
+        // Common method to get all subcategories by domainId
+        b.getSubCatsByDomainId = function(domainId) {
+            return x.get('public/api/plugin/'+domainId);
+        }
+
+        // Display Tost
+
+        b.notify = function(type, msg) {
+                switch (type) {
+                    case 'info':
+                        return w.log(msg);
+                    case 'success':
+                        return w.logSuccess(msg);
+                    case 'warning':
+                        return w.logWarning(msg);
+                    case 'error':
+                        return w.logError(msg);
+                }
+        };
     }
-    angular.module("app").controller("AppCtrl", ["$scope", "$rootScope", "$route", "$document", "$auth","$location", a])
+    angular.module("app").controller("AppCtrl", ["$scope","$rootScope","$route","$document","$auth","$location","$http","logger", a])
 }(),
 function() {
     "use strict";
-    angular.module("app").config(["$routeProvider", "$authProvider", "$httpProvider", "$provide", function(a,d,e,f) {
+    angular.module("app").config(["$routeProvider", "$authProvider", "$httpProvider", "$provide", "$stateProvider", "$urlRouterProvider", function(a,d,e,f,g,h) {
         var b, c;
         var currDate = new Date();
         b = [
@@ -143,7 +181,8 @@ function() {
                  "page/signin", 
                  "page/signup",
                  "page/flUsers",
-                 "page/flFeedbacks"
+                 "page/flFeedbacks",
+                 "page/flPlugin"
              ], 
         c = function(b) {
             var c, d;
@@ -164,14 +203,12 @@ function() {
 
         // This service is used to logout from current section if $http service returns any of token validation failure message
         function redirectWhenLoggedOut($q, $injector, $location) {
-
             return {
 
               responseError: function(rejection) {
-                
                 var $state = $injector.get('$state');
                 var rejectionReasons = ['token_not_provided', 'token_expired', 'token_absent', 'token_invalid'];
-
+                
                 angular.forEach(rejectionReasons, function(value, key) {
                   if(rejection.data.error === value) {
                       localStorage.removeItem('user');
@@ -820,6 +857,30 @@ function() {
     angular.module("app.ui").factory("logger", a)
 }(),
 
+function() {
+    "use strict";
+
+    function a() {
+        return {
+            restrict: "A",
+            link: function(a, b) {
+                b.slider()
+            }
+        }
+    }
+
+    function b() {
+        return {
+            restrict: "A",
+            link: function(a, b) {
+                b.bootstrapFileInput()
+            }
+        }
+    }
+
+   
+    angular.module("app.ui.form").directive("uiRangeSlider", a).directive("uiFileUpload", b)
+}(),
 // Additional JS
 // new controller for login
 function() {
@@ -896,51 +957,27 @@ function() {
             a.domain.color = "White";
             a.domain.orgId= b.currentUser.ORG_ID;
             a.domain.createdBy= b.currentUser.USER_ID;
-            //a.domain.orgId= 28;
-           // a.domain.createdBy= 14;
 
-            a.domains = [];
+            a.isAddDomainFormCollapsed = true;
+           
+            b.getAllDomains(b.currentUser.ORG_ID).success(function(data){
+                a.domains = data.domains;
+            });
 
             a.canSubmit = function() {
                 return a.addDomainForm.$valid && !angular.equals(a.domain, original);
             };
 
-            a.submitDomainInfoForm = function() {
-               
+            a.submitDomainInfoForm = function() {               
                 c.post('public/api/domain/create', a.domain).success(
                     function(data){
-                        a.notify('success', "Successfully Added domain");
-                        a.getAllDomains();
+                        b.notify('success', "Successfully Added domain");
+                        a.domains = b.getAllDomains(b.currentUser.ORG_ID);
                     }).error(function(error){
                          
-                        a.notify('error', "Failed to add domain");
+                        b.notify('error', "Failed to add domain");
                     });
             }
-
-            a.getAllDomains = function() {
-                c.get('public/api/domain/getAllDomains?ORG_ID='+b.currentUser.ORG_ID).success(
-                function(data){
-                    a.domains = data.domains;
-                }).error(function(error){
-                        
-                });
-            }
-
-            a.getAllDomains();
-
-            a.notify = function(type, msg) {
-                switch (type) {
-                    case 'info':
-                        return d.log(msg);
-                    case 'success':
-                        return d.logSuccess(msg);
-                    case 'warning':
-                        return d.logWarning(msg);
-                    case 'error':
-                        return d.logError(msg);
-                }
-            };
-
         }
 
         angular.module("app.domainInfo").controller("domainInfoController", ["$scope", "$rootScope", "$http", "logger", a])
@@ -952,7 +989,7 @@ function() {
     "use strict";
     function a(a,b,c,d,e) {
             
-            var original;
+            a.original;
             a.user = {
                  fname: "",
                  lname: "",
@@ -962,14 +999,17 @@ function() {
             };
 
             a.users = [];
-            original = angular.copy(a.user);
+            a.original = angular.copy(a.user);
 
             a.user.orgId = b.currentUser.ORG_ID;
             a.user.createdBy = b.currentUser.USER_ID;
             
             a.roles = [];
 
-            
+            a.profileBackTheme = ['bg-danger', 'bg-success', 'bg-info', 'bg-warning'];
+
+            a.isAddUserFormCollapsed = true;
+
             // create service of get roles
             c.get('public/api/fetchRole').success(
                 function(data){
@@ -986,7 +1026,6 @@ function() {
                 c.get('public/api/allUsers?ORG_ID='+b.currentUser.ORG_ID).success(
                 function(data){
                     a.users = data.users;
-                    alert(JSON.stringify(a.users));
                 }).error(function(error){
                         
                 });
@@ -994,41 +1033,104 @@ function() {
 
             a.getAllUsers();
 
-
             a.canSubmit = function() {
-                return a.addUserForm.$valid && !angular.equals(a.user, original);
+                return a.addUserForm.$valid && !angular.equals(a.user, a.original);
             };
 
             a.submitUserInfoForm = function() {
                 c.post('public/api/adduser', a.user).success(
                     function(data){
-                        a.notify('success', "Successfully added user");
-                        a.user = original;
+                        b.notify('success', "Successfully added user");
+                        a.user = a.original;
                         a.user.role = (a.roles[0].ROLE_ID).toString();
                         a.getAllUsers();
                     }).error(function(error){
-                        a.notify('error', "Failed to add user");
+                        b.notify('error', "Failed to add user");
                     });
             }
-
-            a.notify = function(type, msg) {
-                switch (type) {
-                    case 'info':
-                        return d.log(msg);
-                    case 'success':
-                        return d.logSuccess(msg);
-                    case 'warning':
-                        return d.logWarning(msg);
-                    case 'error':
-                        return d.logError(msg);
-                }
-            };
-
-
         }
 
         angular.module("app.users").controller("userController", ["$scope", "$rootScope", "$http", "logger", "$compile", a])
+}(),
+
+// Plugin controller
+
+function() {
+    "use strict";
+
+    function a(a,b,c,d,e) {
+        var original;
+        a.domains = [];
+        a.plugin = {};
+        a.isAddCatFormCollapsed = true;
+        a.subCategories = [];
+
+       
+        b.getAllDomains(b.currentUser.ORG_ID).success(function(data){
+            a.domains = data.domains;
+            a.domainId = '';
+        }).error(function(error){
+
+        });
+
+        a.getSubCategories = function(domainId) {
+            b.getSubCatsByDomainId(domainId).success(function(data){
+                a.subCategories = data.subcat;
+                a.plugin.ALIGNMENT = data.properties.ALIGNMENT;
+                a.plugin.PLUGIN_COLOR = data.properties.PLUGIN_COLOR;
+
+                original = angular.copy(a.plugin);
+            });
+        }
+
+         a.canSubmitPlProperties = function() {
+            return a.updatePlPrpertiesDomainForm.$valid && !angular.equals(a.plugin, original);
+        };
+
+
+        a.onSelectDomain = function () {
+            a.domainId = a.domainId;
+            if(a.domainId != '')
+                a.getSubCategories(a.domainId);
+        }
+
+        a.submitPlPropertyForm = function() {
+            //a.plugin.createdBy = b.currentUser.USER_ID;
+            a.plugin.domainId = a.domainId;
+            /*alert(JSON.stringify(a.plugin));*/
+            c.post('public/api/domain/pluginupdate', a.plugin).success(function(data) {
+                b.notify('success', "Successfully updated plugin");
+            }).error(function(error){
+                b.notify('error', "Failed to update plugin");
+            });
+        }
+        
+        a.subCat = {};
+
+        a.canSubmitPlAddCategory = function() {
+            return a.addCategoryForm.$valid;
+        };
+
+        a.submitPlCategoryForm = function() {
+            a.subCat.createdBy = b.currentUser.USER_ID;
+            a.subCat.domainId = a.domainId;
+            /*alert(JSON.stringify(a.plugin));*/
+            c.post('public/api/domain/addsubcat', a.subCat).success(function(data) {
+                b.notify('success', "Successfully updated plugin");
+                a.subCat.subcatName = '';
+                a.getSubCategories(a.domainId);
+            }).error(function(error){
+                b.notify('error', "Failed to update plugin");
+            });
+
+
+        }
+    } // End of controller function
+
+    angular.module('app.plugin').controller("pluginController", ["$scope", "$rootScope", "$http", "logger", "$compile", a])
 }();
+
+// End plugin controller
 
 
 
