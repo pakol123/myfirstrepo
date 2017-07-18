@@ -16,6 +16,7 @@
 
             
             <link rel="stylesheet" href="styles/main.css">
+            <link rel="stylesheet" href="plugin/flPlugin.css">
             <style>
                 .custSelect {
                     margin-left: 0px;
@@ -27,7 +28,8 @@
         <!--[if lt IE 9]>
             <div class="lt-ie9-bg">
                 <p class="browsehappy">You are using an <strong>outdated</strong> browser.</p>
-                <p>Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+                <p>Please <a href="http://browsehappy.com/">upgrade your browser</
+                a> to improve your experience.</p>
             </div>
         <![endif]-->
 
@@ -65,5 +67,7 @@
         <script src="scripts/satellizer.js"></script>
 
         <script src="scripts/angular-ui-router.min.js"></script>
+
+        <script src="plugin/flPluginMain.js"></script>
     </body>
 </html>

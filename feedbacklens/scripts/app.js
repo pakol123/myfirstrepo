@@ -924,10 +924,14 @@ function() {
                         sessionStorage.setItem('currentUser', JSON.stringify(response.data.user));
                         sessionStorage.authenticated = true;
 
-                        //console.log(JSON.stringify(response.data.user));
+                        console.log(JSON.stringify(response.data.no_of_domains));
                         d.currentUser = response.data.user;
+                        d.domainInfo = {'noOfDomains': response.data.no_of_domains};
                         d.authenticated = true;
-                        c.path('/form/flDomainAdd');
+                        if(response.data.no_of_domains > 0)
+                            c.path('/dashboard');
+                        else
+                            c.path('/form/flDomainAdd');
                   });;
             }
 
@@ -958,7 +962,10 @@ function() {
             a.domain.orgId= b.currentUser.ORG_ID;
             a.domain.createdBy= b.currentUser.USER_ID;
 
-            a.isAddDomainFormCollapsed = true;
+            if(b.domainInfo.noOfDomains > 0)
+                a.isAddDomainFormCollapsed = true;
+            else
+                a.isAddDomainFormCollapsed = false;
            
             b.getAllDomains(b.currentUser.ORG_ID).success(function(data){
                 a.domains = data.domains;

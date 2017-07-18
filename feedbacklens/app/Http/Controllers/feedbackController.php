@@ -29,7 +29,7 @@ public function create(Request $request)
     $feedback->OS = Request('os');
     $feedback->RESOLUTION = Request('resolution');
     $feedback->DEVICE = Request('device');
-    $feedback->ID = Request('ip');
+    $feedback->IP = Request('ip');
     $feedback->BROWSER = Request('browser');
     $feedback->COUNTRY = Request('country');
     $feedback->EMAIL = Request('email');

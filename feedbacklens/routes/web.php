@@ -64,3 +64,4 @@ Route::get('activate/user/{id}','registrationController@verifyUser');
 Route::get('api/plugin/{id}', 'pluginController@getpluginProperties');
 
 Route::get('api/domain/fetchData','domainController@getDomainPluginproperties');
+Route::post('api/feedback/sendFeedBack','feedbackController@create');
