@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -8,10 +9,18 @@ class feedbackController extends Controller
 {
     //
 
-public function create()
+public function create(Request $request)
 {
+
+    $domainName = Request('domainUrl');
+    $domainId = DB::table('fl_domain')
+                     ->select(DB::raw('DOMAIN_ID '))
+                     ->where('DOMAIN_URL', '=', $domainName)
+                     ->get();
+
+    //$domainId = DB::select('select DOMAIN_ID from fl_domain where active = ?', $domainName);
 	$feedback = new \App\feedback;
-	$feedback->DOMAIN_ID = Request('domainId');
+	$feedback->DOMAIN_ID = $domainId;
 	$feedback->CAT_ID = Request('catId');
 	$feedback->SUBCAT_ID = Request('subcatId');
 	$feedback->URL = Request('url');

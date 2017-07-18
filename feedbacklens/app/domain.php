@@ -32,5 +32,5 @@ public function subcategories()
         return $this->hasMany(feedback::class,'DOMAIN_ID','DOMAIN_ID');
     }
 
-
+ 
 }

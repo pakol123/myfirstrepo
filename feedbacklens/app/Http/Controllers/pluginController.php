@@ -39,7 +39,7 @@ class pluginController extends Controller
 
 	 	//dd($domain->plugin);
 
-	  	return response()->json(array('properties'=>$domain->plugin,'subcat'=>$domain->subcategories));
+	  	return response()->json(array('properties'=>$domain->plugin,'cat'=>\App\category::all(),'subcat'=>$domain->subcategories));
 
 	}
 }

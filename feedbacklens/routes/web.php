@@ -62,3 +62,5 @@ Route::post('api/domain/addsubcat','subcategoryController@create');
 Route::get('api/domain/getsubcat/{id}','subcategoryController@getsubcatbyDomains');
 Route::get('activate/user/{id}','registrationController@verifyUser');
 Route::get('api/plugin/{id}', 'pluginController@getpluginProperties');
+
+Route::get('api/domain/{id}','domainController@getDomainPluginproperties');

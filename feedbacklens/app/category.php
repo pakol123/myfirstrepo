@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class category extends Model
 {
     //
-    protected $table = "fl_category";
+    protected $table = "fl_category_master";
     protected $primaryKey = "CAT_ID";
     protected $guarded = ["CAT_ID","CAT_NAME"];
     public $timestamps = false;
@@ -16,5 +16,6 @@ class category extends Model
 {
   return $this->hasMany(feedback::class,'CAT_ID','CAT_ID');
 }
+
 
 }

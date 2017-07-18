@@ -27,7 +27,7 @@ class domainController extends Controller
 
      public function validateDomain()
   {
-    if(count(\App\organisation::where('DOMAIN_URL',request('domainName'))->get()) == 1)
+    if(count(\App\domain::where('DOMAIN_URL',request('domainName'))->get()) == 1)
 {
   return 1;
 }
@@ -71,8 +71,19 @@ class domainController extends Controller
 
     public function getAllDomains(Request $request,$id)
     {
-         $domains =  \App\domain::all()->where('ORG_ID',$id);
+
+           $domains =  \App\domain::all()->where('ORG_ID',$id);
+
            return response()->json(array('domains'=>$domains));
+
+    }
+
+    public function getDomainPluginproperties(request $request,$id)
+    {
+              $domain = \App\domain::find($id);
+              $result = \App\plugin::getpluginProperties($domain->DOMAIN_ID);
+              //dd($result);
+              return response()->json(array('domain'=>$domain,'pluginconfig'=>$result));
 
     }
 
