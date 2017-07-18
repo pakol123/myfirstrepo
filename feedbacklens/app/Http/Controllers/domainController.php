@@ -8,6 +8,7 @@ use JWTAuth;
 use Tymon\JWTAuthExceptions\JWTException;
 use Carbon\Carbon;
 use App\plugin;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -78,9 +79,24 @@ class domainController extends Controller
 
     }
 
-    public function getDomainPluginproperties(request $request,$id)
+    public function getDomainPluginproperties(request $request)
     {
-              $domain = \App\domain::find($id);
+              $domainId = DB::table('fl_domain')
+                     ->select('DOMAIN_ID')
+                     ->where('DOMAIN_URL', '=', Request('domainName'))
+                     ->get();
+
+                     if(count($domainId) == 0)
+                     {
+                       return response()->json(['Error' => 'Sorry, This domain has not been registered with us'], 400);
+
+                     }
+
+                   foreach ($domainId as $ids) 
+                             {
+                           $domainId = $ids->DOMAIN_ID;
+                               }
+              $domain = \App\domain::find($domainId);
               $result = \App\plugin::getpluginProperties($domain->DOMAIN_ID);
               //dd($result);
               return response()->json(array('domain'=>$domain,'pluginconfig'=>$result));

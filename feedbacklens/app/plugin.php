@@ -35,6 +35,7 @@ class plugin extends Model
    public static function  getpluginProperties($id)
   {
    
+   
     $domain = \App\domain::find($id);
     return array('properties'=>$domain->plugin,'cat'=>\App\category::all(),'subcat'=>$domain->subcategories);
 
