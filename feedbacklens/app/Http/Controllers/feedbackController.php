@@ -41,10 +41,31 @@ public function create(Request $request)
 }
 
 
-    public function getFeedback(Request $request)
-    {
+    public function getFeedback(Request $request,$id)
+     {
 
+       if($id == "")
+       {
        $feedbacks = \App\feedback::all()->where('DOMAIN_ID',Request('domainID'));
        return response()->json(array('feedbacks'=>$feedbacks));
-    }
+     }
+
+     else
+     {
+        $feedbacks = \App\feedback::where('DOMAIN_ID',Request('domainID'))->orderBy('FEEDBACK_ID','desc')->take(10)->get();
+     }
+
+
+     }
+
+     public function filterFeedback(Request $request,$id)
+      {
+        
+        $input = $request->except(['token']);
+        dd($input);
+        
+
+      }  
+
+
 }

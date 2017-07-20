@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Input;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 
 
 class pluginController extends Controller
@@ -25,10 +27,6 @@ class pluginController extends Controller
 
 
 	$input = $request->except(['token','domainId']);
-	//echo $input;
-
-	 //echo $updateString;
-
 	dd(\App\plugin::where('DOMAIN_ID',Request('domainId'))->update($input));
 	 }
 
@@ -40,6 +38,28 @@ class pluginController extends Controller
 	 	//dd($domain->plugin);
 
 	  	return response()->json(array('properties'=>$domain->plugin,'cat'=>\App\category::all(),'subcat'=>$domain->subcategories));
+
+	}
+
+	public function updatePluginSubcategories(Request $request)
+	{
+		
+		//dd($request);
+		$domain = \App\domain::find(Request('domainId'));
+		
+		$result = $domain->subcategories()->updateExistingPivot(Request('subcatId'),["ISACTIVE"=>1,"MODIFIED_AT"=>Carbon::now(),"MODIFIED_BY"=>1]);
+    
+        if($result == 1)
+        {
+        return response()->json(['success' => 'subcategory updated'], 200);
+    }
+    else
+    {
+    	 return response()->json(['Error' => 'subcategory is not updated'], 400);
+    }
+
+		//$domain->subcategories()->updateExistingPivot('ISACTIVE', $isactive);
+
 
 	}
 }
