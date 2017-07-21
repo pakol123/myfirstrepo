@@ -1,62 +1,172 @@
-<div class="page page-table">
 
+<div class="page page-table" data-ng-controller="feedbackController">
 
-    <div class="panel panel-default">
-        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Feedbacks</strong></div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Project</th>
-                    <th>Status</th>
-                    <th>Manager</th>
-                    <th>Progress</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td><span class="color-success"><i class="fa fa-level-up"></i></span> TWLT</td>
-                    <td><span class="label label-info">Pending</span></td>
-                    <td>Amery Lee</td>
-                    <td><uib-progressbar class="progressbar-xs no-margin" value="55"></uib-progressbar></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><span class="color-success"><i class="fa fa-level-up"></i></span> A16Z</td>
-                    <td><span class="label label-primary">Due</span></td>
-                    <td>Romayne Carlyn</td>
-                    <td><uib-progressbar class="progressbar-xs no-margin" value="34" type="success"></uib-progressbar></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><span class="color-warning"><i class="fa fa-level-down"></i></span> DARK</td>
-                    <td><span class="label label-success">Due</span></td>
-                    <td>Marybeth Joanna</td>
-                    <td><uib-progressbar class="progressbar-xs no-margin" value="68" type="info"></uib-progressbar></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><span class="color-info"><i class="fa fa-level-up"></i></span> Q300</td>
-                    <td><span class="label label-danger">Blocked</span></td>
-                    <td>Jonah Benny</td>
-                    <td><uib-progressbar class="progressbar-xs no-margin" value="52" type="warning"></uib-progressbar></td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td><span class="color-danger"><i class="fa fa-level-down"></i></span> RVNG</td>
-                    <td><span class="label label-warning">Suspended</span></td>
-                    <td>Daly Royle</td>
-                    <td><uib-progressbar class="progressbar-xs no-margin" value="77" type="danger"></uib-progressbar></td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td><span class="color-info"><i class="fa fa-level-down"></i></span> FDSA</td>
-                    <td><span class="label label-info">Suspended</span></td>
-                    <td>Jane Swift</td>
-                    <td><uib-progressbar class="progressbar-xs no-margin" value="55" type="success"></uib-progressbar></td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="row">
+        <div class="col-md-3">
+          <section class="panel panel-default">
+            <div class="panel-heading" style="position: relative;"><strong><span class="glyphicon glyphicon-th"></span> Filter</strong></div>
+              <div class="panel-body">
+                <div>
+                  <span class="ui-select custSelect" style="width: 100%; background-color:white;">
+                    <select ng-model="domainId" ng-change="onSelectDomain()" id="domainNamesList">
+                      <option value=""><span style="color: grey;text-align: center">Domain</span></option>
+                      <option value="{{domain.DOMAIN_ID}}" data-ng-repeat="domain in domains">{{domain.DOMAIN_URL}}</option>
+                    </select>
+                  </span>
+                </div>
+                <div class="divider divider-md"></div>  
+                <div>
+                  <span class="ui-select custSelect" style="width: 100%; background-color:white ">
+                    <select ng-model="domainId" id="domainNamesList">
+                      <option value=""><span style="color: grey;text-align: center">Category</span></option>
+                      <option value="{{cat.CAT_ID}}" data-ng-repeat="cat in categories">{{cat.CAT_NAME}}</option>
+                    </select>
+                  </span>
+                </div>
+                <div class="divider divider-md"></div>  
+                <div>
+                  <span class="ui-select custSelect" style="width: 100%; background-color:white ">
+                    <select ng-model="domainId" id="domainNamesList">
+                      <option value=""><span style="color: grey;text-align: center">Sub Category</span></option>
+                      <option value="{{suCat.SUBCAT_ID}}" data-ng-repeat="suCat in subCategories">{{suCat.SUBCAT_NAME}}</option>
+                    </select>
+                  </span>
+                </div>
+                <div class="divider divider-md"></div>  
+                <div>
+                  <span class="ui-select custSelect" style="width: 40%; background-color:white ">
+                    <select ng-model="domainId" ng-change="onSelectDomain()" id="domainNamesList">
+                      <option value=""><span style="color: grey;text-align: center">Rating</span></option>
+                      <option value="{{rt}}" data-ng-repeat="rt in [1,2,3,4,5]">{{rt}}</option>
+                    </select>
+                  </span>
+                </div>
+                <div class="divider divider-md"></div>
+                <button type="button" class="btn btn-primary btn-w-md" ng-click="">Submit</button>
+              </div>
+            </section>
+        </div>
+    
+    
+        <div class="col-md-9" ng-show="feedbacks != '' && feedbacks.length > 0">
+            <section class="panel panel-default table-dynamic">
+                <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Feedbacks</strong></div>
+
+                <div class="table-filters">
+                    <div class="row">
+                        <div class="col-sm-4 col-xs-6">
+                            <form>
+                                <input type="text"
+                                       placeholder="Search..."
+                                       class="form-control"
+                                       data-ng-model="searchKeywords"
+                                       data-ng-keyup="search()">
+                            </form>
+                        </div>
+                        <div class="col-sm-3 col-xs-6 filter-result-info">
+                            <span>
+                                Showing {{filteredStores.length}}/{{stores.length}} entries
+                            </span>              
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-bordered table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th width="5%"><div class="th">
+                                Sr.No.
+                                <span class="fa fa-angle-up"
+                                      data-ng-click=" order('name') "
+                                      data-ng-class="{active: row == 'name'}"></span>
+                                <span class="fa fa-angle-down"
+                                      data-ng-click=" order('-name') "
+                                      data-ng-class="{active: row == '-name'}"></span>
+                            </div></th>
+                            <th width="8%"><div class="th">
+                                Rating
+                                <span class="fa fa-angle-up"
+                                      data-ng-click=" order('name') "
+                                      data-ng-class="{active: row == 'name'}"></span>
+                                <span class="fa fa-angle-down"
+                                      data-ng-click=" order('-name') "
+                                      data-ng-class="{active: row == '-name'}"></span>
+                            </div></th>
+                            <th width="30%"><div class="th">
+                                Comments
+                                <span class="fa fa-angle-up"
+                                      data-ng-click=" order('rating') "
+                                      data-ng-class="{active: row == 'rating'}"></span>
+                                <span class="fa fa-angle-down"
+                                      data-ng-click=" order('-rating') "
+                                      data-ng-class="{active: row == '-rating'}"></span>
+                            </div></th>
+                            <th width="18%"><div class="th">
+                                Email
+                                <span class="fa fa-angle-up"
+                                      data-ng-click=" order('rating') "
+                                      data-ng-class="{active: row == 'rating'}"></span>
+                                <span class="fa fa-angle-down"
+                                      data-ng-click=" order('-rating') "
+                                      data-ng-class="{active: row == '-rating'}"></span>
+                            </div></th>
+                            <th width="16%"><div class="th">
+                                Category
+                                <span class="fa fa-angle-up"
+                                      data-ng-click=" order('price') "
+                                      data-ng-class="{active: row == 'price'}"></span>
+                                <span class="fa fa-angle-down"
+                                      data-ng-click=" order('-price') "
+                                      data-ng-class="{active: row == '-price'}"></span>
+                            </div></th>
+                            <th width="18%"><div class="th">
+                                Sub Category
+                                <span class="fa fa-angle-up"
+                                      data-ng-click=" order('sales') "
+                                      data-ng-class="{active: row == 'sales'}"></span>
+                                <span class="fa fa-angle-down"
+                                      data-ng-click=" order('-sales') "
+                                      data-ng-class="{active: row == '-sales'}"></span>
+                            </div></th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="feedback in feedbacks">
+                            <td>{{$index+1}}</td>
+                            <td>{{feedback.name}}</td>
+                            <td>{{feedback.price}}</td>
+                            <td>{{feedback.sales}}</td>
+                            <td>{{feedback.rating}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <footer class="table-footer">
+                    <div class="row">
+                        <div class="col-md-6 page-num-info">
+                            <span>
+                                Show 
+                                <select data-ng-model="numPerPage"
+                                        data-ng-options="num for num in numPerPageOpt"
+                                        data-ng-change="onNumPerPageChange()">
+                                </select> 
+                                entries per page
+                            </span>
+                        </div>
+                        <div class="col-md-6 text-right pagination-container">
+                            <uib-pagination class="pagination-sm"
+                                        ng-model="currentPage"
+                                        total-items="filteredStores.length"
+                                        max-size="4"
+                                        ng-change="select(currentPage)"
+                                        items-per-page="numPerPage"
+                                        rotate="false"
+                                        previous-text="&lsaquo;" next-text="&rsaquo;"
+                                        boundary-links="true"></uib-pagination>
+                        </div>
+                    </div>
+                </footer>
+            </section>
     </div>
 </div>

@@ -1,41 +1,45 @@
 <div class="page page-general" class="column" data-ng-controller="pluginController">
+
 	<div class="row">
-		<div class="col-md-12">
-			<section class="panel panel-default">
-		        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Domain</strong></div>
-		        <div class="panel-body">
-		            <div class="row">
-		                <div class="col-md-8 col-md-offset-3">
-		                    <form class="form-horizontal">
-		                        <div class="form-group">
-		                            <div class="col-sm-10">
-		                                <span class="ui-select custSelect" style="width: 70%">
-				                            <select ng-model="domainId" ng-change="onSelectDomain()">
-				                            	<option value=""><span style="color: grey;text-align: center">Select Domain</span></option>
-				                                <option value="{{domain.DOMAIN_ID}}" data-ng-repeat="domain in domains">{{domain.DOMAIN_URL}}</option>
-				                            </select>
-				                        </span>
-		                            </div>
-		                        </div>
-		                    </form>  
+        <div class="col-md-12">
+            
+                
+                    <div class="col-sm-6 col-md-offset-3 text-center">
+                        <span class="ui-select custSelect" style="width: 70%; background-color:white ">
+                            <select ng-model="domainId" ng-change="onSelectDomain()" id="domainNamesList">
+                                <option value=""><span style="color: grey;text-align: center">Select Domain</span></option>
+                                <option value="{{domain.DOMAIN_ID}}" data-ng-repeat="domain in domains">{{domain.DOMAIN_URL}}</option>
+                            </select>
+                        </span>
+                    </div>
+                
+             <div class="col-md-6 col-md-offset-3 text-center" ng-show="domains.length <= 1">    
+		                    <h4 ng-show="domains.length == 1" style="display: inline-block;">{{domains[0].DOMAIN_URL}}</h4>
+		                    <a ng-show="domains.length == 0" href="#/form/flDomainAdd" style="display: inline-block;"><h4>Add Domains</h4></a>
 		                </div>
-		            </div>
-		        </div>
-		    </section>
-	    </div>
-	</div>
+        </div>
+    </div>
+    <div class="divider divider-md"></div>   
+		               
+		            
 
 	<!-- Plugin Properties Section -->
-	<div ng-show="domainId != ''">
-	    <div class="row">
-	    	<div class="col-md-6">
+	<div class="row">
+	    <div class="column col-md-6" ng-show="domainId != ''">
+	    	
 		    	<section class="panel panel-default">
 			        	<div class="panel-heading" ><strong><span class="glyphicon glyphicon-th"></span> Properties</strong></div>
 			        	<div class="panel-body">
-			                <form role="form" data-ng-submit="submitPlPropertyForm()" name="updatePlPrpertiesDomainForm">
+			                <form role="form" class="form-horizontal" data-ng-submit="submitPlPropertyForm()" name="updatePlPrpertiesDomainForm">
+			                	<div class="form-group">
+				                    <label for="pluginStatus" class="col-sm-4">Activate</label>
+				                    <div class="col-sm-8" style="padding-top:4px">
+				                        <label class="ui-switch ui-switch-success ui-switch-sm"><input type="checkbox" value="1" ng-model="isActive" ng-change="plugin.ISACTIVE = isActive ? 1 : 0"><i></i></label>
+			                        </div>
+			                    </div>
 			                    <div class="form-group">
-			                        <label for="domainSector">Plugin Alignment</label><br/>
-			                        <span class="ui-select custSelect">
+			                        <label for="pluginAlignment" class="col-sm-4">Plugin Alignment</label>
+			                        <span class="ui-select custSelect col-sm-8">
 			                            <select data-ng-model="plugin.ALIGNMENT" requred>
 			                                <option value="left">Left</option>
 			                                <option value="center">Center</option>
@@ -44,8 +48,8 @@
 			                        </span>
 			                    </div>
 			                    <div class="form-group">
-			                        <label for="domainSector">Plugin Color</label><br/>
-			                        <span class="ui-select custSelect">
+			                        <label for="pluginColor" class="col-sm-4">Plugin Color</label>
+			                        <span class="ui-select custSelect col-sm-8">
 			                            <select data-ng-model="plugin.PLUGIN_COLOR" requred>
 			                                <option value="white">White</option>
 			                                <option value="orange">Orange</option>
@@ -53,15 +57,12 @@
 			                            </select>
 			                        </span>
 			                    </div>
+			                    <div class="divider divider-lg"></div>
 			                    <button type="submit" class="btn btn-primary btn-w-md" data-ng-disabled="!canSubmitPlProperties()">Submit</button>
 			                </form>
 		                </div>
-		            
 		        </section>
-		    </div>
-		</div>    
-		<div class="row">    
-		    <div class="col-md-6">
+		    
 		    	<section class="panel panel-default">
 			        	<div class="panel-heading" ><strong><span class="glyphicon glyphicon-th"></span> Categories</strong></div>
 			        	<div class="panel-body">
@@ -92,7 +93,7 @@
 					                        	{{category.SUBCAT_NAME}}
 				                            </div>
 				                            <div style="width: 15%; display: inline-block;">
-				                            	<label class="ui-switch ui-switch-success ui-switch-sm"><input type="checkbox" value="option1" checked><i></i></label>
+				                            	<label class="ui-switch ui-switch-success ui-switch-sm"><input type="checkbox" ng-model="subCatCheck$index" ng-checked="category.ISACTIVE == 1" ng-change="showSubCatToggleConfirm(category.SUBCAT_ID,subCatCheck$index)" id="idSubCatToggle{{$index}}"><i></i></label>
 				                            </div>
 				                            <div style="width: 5%; display: inline-block;text-align:right">
 				                            	<span><i class="ti-close"></i></span>
@@ -100,10 +101,53 @@
 					                    </li>
 					                </ul>
 				                </div>
-				            
 		                </div>
 		        </section>
-		    </div>
 	    </div>
-    </div>
+
+	    <div class="column col-md-6" ng-show="domainId != ''">
+			<section class="panel panel-default">
+				<div class="panel-heading" style="position: relative;"><strong><span class="glyphicon glyphicon-th"></span> Preview</strong>
+					&nbsp;&nbsp;<span style="font-size: 16px; color: {{color.info}};float: right; cursor: pointer" ng-click="openPluginPreview()" ng-show="showFullPreview"><i class="glyphicon glyphicon-fullscreen"></i></span>
+				</div>
+			    <div class="panel-body">
+			    	<!-- <div id="idFlPluginModal" class="flPluginModal"> -->
+				   <div class="flPluginModalContent" >
+				      <span class="flPluginClose">×</span>
+				      <h3 style="text-align: center;">Feedback</h3>
+				      <div class="flPluginInputContainer">
+				         <ul class="flRateElement">
+				            <li ng-repeat="rt in [1,2,3,4,5]">
+				               <svg height="40" width="40">
+				                  <circle cx="20" cy="20" r="15" fill="white" class="flCir flSampleCir" stroke="#FFD54F" stroke-width="2" onclick="flToggleRateElement(this, false, 'flSampleCir');" id="idCir{{rt}}"></circle>
+				               </svg>
+				            </li>
+				         </ul>
+				         <select class="flPluginInput"">
+				            <option value="">Select Category *</option>
+				            <option value="1" ng-repeat="cat in categories">{{cat.CAT_NAME}}</option>
+				         </select>
+				         <select class="flPluginInput">
+				            <option value="">Select Sub Category *</option>
+				            <option value="1" ng-repeat="subCat in subCategories">{{subCat.SUBCAT_NAME}}</option>
+				         </select>
+				         <textarea class="flPluginInput" rows="4" placeholder="Write Us *" style="resize: vertical;"></textarea>
+				         <input class="flPluginInput" type="email" placeholder="Email (Optional)"><input class="flPluginInput flSubmitButton" type="button" value="Submit" onclick="javascript:;">
+				      </div>
+				   </div>
+				</div>
+			</section>
+		</div>
+	</div>
+
+	<!-- Modal template -->
+
+	
+
+	<!-- Modal template End -->
+
  </div>
+
+
+
+ 

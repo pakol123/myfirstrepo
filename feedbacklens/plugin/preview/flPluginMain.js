@@ -1,19 +1,14 @@
-var hostUrl = 'localhost/myfirstrepo/feedbacklens/public/api/';
+//var hostUrl = 'localhost/myfirstrepo/feedbacklens/public/api/';
 var domainId;
 
-window.onload = function() {
-
-	getPluginProperties();
-}
-
 function loadPlugin(domainIfoJson) {
-	var pageBody = document.getElementsByTagName('body')[0];
+	var containerDiv = document.getElementsByTagName('body')[0];
 	// Floating button
-	var pluginBtn = b();
+	/*var pluginBtn = b();
 	pluginBtn.id = 'idPluginBtn';
 	pluginBtn.classList.add('flPluginBtn');
 	pluginBtn.innerHTML = 'Feedback';
-	pageBody.appendChild(pluginBtn);
+	pageBody.appendChild(pluginBtn);*/
 
 	// Plugin parent div
 	var div1 = d();
@@ -35,7 +30,7 @@ function loadPlugin(domainIfoJson) {
 	// Plugin Header
 	var flHeader = h3();
 	flHeader.style.textAlign = 'center';
-	flHeader.innerHTML = 'Feedback';
+	flHeader.innerHTML = domainIfoJson.domain.DOMAIN_URL;//'Feedback';
 	div11.appendChild(flHeader);
 
 	var div111 =  d();
@@ -120,18 +115,18 @@ function loadPlugin(domainIfoJson) {
 
 	
 	div1.appendChild(div11);
-	pageBody.appendChild(div1);
+	containerDiv.appendChild(div1);
 
 	// Binding modal events
 	var modal = eId('idFlPluginModal');
-	var btn = eId("idPluginBtn");
+	//var btn = eId("idPluginBtn");
 	var span = eId("idFlPluginClose");
 		
-	btn.onclick = function() {
+	/*btn.onclick = function() {
 		flResetInputs();
 		showThankDiv(false);
 		modal.style.display = "block";
-	}
+	}*/
 		
 	span.onclick = function() {
 		modal.style.display = "none";
@@ -149,7 +144,7 @@ function loadPlugin(domainIfoJson) {
 }
 
 function setRate(ev, rate) {
-    flToggleRateElement(ev, false);
+    flToggleRateElement(ev, false, 'rateCircles');
     eId("idRate").value = rate;
 }
 
@@ -185,7 +180,7 @@ function flResetInputs() {
 	inputFields.comments.value = '';
 
     // Second parameter of following function is for check if to reset rate elements or set one selected
-	flToggleRateElement({}, true);
+	flToggleRateElement({}, true, 'rateCircles');
 }
 
 
@@ -232,8 +227,8 @@ function flIsEmptyField(element) {
 		return false;
 }
 
-function flToggleRateElement(ev, isReset) {
-	var x = document.getElementsByClassName("rateCircles");
+function flToggleRateElement(ev, isReset, className) {
+	var x = document.getElementsByClassName(className);
             
     for(var i=0; i<x.length; i++){
        if(isReset){
@@ -248,11 +243,10 @@ function flToggleRateElement(ev, isReset) {
     }
 }
 
-
-function getPluginProperties() {
+function getPluginProperties(domainName) {
 	var domainIfoJson = {};
 	var xhr = new XMLHttpRequest();
-	var domainName = 'www.rohitkolar.com'//window.location.hostname;
+	var domainName = domainName;//window.location.hostname;
 	var flReqUrl = 'public/api/domain/fetchData?domainName='.concat(domainName);
 	xhr.open("GET", flReqUrl, true);
 	xhr.onload = function (e) {
@@ -261,9 +255,10 @@ function getPluginProperties() {
 		      	var domainInfoStr = xhr.responseText;
 		      	if(domainInfoStr != null && domainInfoStr != '') {
 			      	domainIfoJson = JSON.parse(domainInfoStr);
-			      	//console.log(domainIfoJson);
+			      	console.log(domainIfoJson);
 			      	if(domainIfoJson.pluginconfig.properties.ISACTIVE == 1) {
 				    	loadPlugin(domainIfoJson);
+				    	showThankDiv(false);
 				    	domainId = domainIfoJson.domain.DOMAIN_ID;
 				  	}
 			  	}

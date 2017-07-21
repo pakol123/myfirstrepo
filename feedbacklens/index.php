@@ -14,9 +14,11 @@
         <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
         <!-- end Needs images -->
 
-            
+            <!-- <link rel="stylesheet" href="styles/angular/angular-material.min.css"> -->
             <link rel="stylesheet" href="styles/main.css">
             <link rel="stylesheet" href="plugin/flPlugin.css">
+            
+
             <style>
                 .custSelect {
                     margin-left: 0px;
@@ -66,8 +68,9 @@
         
         <script src="scripts/satellizer.js"></script>
 
-        <script src="scripts/angular-ui-router.min.js"></script>
+        <script src="scripts/angular-ui-router.min.js"></script> 
+        <!-- <script src="scripts/angular-material.min.js"></script> -->
 
-        <script src="plugin/flPluginMain.js"></script>
+        <script src="plugin/preview/flPluginMain.js"></script>
     </body>
 </html>
