@@ -51,11 +51,26 @@ class reportController extends Controller
                      ->orderBy('RATING')
                      ->get();
 
-             return response()->json(array('ratingCount'=>$result));   
+             return response()->json(array('ratingCount'=>$result,'avgRating'=>\App\feedback::where('DOMAIN_ID',$id)->avg('RATING')));   
     	
     }
 
 
 
+ public function getfeedbackText()
+      {
+
+      	$resultText = "";
+
+      	$feedbacks = \App\feedback::all();
+
+      	foreach ($feedbacks as $feedback)
+      	{
+      		$resultText = $resultText.$feedback->TEXT;
+      	}
+
+      	return $resultText;
+        
+      }
 
 }

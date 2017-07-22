@@ -48,13 +48,29 @@ public function create(Request $request)
         Log::info(Request("domainId"));
                if(Request('notification') == "0")
        {
-       $feedbacks = \App\feedback::where('DOMAIN_ID',Request('domainId'))->get();
+       //$feedbacks = \App\feedback::where('DOMAIN_ID',Request('domainId'))->get();
+
+         $feedbacks = DB::table('fl_feedback')
+            ->join('fl_category_master', 'fl_feedback.CAT_ID', '=', 'fl_category_master.CAT_ID')
+            ->join('fl_subcategory_master', 'fl_feedback.SUBCAT_ID', '=', 'fl_subcategory_master.SUBCAT_ID')
+            ->select('fl_feedback.*', 'fl_subcategory_master.SUBCAT_NAME', 'fl_category_master.CAT_NAME')
+            ->where('DOMAIN_ID',Request('domainId'))
+            ->get();
+
+
        return response()->json(array('feedbacks'=>$feedbacks));
      }
 
      else
      {
-        $feedbacks = \App\feedback::where('DOMAIN_ID',Request('domainId'))->orderBy('FEEDBACK_ID','desc')->take(10)->get();
+
+        $feedbacks = DB::table('fl_feedback')
+            ->join('fl_category_master', 'fl_feedback.CAT_ID', '=', 'fl_category_master.CAT_ID')
+            ->join('fl_subcategory_master', 'fl_feedback.SUBCAT_ID', '=', 'fl_subcategory_master.SUBCAT_ID')
+            ->select('fl_feedback.*', 'fl_subcategory_master.SUBCAT_NAME', 'fl_category_master.CAT_NAME')
+            ->where('DOMAIN_ID',Request('domainId'))
+            ->orderBy('FEEDBACK_ID','desc')->take(10)
+            ->get();
         return response()->json(array('feedbacks'=>$feedbacks));
      }
      }
