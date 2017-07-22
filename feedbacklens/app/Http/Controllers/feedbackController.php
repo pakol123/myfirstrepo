@@ -45,47 +45,26 @@ public function create(Request $request)
     public function getFeedback(Request $request)
      {
 
-       if(Request('notification') == "0")
-       {
-       $feedbacks = \App\feedback::all()->where('DOMAIN_ID',Request('domainId'));
-       return response()->json(array('feedbacks'=>$feedbacks));
-     }
+        if(Request('notification') == "0")
+        {
+           $feedbacks = \App\feedback::all()->where('DOMAIN_ID',Request('domainId'));
+           return response()->json(array('feedbacks'=>$feedbacks));
+        }
 
-     else
-     {
-        $feedbacks = \App\feedback::where('DOMAIN_ID',Request('domainID'))->orderBy('FEEDBACK_ID','desc')->take(10)->get();
-        return response()->json(array('feedbacks'=>$feedbacks));
+        else
+        {
+            $feedbacks = \App\feedback::where('DOMAIN_ID',Request('domainID'))->orderBy('FEEDBACK_ID','desc')->take(10)->get();
+            return response()->json(array('feedbacks'=>$feedbacks));
+        }
      }
-     }
-
-
-     
 
      public function filterFeedback(Request $request,$id)
       {
+        $input = $request->except(['token','fromDate','toDate']);
+        $fromDate = Carbon::parse(Request('fromDate'));
+        $toDate = Carbon::parse(Request('toDate'));
+        $filteredFeedbacks = \App\feedback::where($input)->whereBetween('CREATED_AT',[$fromDate,$toDate])->get();
 
-        $checked = $request->has('fromDate') ? true: false;
-        
-
-        if($checked)
-        { 
-              $input = $request->except(['token','fromDate','toDate']);
-              $fromDate = Carbon::parse(Request('fromDate'));
-              $toDate = Carbon::parse(Request('toDate'));
-              $filteredFeedbacks = \App\feedback::where($input)->whereBetween('CREATED_AT',[$fromDate,$toDate])->get();
-
-        }
-       else
-       {
-
-         $input = $request->except(['token']);
-          $filteredFeedbacks = \App\feedback::where($input)->get();
-       }
-      
         return response()->json(array('filteredFeedbacks'=>$filteredFeedbacks));
-        
-
-      }  
-
-
+      }
 }

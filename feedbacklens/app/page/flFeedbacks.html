@@ -8,17 +8,51 @@
               <div class="panel-body">
                 <div>
                   <span class="ui-select custSelect" style="width: 100%; background-color:white;">
-                    <select ng-model="domainId" ng-change="onSelectDomain()" id="domainNamesList">
-                      <option value=""><span style="color: grey;text-align: center">Domain</span></option>
+                    <select ng-model="domainId" ng-change="onSelectDomain()">
+                      <option value=""><span style="color: grey;text-align: center">Select Domain</span></option>
                       <option value="{{domain.DOMAIN_ID}}" data-ng-repeat="domain in domains">{{domain.DOMAIN_URL}}</option>
                     </select>
                   </span>
                 </div>
+                <div class="divider divider-md"></div> 
+                <div class="input-group ui-datepicker">
+                        <input type="text" 
+                               class="form-control"
+                               uib-datepicker-popup="{{format}}"
+                               ng-model="startDate"
+                               is-open="popup1.opened"
+                               min-date="minFromStartDate"
+                               max-date="maxDate"
+                               datepicker-options="dateOptions"
+                               ng-required="true"
+                               close-text="Close"
+                               readonly='readonly'
+                               placeholder='From Date'
+                               ng-disabled="domainId == ''"/>
+                        <span class="input-group-addon" ng-click="openStartDateCal()"><i class="ti-calendar"></i></span>
+                    </div>
+                <div class="divider divider-md"></div>
+                <div class="input-group ui-datepicker">
+                        <input type="text" 
+                               class="form-control"
+                               uib-datepicker-popup="{{format}}"
+                               ng-model="endDate"
+                               is-open="popup2.opened"
+                               min-date="startDate"
+                               max-date="maxDate"
+                               datepicker-options="dateOptions"
+                               ng-required="true"
+                               close-text="Close"
+                               readonly='readonly'
+                               placeholder='To Date'
+                               ng-disabled="domainId == ''"/>
+                        <span class="input-group-addon" ng-click="openEndDateCal()"><i class="ti-calendar"></i></span>
+                    </div>
                 <div class="divider divider-md"></div>  
                 <div>
                   <span class="ui-select custSelect" style="width: 100%; background-color:white ">
-                    <select ng-model="domainId" id="domainNamesList">
-                      <option value=""><span style="color: grey;text-align: center">Category</span></option>
+                    <select ng-model="catId" ng-disabled="domainId == ''" class="form-control">
+                      <option value=""><span style="color: grey;text-align: center">All Categories</span></option>
                       <option value="{{cat.CAT_ID}}" data-ng-repeat="cat in categories">{{cat.CAT_NAME}}</option>
                     </select>
                   </span>
@@ -26,23 +60,23 @@
                 <div class="divider divider-md"></div>  
                 <div>
                   <span class="ui-select custSelect" style="width: 100%; background-color:white ">
-                    <select ng-model="domainId" id="domainNamesList">
-                      <option value=""><span style="color: grey;text-align: center">Sub Category</span></option>
+                    <select ng-model="subCatId" ng-disabled="domainId == ''" class="form-control">
+                      <option value=""><span style="color: grey;text-align: center">All Sub Categories</span></option>
                       <option value="{{suCat.SUBCAT_ID}}" data-ng-repeat="suCat in subCategories">{{suCat.SUBCAT_NAME}}</option>
                     </select>
                   </span>
                 </div>
                 <div class="divider divider-md"></div>  
                 <div>
-                  <span class="ui-select custSelect" style="width: 40%; background-color:white ">
-                    <select ng-model="domainId" ng-change="onSelectDomain()" id="domainNamesList">
-                      <option value=""><span style="color: grey;text-align: center">Rating</span></option>
+                  <span class="ui-select custSelect" style="width: 50%; background-color:white ">
+                    <select ng-model="rating" ng-change="onSelectDomain()" ng-disabled="domainId == ''" class="form-control">
+                      <option value=""><span style="color: grey;text-align: center">All Ratings</span></option>
                       <option value="{{rt}}" data-ng-repeat="rt in [1,2,3,4,5]">{{rt}}</option>
                     </select>
                   </span>
                 </div>
-                <div class="divider divider-md"></div>
-                <button type="button" class="btn btn-primary btn-w-md" ng-click="">Submit</button>
+                <div class="divider divider-lg"></div>
+                <button type="button" class="btn btn-primary btn-block btn-w-md" ng-click="getFeedbacksByFilter()" ng-disabled="domainId == ''">Submit</button>
               </div>
             </section>
         </div>
@@ -134,7 +168,7 @@
                     <tbody>
                         <tr data-ng-repeat="feedback in feedbacks">
                             <td>{{$index+1}}</td>
-                            <td>{{feedback.name}}</td>
+                            <td>{{feedback.RATING}}</td>
                             <td>{{feedback.price}}</td>
                             <td>{{feedback.sales}}</td>
                             <td>{{feedback.rating}}</td>

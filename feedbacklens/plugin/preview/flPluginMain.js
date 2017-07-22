@@ -288,10 +288,12 @@ function setOptionsToCat(categories) {
 function setOptionsToSubCat(subCategories) {
 	var catElement = eId('idFlSubCategory');
 	for(var i=0; i<subCategories.length; i++) {
-		var flSubCatOpt = o();
-		flSubCatOpt.value = subCategories[i].SUBCAT_ID;
-		flSubCatOpt.innerHTML = subCategories[i].SUBCAT_NAME;
-		catElement.appendChild(flSubCatOpt);
+		if(subCategories[i].pivot.ISACTIVE == 1) {
+			var flSubCatOpt = o();
+			flSubCatOpt.value = subCategories[i].SUBCAT_ID;
+			flSubCatOpt.innerHTML = subCategories[i].SUBCAT_NAME;
+			catElement.appendChild(flSubCatOpt);
+		}
 	}
 }
 

@@ -1084,7 +1084,9 @@ function() {
 
         a.getSubCategories = function(domainId) {
             b.getSubCatsByDomainId(domainId).success(function(data){
+
                 a.subCategories = data.subcat;
+                console.log(a.subCategories);
                 a.categories = data.cat;
                 a.plugin.pluginId = data.properties.PLUGIN_ID;
                 a.plugin.ALIGNMENT = data.properties.ALIGNMENT;
@@ -1114,9 +1116,9 @@ function() {
 
         a.submitPlPropertyForm = function() {
             //a.plugin.createdBy = b.currentUser.USER_ID;
-            a.plugin.domainId = a.domainId;
             
-            c.post('public/api/domain/pluginupdate', a.plugin).success(function(data) {
+            var changeReq = {'isactive':a.plugin.ISACTIVE, 'alignment':a.plugin.ALIGNMENT, 'plugin_color':a.plugin.PLUGIN_COLOR, 'domainId': a.domainId, 'modified_by' : b.currentUser.USER_ID};
+            c.post('public/api/domain/pluginupdate', changeReq).success(function(data) {
                 b.notify('success', "Successfully updated plugin");
                 a.getSubCategories(a.domainId);
             }).error(function(error){
@@ -1155,31 +1157,34 @@ function() {
 
         a.changeSubCatStatus = function(subCatId, isActive) {
             //a.subCatUpdate.modifiedBy = b.currentUser.USER_ID;
-            //a.subCatUpdate.domainId = a.domainId;
+            a.subCatUpdate.doaminId = a.domainId;
             a.subCatUpdate.subcatId = subCatId;
             a.subCatUpdate.isactive = isActive ? 1 : 0;
             a.subCatUpdate.pluginId = a.plugin.pluginId;
-                alert(JSON.stringify(a.subCatUpdate));
-            c.get('public/api/plugin/updateSubCat/' + a.domainId, a.subCatUpdate).success(function(data) {
-                b.notify('success', "Successfully updated sub category");
+                //alert(JSON.stringify(a.subCatUpdate));
+            c.post('public/api/plugin/updateSubCat',a.subCatUpdate).success(function(data) {
+                b.notify('success', "Successfully " + (isActive ? "enabled":"disabled") + " sub category");
                 a.getSubCategories(a.domainId);
             }).error(function(error){
-                b.notify('error', "Failed to update sub category");
+                b.notify('error', "Failed to " + (isActive ? "enable":"disable") + " sub category");
             });
         }
 
         a.showSubCatToggleConfirm = function(subCatId, isActive) {
-           console.log($("#idSubCatToggle" + isActive).value);
+            //alert($('#idSubCatToggle' + isActive).prop('checked'));
+
+            var toggleSubCatElement = $('#idSubCatToggle' + isActive);
+            var toggleSubCat = toggleSubCatElement.prop('checked');
             var e = h.open({
                 animation: true,
-                template: '<div class="modal-body">'+(isActive ? "Enable":"Disable")+' this category for your plugin?</div><div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">OK</button><button class="btn btn-warning" ng-click="cancel()">Cancel</button></div>',
+                template: '<div class="modal-body">'+(toggleSubCat ? "Enable":"Disable")+' this category for your plugin?</div><div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">OK</button><button class="btn btn-warning" ng-click="cancel()">Cancel</button></div>',
                 controller: "ModalInstanceCtrl",
                 size: 'sm'
             });
             e.result.then(function() {
-                a.changeSubCatStatus(subCatId, isActive);
+                a.changeSubCatStatus(subCatId, toggleSubCat);
             }, function() {
-                isActive = false;
+                toggleSubCatElement.prop('checked', !toggleSubCat);
             });
         }
 
@@ -1207,8 +1212,10 @@ function() {
         a.subCategories = [];
         a.plugin = {};
         a.categories = [];
+        a.domain = {};
         var c;
 
+        /* Table options*/
         a.searchKeywords = "", a.filteredStores = [], a.row = "", a.select = function(b) {
             var c, d;
             return d = (b - 1) * a.numPerPage, c = d + a.numPerPage, a.currentPageStores = a.filteredStores.slice(d, c)
@@ -1226,14 +1233,30 @@ function() {
             return a.search(), a.select(a.currentPage)
         });
 
+
+        /* Date picker options*/
+
+
+        a.format = "dd-MMMM-yyyy";
+        a.popup1 = {opened: !1}, a.popup2 = {opened: !1};
+        a.openStartDateCal = function() {a.popup1.opened = !0};
+        a.openEndDateCal = function() {a.popup2.opened = !0};
+        a.dateOptions = {
+            formatYear: "yy",
+            startingDay: 1
+        };
+        a.toDay = new Date();
+        
+
+        /* Service calls*/
         b.getAllDomains(b.currentUser.ORG_ID).success(function(data){
             a.domains = data.domains;
             a.domainId = data.domains.length != 1 ? '' : data.domains[0].DOMAIN_ID;
-            a.getSubCategories();
         }).error(function(error){
 
         });
 
+        
         a.getSubCategories = function() {
             b.getSubCatsByDomainId(a.domainId).success(function(data){
                 a.subCategories = data.subcat;
@@ -1244,17 +1267,41 @@ function() {
 
         a.onSelectDomain = function () {
             if(a.domainId != '') {
+                angular.forEach(a.domains, function(domain) {
+                  if(domain.DOMAIN_ID == a.domainId)
+                    a.domain = domain;
+                });
+                
+                a.minFromStartDate = a.domain ? new Date(a.domain.START_DATE): a.toDay;
+                a.maxDate = a.endDate = a.toDay;
+                a.startDate = a.minFromStartDate;
                 a.getSubCategories();
+            } else {
+                a.startDate = '';
+                a.endDate = '';
+                a.catId = '';
+                a.subCatId = '';
+                a.rating = '';
             }
         }
 
-        a.getFeedbacks = function(domainId) {
+        a.getFeedbacks = function() {
+            var requestObj = {'domainId' : a.domainId, 'notification': 0};
+            e.get('public/api/feedback/getFeedback', requestObj).success(function(data) {
+                   a.feedbacks=data.feedbacks;
+                }).error(function(error){
+                    
+            });
+        }
+
+        a.applyFilterTogetFeedbacks = function(domainId) {
             e.get('public/api/feedback/filter/' + domainId).success(function(data) {
                    a.feedbacks=data.feedbacks;
                 }).error(function(error){
                     
             });
         }
+
     }
 
     angular.module('app.feedbacks').controller("feedbackController", ["$scope", "$rootScope", "$http", "logger",a])

@@ -93,7 +93,7 @@
 					                        	{{category.SUBCAT_NAME}}
 				                            </div>
 				                            <div style="width: 15%; display: inline-block;">
-				                            	<label class="ui-switch ui-switch-success ui-switch-sm"><input type="checkbox" ng-model="subCatCheck$index" ng-checked="category.ISACTIVE == 1" ng-change="showSubCatToggleConfirm(category.SUBCAT_ID,subCatCheck$index)" id="idSubCatToggle{{$index}}"><i></i></label>
+				                            	<label class="ui-switch ui-switch-success ui-switch-sm"><input type="checkbox" ng-model="subCatCheck$index" ng-checked="category.pivot.ISACTIVE == 1" ng-click="showSubCatToggleConfirm(category.SUBCAT_ID, $index)" id="idSubCatToggle{{$index}}"><i></i></label>
 				                            </div>
 				                            <div style="width: 5%; display: inline-block;text-align:right">
 				                            	<span><i class="ti-close"></i></span>
@@ -129,7 +129,7 @@
 				         </select>
 				         <select class="flPluginInput">
 				            <option value="">Select Sub Category *</option>
-				            <option value="1" ng-repeat="subCat in subCategories">{{subCat.SUBCAT_NAME}}</option>
+				            <option value="1" ng-repeat="subCat in subCategories" ng-if="subCat.pivot.ISACTIVE == 1">{{subCat.SUBCAT_NAME}}</option>
 				         </select>
 				         <textarea class="flPluginInput" rows="4" placeholder="Write Us *" style="resize: vertical;"></textarea>
 				         <input class="flPluginInput" type="email" placeholder="Email (Optional)"><input class="flPluginInput flSubmitButton" type="button" value="Submit" onclick="javascript:;">
