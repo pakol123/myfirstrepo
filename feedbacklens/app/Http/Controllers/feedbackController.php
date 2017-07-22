@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 
@@ -62,12 +63,25 @@ public function create(Request $request)
 
      public function filterFeedback(Request $request,$id)
       {
+
+        $checked = $request->has('fromDate') ? true: false;
         
-        $input = $request->except(['token']);
-      //  dd($input);
 
-        $filteredFeedbacks = \App\feedback::where($input)->get();
+        if($checked)
+        { 
+              $input = $request->except(['token','fromDate','toDate']);
+              $fromDate = Carbon::parse(Request('fromDate'));
+              $toDate = Carbon::parse(Request('toDate'));
+              $filteredFeedbacks = \App\feedback::where($input)->whereBetween('CREATED_AT',[$fromDate,$toDate])->get();
 
+        }
+       else
+       {
+
+         $input = $request->except(['token']);
+          $filteredFeedbacks = \App\feedback::where($input)->get();
+       }
+      
         return response()->json(array('filteredFeedbacks'=>$filteredFeedbacks));
         
 

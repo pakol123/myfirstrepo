@@ -41,11 +41,11 @@ class pluginController extends Controller
 
 	}
 
-	public function updatePluginSubcategories(Request $request,$id)
+	public function updatePluginSubcategories(Request $request)
 	{
 		
 		//dd($request);
-		$domain = \App\domain::find($id);
+		$domain = \App\domain::find(Request('doaminId'));
 		
 		$result = $domain->subcategories()->updateExistingPivot(Request('subcatId'),["ISACTIVE"=>Request('isactive'),"MODIFIED_AT"=>Carbon::now(),"MODIFIED_BY"=>Request('modifiedBy')]);
     

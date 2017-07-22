@@ -66,6 +66,10 @@ Route::get('api/domain/fetchData','domainController@getDomainPluginproperties');
 Route::post('api/feedback/sendFeedBack','feedbackController@create');
 
 
-Route::get('api/plugin/updateSubCat/{domain_id}' , 'pluginController@updatePluginSubcategories');
+Route::post('api/plugin/updateSubCat' , 'pluginController@updatePluginSubcategories');
 Route::get('api/feedback/getFeedback' , 'feedbackController@getFeedback');
 Route::get('api/feedback/filter/{id}' , 'feedbackController@filterFeedback');
+
+Route::get('api/report/category/{id}' , 'reportController@getCategoryCount');
+Route::get('api/report/rating/{id}' , 'reportController@getRatingCount');
+Route::get('api/report/subcategory/{id}' , 'reportController@getSubCategoryCount');
