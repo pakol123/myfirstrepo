@@ -11,6 +11,7 @@
         "duScroll",
         "satellizer",
         "ui.router",
+        "ngecharts",
         "app.nav",
         "app.page",
         "app.i18n",
@@ -20,7 +21,7 @@
         "app.domainInfo",
         "app.users",
         "app.feedbacks",
-        "app.plugin"
+        "app.plugin",
         ])
 }(),
 
@@ -76,6 +77,9 @@ function() {
     function a(a, b, c, d, z, y, x, w) {
         var e = new Date,
             f = e.getFullYear();
+
+        b.themeColors = ['label-danger','label-warning', 'label-info', 'label-primary', 'label-success'];
+        b.btnColors = ['btn-danger','btn-warning', 'btn-info', 'btn-primary', 'btn-success'];
         a.main = {
             brand: "Feedbacklens",
             name: "Lisa",
@@ -146,6 +150,18 @@ function() {
             return x.get('public/api/plugin/'+domainId);
         }
 
+        a.lastFeedbacks = [];
+
+        a.getFeedbacks = function() {
+            var requestObj = {'domainId' : 9, 'notification': '0'};
+            x.get('public/api/feedback/getFeedback',{params:requestObj}).success(function(data) {
+                   a.lastFeedbacks=data.feedbacks;
+                   //console.log(data);
+                }).error(function(error){
+            });
+        }
+
+        a.getFeedbacks();
         // Display Tost
 
         b.notify = function(type, msg) {
@@ -313,7 +329,7 @@ function() {
 function() {
     "use strict";
 
-    function a(a) {
+    function a(a,z) {
         function b() {
             var a = Math.round(100 * Math.random());
             return a * (a % 2 == 0 ? 1 : -1)
@@ -323,158 +339,79 @@ function() {
             for (var a = [], c = 100; c--;) a.push([b(), b(), Math.abs(b())]);
             return a
         }
-        a.pie1 = {}, a.pie1.options = {
-            animation: !0,
-            title: {
-                text: "Traffic Source",
-                x: "left"
-            },
-            tooltip: {
-                trigger: "item",
-                formatter: "{a} <br/>{b} : {c} ({d}%)"
-            },
-            calculable: !0,
-            series: [{
-                name: "Vist source",
-                type: "pie",
-                radius: "55%",
-                center: ["50%", "60%"],
-                data: [{
-                    value: 335,
-                    name: "Direct",
-                    itemStyle: {
-                        normal: {
-                            color: a.color.success,
-                            label: {
-                                show: !0,
-                                textStyle: {
-                                    color: a.color.success
-                                }
-                            },
-                            labelLine: {
-                                show: !0,
-                                lineStyle: {
-                                    color: a.color.success
-                                }
-                            }
-                        }
-                    }
-                }, {
-                    value: 310,
-                    name: "Email",
-                    itemStyle: {
-                        normal: {
-                            color: a.color.infoAlt,
-                            label: {
-                                show: !0,
-                                textStyle: {
-                                    color: a.color.infoAlt
-                                }
-                            },
-                            labelLine: {
-                                show: !0,
-                                lineStyle: {
-                                    color: a.color.infoAlt
+
+        a.chartColors = [a.color.success, a.color.primary, a.color.danger, a.color.warning, a.color.info];
+        a.categoryWiseCount = {};
+        a.pieChartDataArray = [];
+        a.getCategoryWiseCount = function() {
+            z.get('public/api/report/category/'+9).success(function(data) {
+                   a.categoryWiseCount=data.CategoryCount;
+                   
+                   //console.log(data);
+                   angular.forEach(a.categoryWiseCount, function(cat, key) {
+                        var columnColor = a.chartColors[key % 5];
+                        var pieChartData = {};
+                        if(cat.cat_count > 0) {
+                            pieChartData = {
+                                value: cat.cat_count,
+                                type:'pie',
+                                name: cat.CAT_ID,
+                                itemStyle: {
+                                    normal: {
+                                        color: columnColor,
+                                        label: {
+                                            show: !0,
+                                            textStyle: {
+                                                color: columnColor
+                                            }
+                                        },
+                                        labelLine: {
+                                            show: !0,
+                                            lineStyle: {
+                                                color: columnColor
+                                            }
+                                        }
+                                    }
                                 }
                             }
+                            
+                              a.pieChartDataArray.push(pieChartData);
                         }
-                    }
-                }, {
-                    value: 135,
-                    name: "Video Ads",
-                    itemStyle: {
-                        normal: {
-                            color: a.color.warning,
-                            label: {
-                                show: !0,
-                                textStyle: {
-                                    color: a.color.warning
-                                }
-                            },
-                            labelLine: {
-                                show: !0,
-                                lineStyle: {
-                                    color: a.color.warning
-                                }
-                            }
-                        }
-                    }
-                }, {
-                    value: 1548,
-                    name: "Search",
-                    itemStyle: {
-                        normal: {
-                            color: a.color.info,
-                            label: {
-                                show: !0,
-                                textStyle: {
-                                    color: a.color.info
-                                }
-                            },
-                            labelLine: {
-                                show: !0,
-                                lineStyle: {
-                                    color: a.color.info
-                                }
-                            }
-                        }
-                    }
+                    });
+                   //alert(JSON.stringify(a.pieChartDataArray));
+                   a.setPieChart();
+                }).error(function(error){
+            });
+        }
+
+        a.getCategoryWiseCount();
+
+        a.setPieChart = function() {
+
+            /*Pie*/
+            a.pie1 = {}, a.pie1.options = {
+                animation: !0,
+                title: {
+                    text: "Status",
+                    x: "left"
+                },
+                tooltip: {
+                    trigger: "item",
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                calculable: !0,
+                series: [{
+                    name: "Feedbacks",
+                    type: "pie",
+                    radius: "55%",
+                    center: ["50%", "60%"],
+                    data: a.pieChartDataArray
                 }]
-            }]
-        }, a.scatter2 = {}, a.scatter2.options = {
-            tooltip: {
-                trigger: "axis",
-                showDelay: 0,
-                axisPointer: {
-                    show: !0,
-                    type: "cross",
-                    lineStyle: {
-                        type: "dashed",
-                        width: 1
-                    }
-                }
-            },
-            legend: {
-                data: ["scatter1", "scatter2"]
-            },
-            xAxis: [{
-                type: "value",
-                splitNumber: 4,
-                scale: !0
-            }],
-            yAxis: [{
-                type: "value",
-                splitNumber: 4,
-                scale: !0
-            }],
-            series: [{
-                name: "scatter1",
-                type: "scatter",
-                symbolSize: function(a) {
-                    return Math.round(a[2] / 5)
-                },
-                itemStyle: {
-                    normal: {
-                        color: "rgba(107,188,215,.5)"
-                    }
-                },
-                data: c()
-            }, {
-                name: "scatter2",
-                type: "scatter",
-                symbolSize: function(a) {
-                    return Math.round(a[2] / 5)
-                },
-                itemStyle: {
-                    normal: {
-                        color: "rgba(129,202,128,.5)"
-                    }
-                },
-                data: c()
-            }]
+            } /*End pie*/
+
         }
     }
-    angular.module("app").controller("DashboardCtrl", ["$scope", a])
+    angular.module("app").controller("DashboardCtrl", ["$scope", "$http", a])
 }(),
 
 function() {
@@ -953,14 +890,10 @@ function() {
             a.domain = {
                  domainName: "",
                  domainSector: "",
-                 pluginAlignment: "",
-                 pluginColor: ""
             };
 
             original = angular.copy(a.domain);
 
-            a.domain.alignment = "Center";
-            a.domain.color = "White";
             a.domain.orgId= b.currentUser.ORG_ID;
             a.domain.createdBy= b.currentUser.USER_ID;
 
@@ -1152,6 +1085,7 @@ function() {
         }
 
         a.openPluginPreview = function() {
+            flResetInputs();
             $('#idFlPluginModal').show();
         }
 
@@ -1213,30 +1147,10 @@ function() {
         a.plugin = {};
         a.categories = [];
         a.domain = {};
-        var c;
 
-        /* Table options*/
-        a.searchKeywords = "", a.filteredStores = [], a.row = "", a.select = function(b) {
-            var c, d;
-            return d = (b - 1) * a.numPerPage, c = d + a.numPerPage, a.currentPageStores = a.filteredStores.slice(d, c)
-        }, a.onFilterChange = function() {
-            return a.select(1), a.currentPage = 1, a.row = ""
-        }, a.onNumPerPageChange = function() {
-            return a.select(1), a.currentPage = 1
-        }, a.onOrderChange = function() {
-            return a.select(1), a.currentPage = 1
-        }, a.search = function() {
-            return a.filteredStores = b("filter")(a.stores, a.searchKeywords), a.onFilterChange()
-        }, a.order = function(c) {
-            return a.row !== c ? (a.row = c, a.filteredStores = b("orderBy")(a.stores, c), a.onOrderChange()) : void 0
-        }, a.numPerPageOpt = [3, 5, 10, 20], a.numPerPage = a.numPerPageOpt[2], a.currentPage = 1, a.currentPageStores = [], (c = function() {
-            return a.search(), a.select(a.currentPage)
-        });
-
-
-        /* Date picker options*/
-
-
+        a.domainId = '', a.catId = '', a.subCatId = '', a.startDate = '', a.endDate = '', a.rating = '';
+        
+        /*Date Picker properties*/
         a.format = "dd-MMMM-yyyy";
         a.popup1 = {opened: !1}, a.popup2 = {opened: !1};
         a.openStartDateCal = function() {a.popup1.opened = !0};
@@ -1276,27 +1190,32 @@ function() {
                 a.maxDate = a.endDate = a.toDay;
                 a.startDate = a.minFromStartDate;
                 a.getSubCategories();
-            } else {
-                a.startDate = '';
-                a.endDate = '';
+                a.getFeedbacks();
+
                 a.catId = '';
                 a.subCatId = '';
                 a.rating = '';
             }
+            
         }
 
         a.getFeedbacks = function() {
-            var requestObj = {'domainId' : a.domainId, 'notification': 0};
-            e.get('public/api/feedback/getFeedback', requestObj).success(function(data) {
+            var requestObj = {'domainId' : a.domainId, 'notification': '0'};
+            
+            
+            e.get('public/api/feedback/getFeedback',{params:requestObj}).success(function(data) {
                    a.feedbacks=data.feedbacks;
+                   //console.log(data);
                 }).error(function(error){
                     
             });
         }
 
-        a.applyFilterTogetFeedbacks = function(domainId) {
-            e.get('public/api/feedback/filter/' + domainId).success(function(data) {
-                   a.feedbacks=data.feedbacks;
+        a.applyFilterTogetFeedbacks = function() {
+            var reqObj = {rating: a.rating, cat_id: a.catId, subcat_id: a.subCatId, fromDate: a.startDate, toDate: a.endDate};
+            e.get('public/api/feedback/filter/' + a.domainId, {params:reqObj}).success(function(data) {
+                console.log(data);
+                   a.feedbacks=data.filteredFeedbacks;
                 }).error(function(error){
                     
             });
@@ -1306,8 +1225,6 @@ function() {
 
     angular.module('app.feedbacks').controller("feedbackController", ["$scope", "$rootScope", "$http", "logger",a])
 }();
-
-
 
 
 

@@ -69,138 +69,44 @@
                 <div class="divider divider-md"></div>  
                 <div>
                   <span class="ui-select custSelect" style="width: 50%; background-color:white ">
-                    <select ng-model="rating" ng-change="onSelectDomain()" ng-disabled="domainId == ''" class="form-control">
+                    <select ng-model="rating" ng-disabled="domainId == ''" class="form-control">
                       <option value=""><span style="color: grey;text-align: center">All Ratings</span></option>
                       <option value="{{rt}}" data-ng-repeat="rt in [1,2,3,4,5]">{{rt}}</option>
                     </select>
                   </span>
                 </div>
                 <div class="divider divider-lg"></div>
-                <button type="button" class="btn btn-primary btn-block btn-w-md" ng-click="getFeedbacksByFilter()" ng-disabled="domainId == ''">Submit</button>
+                <button type="button" class="btn btn-primary btn-block btn-w-md" ng-click="applyFilterTogetFeedbacks()" ng-disabled="domainId == ''">Submit</button>
               </div>
             </section>
         </div>
     
     
         <div class="col-md-9" ng-show="feedbacks != '' && feedbacks.length > 0">
-            <section class="panel panel-default table-dynamic">
-                <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Feedbacks</strong></div>
-
-                <div class="table-filters">
-                    <div class="row">
-                        <div class="col-sm-4 col-xs-6">
-                            <form>
-                                <input type="text"
-                                       placeholder="Search..."
-                                       class="form-control"
-                                       data-ng-model="searchKeywords"
-                                       data-ng-keyup="search()">
-                            </form>
-                        </div>
-                        <div class="col-sm-3 col-xs-6 filter-result-info">
-                            <span>
-                                Showing {{filteredStores.length}}/{{stores.length}} entries
-                            </span>              
-                        </div>
-                    </div>
-                </div>
-
-                <table class="table table-bordered table-striped table-responsive">
-                    <thead>
-                        <tr>
-                            <th width="5%"><div class="th">
-                                Sr.No.
-                                <span class="fa fa-angle-up"
-                                      data-ng-click=" order('name') "
-                                      data-ng-class="{active: row == 'name'}"></span>
-                                <span class="fa fa-angle-down"
-                                      data-ng-click=" order('-name') "
-                                      data-ng-class="{active: row == '-name'}"></span>
-                            </div></th>
-                            <th width="8%"><div class="th">
-                                Rating
-                                <span class="fa fa-angle-up"
-                                      data-ng-click=" order('name') "
-                                      data-ng-class="{active: row == 'name'}"></span>
-                                <span class="fa fa-angle-down"
-                                      data-ng-click=" order('-name') "
-                                      data-ng-class="{active: row == '-name'}"></span>
-                            </div></th>
-                            <th width="30%"><div class="th">
-                                Comments
-                                <span class="fa fa-angle-up"
-                                      data-ng-click=" order('rating') "
-                                      data-ng-class="{active: row == 'rating'}"></span>
-                                <span class="fa fa-angle-down"
-                                      data-ng-click=" order('-rating') "
-                                      data-ng-class="{active: row == '-rating'}"></span>
-                            </div></th>
-                            <th width="18%"><div class="th">
-                                Email
-                                <span class="fa fa-angle-up"
-                                      data-ng-click=" order('rating') "
-                                      data-ng-class="{active: row == 'rating'}"></span>
-                                <span class="fa fa-angle-down"
-                                      data-ng-click=" order('-rating') "
-                                      data-ng-class="{active: row == '-rating'}"></span>
-                            </div></th>
-                            <th width="16%"><div class="th">
-                                Category
-                                <span class="fa fa-angle-up"
-                                      data-ng-click=" order('price') "
-                                      data-ng-class="{active: row == 'price'}"></span>
-                                <span class="fa fa-angle-down"
-                                      data-ng-click=" order('-price') "
-                                      data-ng-class="{active: row == '-price'}"></span>
-                            </div></th>
-                            <th width="18%"><div class="th">
-                                Sub Category
-                                <span class="fa fa-angle-up"
-                                      data-ng-click=" order('sales') "
-                                      data-ng-class="{active: row == 'sales'}"></span>
-                                <span class="fa fa-angle-down"
-                                      data-ng-click=" order('-sales') "
-                                      data-ng-class="{active: row == '-sales'}"></span>
-                            </div></th>
-                           
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr data-ng-repeat="feedback in feedbacks">
-                            <td>{{$index+1}}</td>
-                            <td>{{feedback.RATING}}</td>
-                            <td>{{feedback.price}}</td>
-                            <td>{{feedback.sales}}</td>
-                            <td>{{feedback.rating}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <footer class="table-footer">
-                    <div class="row">
-                        <div class="col-md-6 page-num-info">
-                            <span>
-                                Show 
-                                <select data-ng-model="numPerPage"
-                                        data-ng-options="num for num in numPerPageOpt"
-                                        data-ng-change="onNumPerPageChange()">
-                                </select> 
-                                entries per page
-                            </span>
-                        </div>
-                        <div class="col-md-6 text-right pagination-container">
-                            <uib-pagination class="pagination-sm"
-                                        ng-model="currentPage"
-                                        total-items="filteredStores.length"
-                                        max-size="4"
-                                        ng-change="select(currentPage)"
-                                        items-per-page="numPerPage"
-                                        rotate="false"
-                                        previous-text="&lsaquo;" next-text="&rsaquo;"
-                                        boundary-links="true"></uib-pagination>
-                        </div>
-                    </div>
-                </footer>
-            </section>
+          <div class="panel panel-default">
+            <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Feedbacks</strong></div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="4%">#</th>
+                        <th width="8%" ng-if="rating == ''">Rating</th>
+                        <th width="40%">Comments</th>
+                        <th width="16%">Email</th>
+                        <th width="16%" ng-if="catId == ''">Category</th>
+                        <th width="16%" ng-if="subCatId == ''">Sub Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="feedback in feedbacks">
+                      <td style="text-align: center;">{{$index+1}}</td>
+                      <td style="text-align: center;" ng-if="rating == ''"><span class="label {{themeColors[feedback.RATING-1]}}">{{feedback.RATING}}</span></td>
+                      <td>{{feedback.TEXT.length > 35 ? feedback.TEXT.substring(0,35) + '...': feedback.TEXT}}</td>
+                      <td>{{feedback.EMAIL != '' ? feedback.EMAIL : '-'}}</td>
+                      <td ng-if="catId == ''">{{feedback.CAT_ID}}</td>
+                      <td ng-if="subCatId == ''">{{feedback.SUBCAT_ID}}</td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
     </div>
 </div>

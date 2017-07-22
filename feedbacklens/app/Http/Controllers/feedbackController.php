@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Log;
 
 use Illuminate\Http\Request;
 
@@ -44,27 +45,31 @@ public function create(Request $request)
 
     public function getFeedback(Request $request)
      {
-
-        if(Request('notification') == "0")
-        {
-           $feedbacks = \App\feedback::all()->where('DOMAIN_ID',Request('domainId'));
-           return response()->json(array('feedbacks'=>$feedbacks));
-        }
-
-        else
-        {
-            $feedbacks = \App\feedback::where('DOMAIN_ID',Request('domainID'))->orderBy('FEEDBACK_ID','desc')->take(10)->get();
-            return response()->json(array('feedbacks'=>$feedbacks));
-        }
+        Log::info(Request("domainId"));
+               if(Request('notification') == "0")
+       {
+       $feedbacks = \App\feedback::where('DOMAIN_ID',Request('domainId'))->get();
+       return response()->json(array('feedbacks'=>$feedbacks));
      }
+
+     else
+     {
+        $feedbacks = \App\feedback::where('DOMAIN_ID',Request('domainId'))->orderBy('FEEDBACK_ID','desc')->take(10)->get();
+        return response()->json(array('feedbacks'=>$feedbacks));
+     }
+     }
+
+
+     
 
      public function filterFeedback(Request $request,$id)
       {
+        Log::info(Request("fromDate"));
         $input = $request->except(['token','fromDate','toDate']);
         $fromDate = Carbon::parse(Request('fromDate'));
         $toDate = Carbon::parse(Request('toDate'));
         $filteredFeedbacks = \App\feedback::where($input)->whereBetween('CREATED_AT',[$fromDate,$toDate])->get();
 
         return response()->json(array('filteredFeedbacks'=>$filteredFeedbacks));
-      }
+      }  
 }

@@ -325,7 +325,7 @@ function postFeedback() {
 	params = params.concat('country='+country+'&');
 	params = params.concat('email='+inputFields.email.value);
 
-	http.open("POST", url, true);
+	http.open("POST", url + params, true);
 
 	//Send the proper header information along with the request
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

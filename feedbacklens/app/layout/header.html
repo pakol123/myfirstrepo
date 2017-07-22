@@ -37,101 +37,30 @@
                     <input type="text" class="form-control" placeholder="Search...">
                 </div>
             </li>
-            <li class="dropdown" uib-dropdown is-open="status.isopenEmail">
-                <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
-                    <i class="ti-email"></i>
-                    <span class="badge badge-danger">3</span>
-                </a>
-                <div class="dropdown-menu with-arrow panel panel-default dropdown-menu-scaleIn">
-                    <div class="panel-heading">
-                        You have 3 mails.
-                    </div>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="javascript:;" class="media">
-                                <span class="media-left media-icon">
-                                    <span class="btn-icon btn-icon-round btn-warning"><i class="ti-email"></i></span>
-                                </span>
-                                <div class="media-body">
-                                    <span class="block">Lisa sent you a mail</span>
-                                    <span class="text-muted block">2min ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="javascript:;" class="media">
-                                <span class="media-left media-icon">
-                                    <span class="btn-icon btn-icon-round btn-info"><i class="ti-email"></i></span>
-                                </span>
-                                <div class="media-body">
-                                    <span class="block">Jane sent you a mail</span>
-                                    <span class="text-muted">3 hours ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="javascript:;" class="media">
-                                <span class="media-left media-icon">
-                                    <span class="btn-icon btn-icon-round btn-success"><i class="ti-email"></i></span>
-                                </span>
-                                <div class="media-body">
-                                    <span class="block">Lynda sent you a mail</span>
-                                    <span class="text-muted">9 hours ago</span>
-                                </div>
-                            </a>
-                        </li>                       
-                    </ul>
-                    <div class="panel-footer">
-                        <a href="#/mail/inbox">Show all mails.</a>
-                    </div>
-                </div>
-            </li>
             <li class="dropdown" uib-dropdown is-open="status.isopenBell">
                 <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
                     <i class="ti-bell"></i>
-                    <span class="badge badge-info">3</span>
+                    <span class="badge badge-info" ng-if="lastFeedbacks.length > 0">{{lastFeedbacks.length}}</span>
                 </a>
                 <div class="dropdown-menu with-arrow panel panel-default dropdown-menu-scaleIn">
                     <div class="panel-heading">
-                        You have 3 notifications.
+                        {{lastFeedbacks.length}} new feedbacks.
                     </div>
                     <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="javascript:;" class="media">
+                        <li class="list-group-item" ng-repeat="lastFeedBack in lastFeedbacks">
+                            <a href="#/page/flFeedbacks" class="media">
                                 <span class="media-left media-icon">
-                                    <span class="btn-icon btn-icon-round btn-success"><i class="ti-bell"></i></span>
+                                    <span class="btn-icon btn-icon-round {{btnColors[lastFeedBack.RATING-1]}}">{{lastFeedBack.RATING}}</span>
                                 </span>
                                 <div class="media-body">
-                                    <span class="block">New tasks needs to be done</span>
-                                    <span class="text-muted block">2min ago</span>
+                                    <span class="block">{{lastFeedBack.TEXT.length > 25 ? lastFeedBack.TEXT.substring(0,25) + '...': lastFeedBack.TEXT}}</span>
+                                    <span class="text-muted block">{{feedback.CAT_NAME}}</span>
                                 </div>
                             </a>
                         </li>
-                        <li class="list-group-item">
-                            <a href="javascript:;" class="media">
-                                <span class="media-left media-icon">
-                                    <span class="btn-icon btn-icon-round btn-info"><i class="ti-bell"></i></span>
-                                </span>
-                                <div class="media-body">
-                                    <span class="block">Change your password</span>
-                                    <span class="text-muted">3 hours ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="javascript:;" class="media">
-                                <span class="media-left media-icon">
-                                    <span class="btn-icon btn-icon-round btn-danger"><i class="ti-bell"></i></span>
-                                </span>
-                                <div class="media-body">
-                                    <span class="block">New feature added</span>
-                                    <span class="text-muted">9 hours ago</span>
-                                </div>
-                            </a>
-                        </li>                       
                     </ul>
                     <div class="panel-footer">
-                        <a href="#/mail/inbox">Show all notifications.</a>
+                        <a href="#/page/flFeedbacks">Show all feedbacks.</a>
                     </div>
                 </div>
             </li>
@@ -151,18 +80,6 @@
                         <a href="#/page/profile">
                             <i class="ti-user"></i>
                             <span data-translate="MY_PROFILE"></span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#/app/tasks">
-                            <i class="ti-check-box"></i>
-                            <span data-translate="MY_TASKS"></span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#/page/lock-screen">
-                            <i class="ti-lock"></i>
-                            <span data-translate="LOCK"></span>
                         </a>
                     </li>
                     <li>
