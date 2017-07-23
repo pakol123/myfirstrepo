@@ -74,3 +74,5 @@ Route::get('api/report/category/{id}' , 'reportController@getCategoryCount');
 Route::get('api/report/rating/{id}' , 'reportController@getRatingCount');
 Route::get('api/report/subcategory/{id}' , 'reportController@getSubCategoryCount');
 Route::get('api/report/feedbackText/{id}' , 'reportController@getfeedbackText');
+
+Route::get('api/report/getReportDetails/{id}','reportController@getReportDetails');

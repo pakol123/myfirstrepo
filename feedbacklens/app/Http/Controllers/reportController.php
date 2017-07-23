@@ -13,14 +13,15 @@ class reportController extends Controller
       
 
          $result = DB::table('fl_feedback')
-                     ->select(DB::raw('count(*) as cat_count,CAT_ID'))
-                     ->where('DOMAIN_ID', '=', $id)
-                     ->groupBy('CAT_ID')
-                     ->orderBy('CAT_ID')
+                     ->join('fl_category_master', 'fl_feedback.CAT_ID', '=', 'fl_category_master.CAT_ID')
+                      ->where('fl_feedback.DOMAIN_ID', '=', $id)
+                     ->select(DB::raw('count(fl_category_master.CAT_NAME) as cat_count,fl_category_master.CAT_NAME'))
+                     ->groupBy('fl_category_master.CAT_NAME')
+                     ->orderBy('fl_feedback.CAT_ID')
                      ->get();
 
 //dd($result);
-             return response()->json(array('CategoryCount'=>$result,'catName'=>\App\Category::select('CAT_NAME')->orderBy('CAT_ID', 'asc')->get()));        
+             return response()->json(array('CategoryCount'=>$result->get()));        
 
 
     }
@@ -30,13 +31,14 @@ class reportController extends Controller
        
 
        $result = DB::table('fl_feedback')
-                     ->select(DB::raw('count(*) as subCat_count,SUBCAT_ID'))
+                     ->join('fl_subcategory_master', 'fl_feedback.SUBCAT_ID', '=', 'fl_subcategory_master.SUBCAT_ID')
+                     ->select(DB::raw('count(fl_subcategory_master.SUBCAT_NAME) as subCat_count,fl_subcategory_master.SUBCAT_NAME'))
                      ->where('DOMAIN_ID', '=', $id)
-                     ->groupBy('SUBCAT_ID')
-                     ->orderBy('SUBCAT_ID')
+                     ->groupBy('fl_subcategory_master.SUBCAT_NAME')
+                     ->orderBy('fl_subcategory_master.SUBCAT_ID')
                      ->get();
       
-      return response()->json(array('subcatCount'=>$result,'subcatname'=>\App\domain::find($id)->subcategories));
+      return response()->json(array('subcatCount'=>$result));
 
 
     	
@@ -71,6 +73,47 @@ class reportController extends Controller
 
       	return $resultText;
         
+      }
+
+
+      public function getReportDetails(Request $request,$id)
+      {
+  
+$resultText = "";
+
+               $resultCategory = DB::table('fl_feedback')
+                     ->join('fl_category_master', 'fl_feedback.CAT_ID', '=', 'fl_category_master.CAT_ID')
+                      ->where('fl_feedback.DOMAIN_ID', '=', $id)
+                     ->select(DB::raw('count(fl_category_master.CAT_NAME) as cat_count,fl_category_master.CAT_NAME'))
+                     ->groupBy('fl_category_master.CAT_NAME')
+                     ->orderBy('fl_feedback.CAT_ID')
+                     ->get();
+
+             $resultSubcategory = DB::table('fl_feedback')
+                     ->join('fl_subcategory_master', 'fl_feedback.SUBCAT_ID', '=', 'fl_subcategory_master.SUBCAT_ID')
+                     ->select(DB::raw('count(fl_subcategory_master.SUBCAT_NAME) as subCat_count,fl_subcategory_master.SUBCAT_NAME'))
+                     ->where('DOMAIN_ID', '=', $id)
+                     ->groupBy('fl_subcategory_master.SUBCAT_NAME')
+                     ->orderBy('fl_subcategory_master.SUBCAT_ID')
+                     ->get();
+
+              $resultRatings = DB::table('fl_feedback')
+                     ->select(DB::raw('count(*) as rating_count,RATING'))
+                     ->where('DOMAIN_ID', '=', $id)
+                     ->groupBy('RATING')
+                     ->orderBy('RATING')
+                     ->get();
+
+
+$feedbacks = \App\feedback::all();
+
+      	foreach ($feedbacks as $feedback)
+      	{
+      		$resultText = $resultText.$feedback->TEXT;
+      	}
+             return response()->json(array('resultCategory'=>$resultCategory,'resultSubcategory'=>$resultSubcategory,'resultRatings'=>$resultRatings,'feedbacktext'=>$resultText,'avgRating'=>\App\feedback::where('DOMAIN_ID',$id)->avg('RATING')));   
+    	
+
       }
 
 }
