@@ -1,0 +1,130 @@
+<style type="text/css">
+    .flSelectInput {
+        border: none;
+        border-bottom: 1px solid #E0E0E0;
+        padding: 3px;
+    }
+</style>
+
+<div class="page page-dashboard" data-ng-controller="DashboardCtrl">
+
+    <div>
+        <section class="panel panel-default panel-minimal" ng-if="dashdomains.length > 0">
+            <div class="panel-heading">
+                <!-- <span class="ui-select custSelect" style="width: 20%; background-color:white;"> -->
+                    <select ng-model="dash.domainId" ng-change="dash.onSelectDomain()" class="flSelectInput" id="domainNamesList">
+                        <option value="{{domain.DOMAIN_ID}}" data-ng-repeat="domain in dashdomains" >{{domain.DOMAIN_URL}}</option>
+                    </select>
+                <!-- </span> -->
+            </div>
+            <div class="panel-body" ng-if="domainId != ''">
+                <div class="row" ng-show="hasFeedBacks">
+                    <div class="col-lg-12">
+                        <div data-echarts data-options="pie1.options" style="height: 350px;"></div>
+                    </div>
+                </div>
+                <div class="row" ng-show="!hasFeedBacks">
+                    <div class="col-lg-7">
+                        <div class="callout callout-warning">
+                            <p>Did't find any feedback!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="panel panel-default panel-minimal" ng-if="dashdomains.length == 0">
+            <div class="panel-body">
+                <a href="#/form/flDomainAdd" class="btn btn-primary">Add Domain</a>
+                <div class="callout callout-info">
+                    <p>You dont have any domain!</p>
+                </div>
+            </div>
+        </section>
+    </div> 
+
+
+    <!-- Stats -->
+    <div class="row text-center">
+        <div class="col-lg-3 col-xsm-6">
+            <div class="panel mini-box">
+                <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-info">
+                    <span class="ti-thought"></span>
+                </span>
+                <div class="box-info">
+                    <p class="size-h2">{{categoryWiseCount[1].catCount}}</p>
+                    <p class="text-muted"><span data-translate="SUGGESTIONS"></span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xsm-6">
+            <div class="panel mini-box">
+                <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-danger">
+                    <i class="ti-face-sad"></i>
+                </span>
+                <div class="box-info">
+                    <p class="size-h2">{{categoryWiseCount[0].catCount}}</p>
+                    <p class="text-muted"><span data-translate="PROBLEMS"></span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xsm-6">
+            <div class="panel mini-box">
+                <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-warning">
+                    <i class="ti-help-alt"></i>
+                </span>
+                <div class="box-info">
+                    <p class="size-h2">{{categoryWiseCount[2].catCount}}</p>
+                    <p class="text-muted"><span data-translate="COMPLAINTS"></span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xsm-6">
+            <div class="panel mini-box">
+                <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-success">
+                    <i class="ti-layout-grid2"></i>
+                </span>
+                <div class="box-info">
+                    <p class="size-h2">{{categoryWiseCount[3].catCount}}</p>
+                    <p class="text-muted"><span data-translate="OTHERS"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end stats -->
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Users</strong></div>
+                    <!-- <div class="panel-body">
+                        <a href="#/page/flUsers" class="btn btn-primary">Add Users</a>
+                    </div> -->
+                    <ul class="list-group" ng-if="dash.users.length > 0">
+                        <li class="list-group-item" ng-repeat="userDet in dash.users">
+                            {{userDet.FIRST_NAME + ' ' + userDet.LAST_NAME}}
+                            <span class="label {{userDet.ROLE_ID == 1 ? themeColors[3] : themeColors[1]}}" style="float: right;">{{userDet.ROLE_ID == 1 ? 'Admin' : 'User'}}</span>
+                        </li>
+                    </ul>
+                   
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Domains</strong></div>
+                    <div class="panel-body" ng-if="dashdomains.length == 0">
+                        <a href="#/form/flDomainAdd" class="btn btn-primary">Add Domain</a>
+                        <div class="callout callout-info">
+                            <p>You dont have any domain!</p>
+                        </div>
+                    </div>
+                    <ul class="list-group" ng-if="dashdomains.length > 0">
+                        <li class="list-group-item" data-ng-repeat="domain in dashdomains">
+                            {{domain.DOMAIN_URL}}
+                        </li>
+                    </ul>
+                  
+            </div>
+        </div>
+    </div>
+</div>
+  

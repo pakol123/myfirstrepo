@@ -191,7 +191,7 @@ function() {
         var b, c;
         var currDate = new Date();
         b = [
-                 "dashboard", 
+                 "page/dashboard", 
                  "form/elements", 
                  "form/flDomainAdd", 
                  "page/404", 
@@ -214,10 +214,8 @@ function() {
             }, a.when(d, c), a
         }, b.forEach(function(a) {
             return c(a)
-        }), a.when("/", {
+        }),a.when("/", {
             redirectTo: "/page/signin"
-        }).when("/dashboard", {
-            templateUrl: "app/dashboard/dashboard.html"
         }).when("/404", {
             templateUrl: "app/page/404.html"
         }).otherwise({
@@ -335,7 +333,7 @@ function() {
 function() {
     "use strict";
 
-    function a(a,z, y) {
+    function a(a,z,y) {
         function b() {
             var a = Math.round(100 * Math.random());
             return a * (a % 2 == 0 ? 1 : -1)
@@ -347,37 +345,53 @@ function() {
         }
 
         a.chartColors = [a.color.primary, a.color.danger, a.color.warning, a.color.success, a.color.info];
-        a.categoryWiseCount = {};
+        a.categoryWiseCount = [
+            {catCount: 0, catName: 'Problems'},
+            {catCount: 0, catName: 'Suggestions'},
+            {catCount: 0, catName: 'Complaints'},
+            {catCount: 0, catName: 'Others'},
+        ];
         a.pieChartDataArray = [];
-        a.domains = [];
+        a.dashdomains = [];
         a.pie1 = {}, a.pie1.options = {};
         a.hasFeedBacks = false;
+        a.dash = {domainId: ''};
 
         y.getAllDomains(y.currentUser.ORG_ID).success(function(data){
-            a.domains = data.domains;
-            a.domainId = data.domains[0].DOMAIN_ID.toString();
+            a.dashdomains = data.domains;
+            a.dash.domainId = a.dashdomains[0].DOMAIN_ID.toString();
             a.getCategoryWiseCount();
         }).error(function(error){
 
         });
 
-        a.onSelectDomain = function () {
-            alert(a.domainId);
-            if(a.domainId != '') {
+        a.dash.onSelectDomain = function () {
+            alert(a.dash.domainId);
+            if(a.dash.domainId != '') {
                 a.getCategoryWiseCount();
             }
         }
 
         a.getCategoryWiseCount = function() {
             
-            z.get('public/api/report/category/'+a.domainId).success(function(data) { 
-                   a.categoryWiseCount=data.CategoryCount;
+            z.get('public/api/report/category/'+a.dash.domainId).success(function(data) { 
+                   //a.categoryWiseCount=data.CategoryCount;
                    //console.log(a.categoryWiseCount);
                    var feedbacks = 0;
                    angular.forEach(a.categoryWiseCount, function(cat, key) {
-                        feedbacks = feedbacks + cat.cat_count;
+                        var catFound = false;
+                        angular.forEach(data.CategoryCount, function(recCat, key) {
+                            if(recCat.CAT_NAME == cat.catName) {
+                                cat.catCount = recCat.cat_count;
+                                catFound = true;
+                            }
+                        });
+                        if(!catFound)
+                            cat.catCount = 0;
+
+                        feedbacks = feedbacks + cat.catCount;
                    });
-                   a.hasFeedBacks = a.categoryWiseCount.length > 0 && feedbacks > 0 ? true : false;
+                   a.hasFeedBacks = feedbacks > 0 ? true : false;
 
                    if(a.hasFeedBacks)
                         a.setPieChart();
@@ -387,16 +401,15 @@ function() {
         }
 
         a.setPieChart = function() {
-            
             a.pieChartDataArray = [];
             angular.forEach(a.categoryWiseCount, function(cat, key) {
                         var columnColor = a.chartColors[key % 5];
                         var pieChartData = {};
-                        if(cat.cat_count > 0) {
+                        if(cat.catCount > 0) {
                             pieChartData = {
-                                value: cat.cat_count,
+                                value: cat.catCount,
                                 type:'pie',
-                                name: cat.CAT_NAME,
+                                name: cat.catName,
                                 itemStyle: {
                                     normal: {
                                         color: columnColor,
@@ -451,6 +464,19 @@ function() {
                 }]
             } /*End pie*/
         }
+
+        /* User Section */
+        a.dash.users = [];
+        a.dash.getAllUsers = function() {
+            z.get('public/api/allUsers?ORG_ID='+y.currentUser.ORG_ID).success(
+                function(data){
+                    a.dash.users = data.users;
+                }).error(function(error){
+                        
+                });
+            }
+
+        a.dash.getAllUsers();
     }
     angular.module("app.dashboard").controller("DashboardCtrl", ["$scope", "$http", "$rootScope", a])
 }(),
@@ -909,7 +935,7 @@ function() {
                         d.noOfDomains = response.data.no_of_domains;
                         d.authenticated = true;
                         if(response.data.no_of_domains > 0)
-                            c.path('/dashboard');
+                            c.path('page/dashboard');
                         else
                             c.path('/form/flDomainAdd');
                   });;
@@ -925,7 +951,7 @@ function() {
 
 function() {
     "use strict";
-    function a(a,b,c,d) {
+    function a(a,b,c,d,z) {
             
             var original;
             a.domain = {
@@ -937,14 +963,20 @@ function() {
 
             a.domain.orgId= b.currentUser.ORG_ID;
             a.domain.createdBy= b.currentUser.USER_ID;
+            a.domainAvgRatings = [];
+            a.getDomains = function() {
+                b.getAllDomains(b.currentUser.ORG_ID).success(function(data){
+                    a.domains = data.domains;
+                    if(a.domains.length > 0)
+                        a.isAddDomainFormCollapsed = true;
+                    else
+                        a.isAddDomainFormCollapsed = false;
 
-            b.getAllDomains(b.currentUser.ORG_ID).success(function(data){
-                a.domains = data.domains;
-                if(a.domains.length > 0)
-                    a.isAddDomainFormCollapsed = true;
-                else
-                    a.isAddDomainFormCollapsed = false;
-            });
+                    a.domainAvgRatings = data.feedbackrating;
+                });
+            };
+
+            a.getDomains();
 
             a.canSubmit = function() {
                 return a.addDomainForm.$valid && !angular.equals(a.domain, original);
@@ -954,15 +986,61 @@ function() {
                 c.post('public/api/domain/create', a.domain).success(
                     function(data){
                         b.notify('success', "Successfully Added domain");
-                        a.domains = b.getAllDomains(b.currentUser.ORG_ID);
+                        a.getDomains();
+                        a.domain = original;
                     }).error(function(error){
                          
                         b.notify('error', "Failed to add domain");
                     });
             }
+
+            a.getDomainAvgRating = function(domainId) {
+                var avg = 0;
+                angular.forEach(a.domainAvgRatings, function(rating){
+                    if(rating.DOMAIN_ID == domainId)
+                        avg = rating.rating_count;
+                });
+
+                var flNmbr = Math.floor(avg);
+
+                if((avg - flNmbr) > 0)
+                    return {rat: avg, isFlt: true};
+                else
+                    return {rat:flNmbr, isFlt: false};    
+               
+            }
+
+            a.getNumber = function(num) {
+
+                var flNmbr = Math.floor(num);
+                var dynArray = new Array(flNmbr);
+
+                for(var i = 0; i<flNmbr; i++)
+                    dynArray[i] = i;
+                return dynArray;   
+            }
+
+            a.isDecimalPoint = function(num) {
+
+                var flNmbr = Math.floor(num);
+                if((num - flNmbr) > 0)
+                    return true;
+                else
+                    return false;    
+            }
+
+            a.feed = {};
+            a.feed.gotTo = function(type, domainId) {
+                sessionStorage.setItem('globalDomainId', domainId)
+
+                if(type == 'FD')
+                    z.path('/page/flFeedbacks');
+                else
+                    z.path('/page/flPlugin');
+            }
         }
 
-        angular.module("app.domainInfo").controller("domainInfoController", ["$scope", "$rootScope", "$http", "logger", a])
+        angular.module("app.domainInfo").controller("domainInfoController", ["$scope", "$rootScope", "$http", "logger", "$location", a])
 }(),
 
 // End domain controller
@@ -1051,7 +1129,14 @@ function() {
 
         b.getAllDomains(b.currentUser.ORG_ID).success(function(data){
             a.domains = data.domains;
-            a.domainId = data.domains.length != 1 ? '' : data.domains[0].DOMAIN_ID;
+            
+            if(parseInt(sessionStorage.getItem('globalDomainId')) > 0)
+                a.domainId = sessionStorage.getItem('globalDomainId');
+            else
+                a.domainId = data.domains.length != 1 ? '' : data.domains[0].DOMAIN_ID;
+
+            if(a.domainId > 0)
+                a.getSubCategories(a.domainId);
         }).error(function(error){
 
         });
@@ -1206,7 +1291,16 @@ function() {
         /* Service calls*/
         b.getAllDomains(b.currentUser.ORG_ID).success(function(data){
             a.domains = data.domains;
-            a.domainId = data.domains.length != 1 ? '' : data.domains[0].DOMAIN_ID;
+
+            if(parseInt(sessionStorage.getItem('globalDomainId')) > 0)
+                a.domainId = sessionStorage.getItem('globalDomainId');
+            else
+                a.domainId = data.domains.length != 1 ? '' : data.domains[0].DOMAIN_ID;
+
+            if(a.domainId > 0) {
+                a.getSubCategories();
+                a.onSelectDomain();
+            }
         }).error(function(error){
 
         });
