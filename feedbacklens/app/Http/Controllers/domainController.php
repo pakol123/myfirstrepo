@@ -84,7 +84,7 @@ class domainController extends Controller
 
             $resultRating =  DB::table('fl_feedback')
                      ->join('fl_domain', 'fl_feedback.DOMAIN_ID', '=', 'fl_domain.DOMAIN_ID')
-                     ->select(DB::raw('avg(RATING) as feedback_count,fl_domain.DOMAIN_ID'))
+                     ->select(DB::raw('avg(RATING) as rating_count,fl_domain.DOMAIN_ID'))
                      ->where('ORG_ID', '=', $id)
                      ->groupBy('fl_domain.DOMAIN_ID')
                      ->orderBy('fl_domain.DOMAIN_ID')
