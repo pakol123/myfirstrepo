@@ -45,7 +45,7 @@ public function create(Request $request)
 
     public function getFeedback(Request $request)
      {
-        Log::info(Request("domainId"));
+        
                if(Request('notification') == "0")
        {
        //$feedbacks = \App\feedback::where('DOMAIN_ID',Request('domainId'))->get();

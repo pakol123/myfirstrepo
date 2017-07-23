@@ -1,28 +1,43 @@
+<style type="text/css">
+    .flSelectInput {
+        border: none;
+        border-bottom: 1px solid #E0E0E0;
+        padding: 3px;
+    }
+</style>
+
 <div class="page page-dashboard" data-ng-controller="DashboardCtrl">
 
-    <section>
-        <section class="panel panel-default">
-            <div class="panel-body">
-                <div class="row">
+    <div>
+        <section class="panel panel-default panel-minimal" ng-if="domains.length > 0">
+            <div class="panel-heading">
+                <!-- <span class="ui-select custSelect" style="width: 20%; background-color:white;"> -->
+                    <select ng-model="domainId" ng-change="onSelectDomain()" class="flSelectInput">
+                        <option value="{{domain.DOMAIN_ID}}" data-ng-repeat="domain in domains" >{{domain.DOMAIN_URL}}</option>
+                    </select>
+                <!-- </span> -->
+            </div>
+            <div class="panel-body" ng-if="domainId != ''">
+                <div class="row" ng-show="hasFeedBacks">
                     <div class="col-lg-7">
                         <div data-echarts data-options="pie1.options" style="height: 350px;"></div>
                     </div>
-                    <!-- <div class="col-lg-5">
-                        <h3 class="text-thin">Statistics</h3>
-                        <div class="divider divider-lg divider-dashed"></div>
-                        <p>Bounce Rate</p>
-                        <uib-progressbar class="progressbar-xs progress-rounded" value="34" type="success"></uib-progressbar>
-                        <p>New Visists</p>
-                        <uib-progressbar class="progressbar-xs progress-rounded" value="68" type="info"></uib-progressbar>
-                        <p>Search Traffic</p>
-                        <uib-progressbar class="progressbar-xs progress-rounded" value="52" type="warning"></uib-progressbar>
-                        <p>Modern Browsers</p>
-                        <uib-progressbar class="progressbar-xs progress-rounded" value="77" type="danger"></uib-progressbar>                        
-                    </div> -->
+                </div>
+                <div class="row" ng-show="!hasFeedBacks">
+                    <div class="col-lg-7">
+                        <div class="callout callout-warning">
+                            <p>Did't find any feedback!</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
-    </section> 
+        <section class="panel panel-default panel-minimal" ng-if="domains.length == 0">
+            <div class="panel-body">
+                
+            </div>
+        </section>
+    </div> 
 
 
     <!-- Stats -->

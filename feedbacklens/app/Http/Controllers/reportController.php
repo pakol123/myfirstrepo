@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Log;
 
 class reportController extends Controller
 {
@@ -10,7 +11,7 @@ class reportController extends Controller
 
     public function getCategoryCount(Request $request, $id)
     {
-      
+      Log::info($id);
 
          $result = DB::table('fl_feedback')
                      ->join('fl_category_master', 'fl_feedback.CAT_ID', '=', 'fl_category_master.CAT_ID')

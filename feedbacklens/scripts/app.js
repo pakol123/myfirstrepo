@@ -22,6 +22,7 @@
         "app.users",
         "app.feedbacks",
         "app.plugin",
+        "app.dashboard"
         ])
 }(),
 
@@ -68,6 +69,11 @@ function() {
 function() {
     "use strict";
     angular.module("app.plugin", [])
+}(),
+
+function() {
+    "use strict";
+    angular.module("app.dashboard", [])
 }(),
 
 
@@ -329,7 +335,7 @@ function() {
 function() {
     "use strict";
 
-    function a(a,z) {
+    function a(a,z, y) {
         function b() {
             var a = Math.round(100 * Math.random());
             return a * (a % 2 == 0 ? 1 : -1)
@@ -340,22 +346,57 @@ function() {
             return a
         }
 
-        a.chartColors = [a.color.success, a.color.primary, a.color.danger, a.color.warning, a.color.info];
+        a.chartColors = [a.color.primary, a.color.danger, a.color.warning, a.color.success, a.color.info];
         a.categoryWiseCount = {};
         a.pieChartDataArray = [];
+        a.domains = [];
+        a.pie1 = {}, a.pie1.options = {};
+        a.hasFeedBacks = false;
+
+        y.getAllDomains(y.currentUser.ORG_ID).success(function(data){
+            a.domains = data.domains;
+            a.domainId = data.domains[0].DOMAIN_ID.toString();
+            a.getCategoryWiseCount();
+        }).error(function(error){
+
+        });
+
+        a.onSelectDomain = function () {
+            alert(a.domainId);
+            if(a.domainId != '') {
+                a.getCategoryWiseCount();
+            }
+        }
+
         a.getCategoryWiseCount = function() {
-            z.get('public/api/report/category/'+9).success(function(data) {
+            
+            z.get('public/api/report/category/'+a.domainId).success(function(data) { 
                    a.categoryWiseCount=data.CategoryCount;
-                   
-                   //console.log(data);
+                   //console.log(a.categoryWiseCount);
+                   var feedbacks = 0;
                    angular.forEach(a.categoryWiseCount, function(cat, key) {
+                        feedbacks = feedbacks + cat.cat_count;
+                   });
+                   a.hasFeedBacks = a.categoryWiseCount.length > 0 && feedbacks > 0 ? true : false;
+
+                   if(a.hasFeedBacks)
+                        a.setPieChart();
+
+                }).error(function(error){
+            });
+        }
+
+        a.setPieChart = function() {
+            
+            a.pieChartDataArray = [];
+            angular.forEach(a.categoryWiseCount, function(cat, key) {
                         var columnColor = a.chartColors[key % 5];
                         var pieChartData = {};
                         if(cat.cat_count > 0) {
                             pieChartData = {
                                 value: cat.cat_count,
                                 type:'pie',
-                                name: cat.CAT_ID,
+                                name: cat.CAT_NAME,
                                 itemStyle: {
                                     normal: {
                                         color: columnColor,
@@ -375,29 +416,30 @@ function() {
                                 }
                             }
                             
-                              a.pieChartDataArray.push(pieChartData);
+                            a.pieChartDataArray.push(pieChartData);
                         }
-                    });
-                   //alert(JSON.stringify(a.pieChartDataArray));
-                   a.setPieChart();
-                }).error(function(error){
-            });
+             });
+            a.setPieChartOptions();
         }
 
-        a.getCategoryWiseCount();
-
-        a.setPieChart = function() {
-
+        a.setPieChartOptions = function() {
             /*Pie*/
             a.pie1 = {}, a.pie1.options = {
                 animation: !0,
-                title: {
-                    text: "Status",
+                /*title: {
+                    text: "<h1>Title</h1>",
                     x: "left"
-                },
+                },*/
                 tooltip: {
                     trigger: "item",
                     formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        restore : {show: true, title: "restore"},
+                        saveAsImage : {show: true, title: "save as image"}
+                    }
                 },
                 calculable: !0,
                 series: [{
@@ -408,10 +450,9 @@ function() {
                     data: a.pieChartDataArray
                 }]
             } /*End pie*/
-
         }
     }
-    angular.module("app").controller("DashboardCtrl", ["$scope", "$http", a])
+    angular.module("app.dashboard").controller("DashboardCtrl", ["$scope", "$http", "$rootScope", a])
 }(),
 
 function() {
