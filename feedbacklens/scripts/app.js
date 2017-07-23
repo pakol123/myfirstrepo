@@ -356,17 +356,21 @@ function() {
         a.pie1 = {}, a.pie1.options = {};
         a.hasFeedBacks = false;
         a.dash = {domainId: ''};
+        a.domainAvgRatings = [];
+        a.feedbackCounts = [];
 
         y.getAllDomains(y.currentUser.ORG_ID).success(function(data){
             a.dashdomains = data.domains;
             a.dash.domainId = a.dashdomains[0].DOMAIN_ID.toString();
             a.getCategoryWiseCount();
+
+            a.domainAvgRatings = data.feedbackrating;
+            a.feedbackCounts = data.feedbackCount
         }).error(function(error){
 
         });
 
         a.dash.onSelectDomain = function () {
-            alert(a.dash.domainId);
             if(a.dash.domainId != '') {
                 a.getCategoryWiseCount();
             }
@@ -477,6 +481,43 @@ function() {
             }
 
         a.dash.getAllUsers();
+
+
+        /* Show Rating stars*/
+        a.getDomainAvgRating = function(domainId) {
+                var avg = 0;
+                angular.forEach(a.domainAvgRatings, function(rating){
+                    if(rating.DOMAIN_ID == domainId)
+                        avg = rating.rating_count;
+                });
+
+                var flNmbr = Math.floor(avg);
+
+                if((avg - flNmbr) > 0)
+                    return {rat: avg, isFlt: true};
+                else
+                    return {rat:flNmbr, isFlt: false};    
+               
+            }
+
+            a.getNumber = function(num) {
+
+                var flNmbr = Math.floor(num);
+                var dynArray = new Array(flNmbr);
+
+                for(var i = 0; i<flNmbr; i++)
+                    dynArray[i] = i;
+                return dynArray;   
+            }
+
+            a.isDecimalPoint = function(num) {
+
+                var flNmbr = Math.floor(num);
+                if((num - flNmbr) > 0)
+                    return true;
+                else
+                    return false;    
+            }
     }
     angular.module("app.dashboard").controller("DashboardCtrl", ["$scope", "$http", "$rootScope", a])
 }(),
@@ -964,6 +1005,7 @@ function() {
             a.domain.orgId= b.currentUser.ORG_ID;
             a.domain.createdBy= b.currentUser.USER_ID;
             a.domainAvgRatings = [];
+            a.feedbackCount = [];
             a.getDomains = function() {
                 b.getAllDomains(b.currentUser.ORG_ID).success(function(data){
                     a.domains = data.domains;
@@ -973,6 +1015,7 @@ function() {
                         a.isAddDomainFormCollapsed = false;
 
                     a.domainAvgRatings = data.feedbackrating;
+                    a.feedbackCounts = data.feedbackCount
                 });
             };
 
@@ -992,6 +1035,17 @@ function() {
                          
                         b.notify('error', "Failed to add domain");
                     });
+            }
+
+            a.getDomainFeedbacks = function(domainId) {
+                var noOfFeedBAcks = 0;
+                angular.forEach(a.feedbackCounts, function(feedBack){
+                    if(feedBack.DOMAIN_ID == domainId)
+                        noOfFeedBAcks = feedBack.feedback_count;
+                });
+
+                return noOfFeedBAcks;    
+               
             }
 
             a.getDomainAvgRating = function(domainId) {

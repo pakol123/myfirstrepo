@@ -4,6 +4,20 @@
         border-bottom: 1px solid #E0E0E0;
         padding: 3px;
     }
+    .flDomainStars {
+        list-style-type: none;
+        display: block;
+        float: right;
+        padding: 2px 8px;
+    }    
+        
+    .flDomainStars > li{
+        float: left;        
+    }
+
+    .flDomainStars > li > i{
+        color: #FFEB3B;        
+    }
 </style>
 
 <div class="page page-dashboard" data-ng-controller="DashboardCtrl">
@@ -16,8 +30,12 @@
                         <option value="{{domain.DOMAIN_ID}}" data-ng-repeat="domain in dashdomains" >{{domain.DOMAIN_URL}}</option>
                     </select>
                 <!-- </span> -->
+                <ul class="flDomainStars">
+                    <li ng-repeat="i in getNumber(getDomainAvgRating(dash.domainId).rat)"><i class="fa fa-star fa-2x"></i></li>
+                    <li ng-if="isDecimalPoint(getDomainAvgRating(dash.domainId).rat)"><i class="fa fa-star-half fa-2x"></i></li>
+                </ul>
             </div>
-            <div class="panel-body" ng-if="domainId != ''">
+            <div class="panel-body" ng-if="dash.domainId != ''">
                 <div class="row" ng-show="hasFeedBacks">
                     <div class="col-lg-12">
                         <div data-echarts data-options="pie1.options" style="height: 350px;"></div>
