@@ -50,7 +50,7 @@ class domainController extends Controller
       $domain->DOMAIN_URL = request('domainName');
       $domain->DOMAIN_SECTOR=request('domainSector');
       $domain->START_DATE= Carbon::now();
-      $domain->CREATED_BY = request('createdBy');
+      $domain->CREATED_BY = 1;
       $domain->Save();
       
 
@@ -74,8 +74,25 @@ class domainController extends Controller
     {
 
            $domains =  \App\domain::all()->where('ORG_ID',$id);
+           $resultFeedback = DB::table('fl_feedback')
+                     ->join('fl_domain', 'fl_feedback.DOMAIN_ID', '=', 'fl_domain.DOMAIN_ID')
+                     ->select(DB::raw('count(*) as feedback_count,fl_domain.DOMAIN_ID'))
+                     ->where('ORG_ID', '=', $id)
+                     ->groupBy('fl_domain.DOMAIN_ID')
+                     ->orderBy('fl_domain.DOMAIN_ID')
+                     ->get();
 
-           return response()->json(array('domains'=>$domains));
+            $resultRating =  DB::table('fl_feedback')
+                     ->join('fl_domain', 'fl_feedback.DOMAIN_ID', '=', 'fl_domain.DOMAIN_ID')
+                     ->select(DB::raw('avg(RATING) as feedback_count,fl_domain.DOMAIN_ID'))
+                     ->where('ORG_ID', '=', $id)
+                     ->groupBy('fl_domain.DOMAIN_ID')
+                     ->orderBy('fl_domain.DOMAIN_ID')
+                     ->get();        
+
+
+
+           return response()->json(array('domains'=>$domains,'feedbackCount'=>$resultFeedback,'feedbackrating'=>$resultRating));
 
     }
 

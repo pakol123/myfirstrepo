@@ -1,0 +1,1150 @@
+
+<!DOCTYPE html>
+
+
+
+
+
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+<meta charset="utf-8" />
+<title>UrbanBonds</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<meta content="www.urbanbonds.com" name="author" />
+
+<meta name="description"
+	content="India's most comprehensive Society Management and Accounting software. Perfect for managing day-to-day operations for Co-operative Housing Societies, Apartment Owners Associations, Residential Management Firms and Facility Management companies." />
+<meta name="keyphrases"
+	content="society accounting software, society management system, software for residential societies, accounting and management portal, web based society management software, web based apartment management software" />
+<meta name="keywords"
+	content="society management software, society management system, society management services, Society Management System, Society Management Software, Society Accounting, Co-operative Housing Society Management, Apartment Owners Associations, Society Managing Committee, Society Management, Apartment Management, Community Management, Society Bookkeeping, Amenity Management, Comprehensive & Cost-effective accounting" />
+
+<meta name="robots" content="all, index, follow" />
+<meta name="distribution" content="global" />
+<meta name="rating" content="general" />
+
+<meta http-equiv="Cache-Control"
+	content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+
+<link rel="stylesheet"
+	href="/assets/new_home_resources/css/normalize.min.css">
+<link rel="stylesheet"
+	href="/assets/new_home_resources/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="/assets/new_home_resources/css/jquery.fancybox.css">
+<link rel="stylesheet"
+	href="/assets/new_home_resources/css/flexslider.css">
+<link rel="stylesheet"
+	href="/assets/new_home_resources/css/styles.css">
+<link rel="stylesheet"
+	href="/assets/new_home_resources/css/queries.css">
+<link rel="stylesheet"
+	href="/assets/new_home_resources/css/etline-font.css">
+<link rel="stylesheet"
+	href="/assets/new_home_resources/bower_components/animate.css/animate.min.css">
+<!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"> -->
+
+<link
+	href="/assets/plugins/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css" />
+<!-- Always put below all other css files -->
+<link rel="stylesheet"
+	href="/assets/new_home_resources/css/ubHomeDarkTheme.css">
+
+<script
+	src="/assets/new_home_resources/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+<script src="/assets/plugins/jquery-1.10.2.min.js"
+	type="text/javascript"></script>
+<script src="/assets/plugins/jquery-migrate-1.2.1.min.js"
+	type="text/javascript"></script>
+<!-- counter up -->
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script> -->
+<script
+	src="/assets/new_home_resources/js/ubHomeCounterUp.js?verson=2"></script>
+<script type="text/javascript"
+	src="/common/scripts/maxlength.js"></script>
+<script type="text/javascript"
+	src="/common/scripts/ss-validate.js"></script>
+<!-- features slider Javascript -->
+<script src="/assets/new_home_resources/js/ubFeaturesSlide.js"></script>
+
+<link rel="shortcut icon" href="/favicon.png" />
+
+<script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-70492076-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<script type="text/javascript">
+	    var drawerOpenCount1;
+	    var drawerOpenCount2;
+	    var slideCount;
+	    var slideWidth;
+	    var slideHeight;
+	    var sliderUlWidth;
+	    var docViewTop;
+	    var docViewBottom;
+        var macLeft; 
+        var ipadLeft; 
+        var macLeft; 
+        var macLeft;
+        
+        var drawerTimeOut30Sec = 30000;
+        var drawerTimeOut2Min = 120000;
+        var drawerTimeOut5Sec = 5000;
+        
+	    $(document).ready(function() {
+	        drawerOpenCount1 = 0;
+	        drawerOpenCount2 = 0;
+	        setDrawerTimeOut1(drawerTimeOut30Sec);
+	        
+	        // Set window properties
+	        docViewTop = $(window).scrollTop();
+	        docViewBottom = docViewTop + $(window).height();
+	
+	        // Background video setup
+	        $("#ubPlayVidBtnContainer").click(function() {
+	        	if ($("#idContactUsContainer").hasClass("ssDrawerOpen")) {
+                    toggleDrawer(0);
+                }
+	        	
+	            if ($("#ubHomeVideo").get(0).paused) {
+	                $("#ubPlayVidButton").html("<i class='fa fa-pause fa-4x'></i>");
+	                $("#ubHomeVideo").get(0).play();
+	                $("#ubPlayVidButton").animate({
+	                    opacity: 0.9,
+	                }, 500, function() {
+	                    $("#ubPlayVidButton").animate({
+	                        opacity: 0,
+	                    }, 500, function() {
+	    
+	                    });
+	                });
+	            } else {
+	                if (drawerOpenCount1 == 0) {
+	                    setDrawerTimeOut1(drawerTimeOut5Sec);
+	                }
+	                
+	                $("#ubHomeVideo").get(0).pause();
+	                $("#ubPlayVidButton").html("<i class='fa fa-play fa-4x'></i><br/><span style='display: inline-block; background-color: rgba(0, 0, 0, 0.5); padding: 4px; box-shadow: 1px 1px 4px 4px rgba(0, 0, 0, 0.5);'>Play</span>");
+	                $("#ubPlayVidButton").css("opacity", "0.9");
+	            }
+	            
+	        });
+	        
+	        // set initial slider properties
+	        slideCount = $('.ubSliderLI').length;
+	        
+            // Set slider properties
+            setSliderCssPropertis();
+	        
+	        // Move slide continuesly
+	        setInterval(function() {
+	            moveRight();
+	        }, 5000);
+	
+	        $('button.controlPrevFeature').click(function() {
+	            moveLeft();
+	        });
+	
+	        $('button.controlNextFeature').click(function() {
+	            moveRight();
+	        });
+	
+	        // drawer JS
+	        // Show 'reach us' dialog if user stays on page for 10 seconds long.
+	
+	        $("#personName").val('');
+	        $("#subject").val('');
+	        $("#description").val('');
+	        $("#email").val('');
+	        $("#contactNo").val('');
+	        // Sets the Maximum length of narration..
+	        setformfieldsize($('#description'), 1000, 'charremain');
+	
+	        $("#back").click(function() {
+	            location.href = "/ssController";
+	        });
+	
+	        $("#submitBtn").click(function() {
+	            if (isEmpty('#personName', '#alertBox', '')) {
+	                showError('Enter name');
+	                $("#personName").focus();
+	                return false;
+	            }
+	            if (!isValidString('#personName', 'A-Za-z\s', '#alertBox', '')) {
+	                showError('Enter only alphabets in name');
+	                $("#personName").focus();
+	                return false;
+	            }
+	            if (isEmpty('#subject', '#alertBox', '')) {
+	                showError('Enter subject');
+	                $("#subject").focus();
+	                return false;
+	            }
+	            if (isEmpty('#description', '#alertBox', '')) {
+	                showError('Enter description');
+	                $("#description").focus();
+	                return false;
+	            }
+	            if (isEmpty('#email', '#alertBox', '')) {
+	                showError('Enter email id');
+	                $("#email").focus();
+	                return false;
+	            }
+	            if (!emailValidator1('#email')) {
+	                showError('Enter valid email id');
+	                $("#email").focus();
+	                return false;
+	            }
+	            if (isEmpty('#contactNo', '#alertBox', '')) {
+	                showError('Enter contact number');
+	                $("#contactNo").focus();
+	                return false;
+	            }
+	            if (!isValidString('#contactNo', '0-9', '#alertBox', '')) {
+	                showError('Enter only digits in contact number');
+	                return false;
+	            }
+	
+	            sendMailOnContactUs();
+	        });
+	
+	        $("#drawerActionBtnId").click(function() {
+	            toggleDrawer(0);
+	        });
+	
+	        $("#idUbDrawerClose").click(function() {
+	            toggleDrawer(0);
+	        });
+	
+	        // counter up
+	        if( jQuery(".ubCounterSection").length != '' ){
+	            jQuery('.ubCounterSection .count').counterUp({
+	                delay: 50,
+	                time: 5000
+	            });
+	        }
+	        
+	     // Animate devices(iphone, ipad etc.images) from right to left
+	        macLeft = $("#idImgMac").css("left");
+            ipadLeft = $("#idImgIpad").css("left");
+            iphoneLeft = $("#idImgIphone").css("left");
+            macBookLeft = $("#idImgMacBook").css("left");
+            
+            $("#idImgMac").css("left", "1000px");
+            $("#idImgIpad").css("left", "1000px");
+            $("#idImgIphone").css("left", "1000px");
+            $("#idImgMacBook").css("left", "1000px");
+	        
+            $("#idUbStory").waypoint(animateDevices, {
+                offset: "100%",
+                triggerOnce: !0
+            });
+            
+            $(".nav-toggle").click(function() {
+            	showHideReachUsDrawer();
+            });
+            
+            $(".ubTopMenuItems").click(function() {
+            	showHideReachUsDrawer();
+            });
+            
+            $("#ubHomeVideo").on('ended',function(){
+            	if ($("#ubHomeVideo").get(0).paused && drawerOpenCount1 == 0) {
+            		setDrawerTimeOut1(drawerTimeOut5Sec);
+                }
+            	changeVideoSource();
+            });
+            
+            /***************** Initiate Flexslider ******************/
+            $('.flexslider').flexslider({
+                animation: "slide"
+            });
+            
+            $(window).resize(function(){
+            	setSliderCssPropertis();
+            });
+	    });
+
+	    function showHideReachUsDrawer(){
+	    	 var isMenuOpen = $('.header-nav').hasClass('open');
+             if(isMenuOpen) {
+            	 $('#idContactUsContainer').fadeIn();
+             } else {
+            	 $('#idContactUsContainer').hide();  
+             }
+	    }
+	    
+	    function setSliderCssPropertis(){
+	    	var windowWidth = $(window).width();
+            if(windowWidth <= 800 && windowWidth > 580){
+                $(".ubFeaturesLI").css("width", "50%");
+            } else if(windowWidth > 800){
+                $(".ubFeaturesLI").css("width", "33%");
+            } else if(windowWidth < 580){
+                $(".ubFeaturesLI").css("width", "100%");
+            }
+            
+	    	 // set properties of features section slider
+            featutersSlideRow = $("#featutersSlideRow").width();
+            slideWidth = featutersSlideRow;
+            slideHeight = $('.ubSliderLI').height();
+            sliderUlWidth = slideCount * slideWidth;
+    
+            $('.ubSliderLI').css({
+                width: slideWidth
+            });
+    
+            $('#slider').css({
+                width: slideWidth,
+                minHeight: slideHeight
+            });
+    
+            $('.ubSliderUL').css({
+                width: sliderUlWidth,
+                marginLeft: -slideWidth
+            });
+    
+            $('.ubSliderLI:last-child').prependTo('.ubSliderUL');
+	    }
+	
+	    // Animate devices(iphone, ipad etc.images) from right to left
+	       function animateDevices(){
+	    	   
+	    	   $("#idImgMac").animate({
+	    		   left : macLeft
+	    	   }, 1000);
+	    	   
+	    	   $("#idImgIpad").animate({
+                   left : ipadLeft
+               }, 800);
+	    	   
+	    	   $("#idImgIphone").animate({
+                   left : iphoneLeft
+               }, 1500);
+	    	   
+	    	   $("#idImgMacBook").animate({
+                   left : macBookLeft
+               }, 2000);
+	    	   
+	    	   this.destroy();
+	        }
+	       
+	    function toggleDrawer(openedInTime) {
+	        if ($("#idContactUsContainer").hasClass("ssDrawerClosed")) {
+	            $("#idContactUsContainer").removeClass("ssDrawerClosed");
+	            $("#idContactUsContainer").addClass("ssDrawerOpen");
+	            $(".ssDrawerInner").css("margin-top", "0%");
+	            $(".ssDrawerInner").css("border-top-left-radius", "0px");
+	            /* $("#idUbDrawerClose").hide(); */
+	            $("#divInfoBox").hide();
+	            
+	            
+	            $("#divTableContactUs").fadeIn();
+	            showHideLoading(false);
+	            $("submitBtn").prop("disabled", false);
+	            $("#divInfoBox").html('');
+	            $("#charremain").html('0');
+	            drawerTitle = "Write to Us";
+	            $("#drawerTitle").css("font-size", "14px");
+	            if(openedInTime == 0) {
+	            	drawerOpenCount1 = drawerOpenCount1 + 1;
+	            } else if(openedInTime > 0 && openedInTime <= drawerTimeOut30Sec){
+	            	drawerOpenCount1 = drawerOpenCount1 + 1;
+	            } else if(openedInTime == drawerTimeOut2Min){
+	            	drawerOpenCount2 = drawerOpenCount2 + 1;
+	            	drawerTitle = "Interested?<br/>Get a live demo now.";
+	            	$("#drawerTitle").css("font-size", "13px");
+	            }
+	
+	            $("#drawerTitle").html(drawerTitle);
+	            $("#drawerTitle").fadeIn();
+	            
+	        } else if ($("#idContactUsContainer").hasClass("ssDrawerOpen")) {
+	            $("#idContactUsContainer").removeClass("ssDrawerOpen");
+	            $("#idContactUsContainer").addClass("ssDrawerClosed");
+	            $("#divInfoBox").hide();
+	            $("#drawerTitle").fadeIn();
+	            $("#divTableContactUs").fadeIn();
+	            $(".ssDrawerInner").css("margin-top", "0%");
+	            $(".drawerActionBtn").fadeIn();
+	            /*  $(".drawerActionBtn").css("top", $(".ssDrawerInner").css("top")); */
+	            $("#drawerTitle").text("Write to Us");
+                $("#drawerTitle").fadeIn();
+	        }
+	    }
+	
+	    function sendMailOnContactUs() {
+	        $("submitBtn").prop("disabled", true);
+	        showHideLoading(true);
+	        $.ajax({
+	            url: '/ssController',
+	            dataType: "json",
+	            async: false,
+	            data: {
+	                operation: 442 ,
+	                pageType : "public",
+	                personName: $("#personName").val(),
+	                subject: $("#subject").val(),
+	                description: $("#description").val(),
+	                email: $("#email").val(),
+	                contactNo: $("#contactNo").val()
+	            },
+	            success: function(data) {
+	                $(".ssDrawerInner").css("margin-top", "40%");
+	                $(".ssDrawerInner").css("border-top-left-radius", "10px");
+	                var msgString = "Thank you for contacting us, we will get back to you shortly.";
+	                $("#drawerTitle").hide();
+	                $("#divTableContactUs").hide();
+	                $("#divInfoBox").css({color: 'black', fontWeight: 600, fontSize: '14px'});
+	                $("#divInfoBox").fadeIn();
+	                // Display text one by one character.
+	                showText("#divInfoBox", msgString, 0, 100);
+	                $(".drawerActionBtn").hide();
+	                $("#idUbDrawerClose").show();
+	                clearInputs();
+	
+	            },
+	            error: function(data) {
+	                showHideLoading(false);
+	                $("submitBtn").prop("disabled", false);
+	                showError('Something went wrong, please try again!');
+	            }
+	        });
+	    }
+	    var showText = function(target, message, index, interval) {
+	        if (index < message.length) {
+	            $(target).append(message[index++]);
+	            setTimeout(function() {
+	                showText(target, message, index, interval);
+	            }, interval);
+	        }
+	    }
+	
+	    function emailValidator1(element) {
+	        var elem = $(element).val();
+	        if (elem.length != 0) {
+	            var emailExp = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+	            if (elem.match(emailExp)) {
+	                return true;
+	            } else {
+	                return false;
+	            }
+	        } else {
+	            return true;
+	        }
+	    }
+	
+	    function showError(errorMsg) {
+	        $("#divInfoBox").css('font-size', '14px');
+	        $("#divInfoBox").css('color', '#f44336');
+	        $("#divInfoBox").text("*" + errorMsg);
+	        $("#divInfoBox").fadeIn();
+	        setTimeout(function() {
+	            $("#divInfoBox").fadeOut();
+	            $("#divInfoBox").text('');
+	            $("#divInfoBox").css('font-size', '20px');
+	            $("#divInfoBox").css('color', '#f44336');
+	        }, 3000);
+	    }
+	
+	    function showHideLoading(show) {
+	        if (show) {
+	            $("submitBtn").hide();
+	            $("ssLoadinIcon").fadeIn();
+	        } else {
+	            $("ssLoadinIcon").hide();
+	            $("submitBtn").fadeIn();
+	        }
+	    }
+	
+	    function clearInputs() {
+	        $(".form-control").each(function(index) {
+	            $(this).val('');
+	        });
+	    }
+	
+	    function moveLeft() {
+	        $('.ubSliderUL').animate({
+	            left: +slideWidth
+	        }, 300, function() {
+	            $('.ubSliderLI:last-child').prependTo('.ubSliderUL');
+	            $('.ubSliderUL').css('left', '');
+	        });
+	    };
+	
+	    function moveRight() {
+	        $('.ubSliderUL').animate({
+	            left: -slideWidth
+	        }, 300, function() {
+	            $('.ubSliderUL').css('left', '');
+	            $('.ubSliderLI:first-child').appendTo('.ubSliderUL');
+	        });
+	    };
+	
+	    // Set drawer time out to open when video is paused/stoped
+	    function setDrawerTimeOut1(drawerTimeOut) {
+	            setTimeout(
+	                function() {
+	                    if ($("#ubHomeVideo").get(0).paused && drawerOpenCount1 == 0) {
+	                        toggleDrawer(drawerTimeOut);
+	                        setDrawerTimeOut2(drawerTimeOut2Min);
+	                    }
+	                },
+	                drawerTimeOut
+	            );
+	    }
+	    
+	    function setDrawerTimeOut2(drawerTimeOut) {
+            setTimeout(
+                function() {
+                	
+                    if ($("#ubHomeVideo").get(0).paused && drawerOpenCount2 == 0 && drawerOpenCount1 > 0) {
+                    	if ($("#idContactUsContainer").hasClass("ssDrawerClosed")) {
+                    	    toggleDrawer(drawerTimeOut);
+                    	 }
+                    }
+                },
+                drawerTimeOut
+            );
+        }
+	    
+	    function changeVideoSource(){
+	    	var sourceString = $("#idVideoSource").attr("src");
+	    	var videoName = sourceString.substring(sourceString.lastIndexOf("/")+1,sourceString.lastIndexOf("?"));
+	    	if(videoName == 'UrbanBonds-video.mp4') {
+	    		videoName = 'UrbanBonds_Billing_And_Payments_Video.mp4';		
+	    	} else {
+	    		videoName = 'UrbanBonds-video.mp4';
+	    	}
+	    	
+	    	var videoPath = "/assets/new_home_resources/" + videoName + "?autoplay=1";
+	    	$("#idVideoSource").attr("src", videoPath);
+            $("#ubHomeVideo")[0].load();
+            $("#ubPlayVidButton").html("<i class='fa fa-play fa-4x'></i><br/><span style='display: inline-block; background-color: rgba(0, 0, 0, 0.5); padding: 4px; box-shadow: 1px 1px 4px 4px rgba(0, 0, 0, 0.5);'>Play</span>");
+            $("#ubPlayVidButton").css("opacity", "0.9");
+	    }
+	</script>
+</head>
+<body id="top">
+	<!--[if lt IE 8]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+	<section class="hero">
+		<section class="navigation ubHeaderGradient">
+			<header>
+				<div class="header-content">
+
+					<div class="logo">
+						<a href=""><img
+							src="/assets/img/logo_blue.png" alt="Sedna logo"
+							style="height: 45px"></a>
+					</div>
+					<div class="header-nav">
+						<nav>
+							<ul class="primary-nav">
+								<li><a href="#idTestimonial" class="ubTopMenuItems">Testimonials</a></li>
+								<li><a href="#idFeatures" class="ubTopMenuItems">Features</a></li>
+								<li><a href="#idUbCounts" class="ubTopMenuItems">Numbers Speak</a></li>
+								<li><a href="#idUbAbout" class="ubTopMenuItems">About Us</a></li>
+								<li><a href="#idUbStory" class="ubTopMenuItems">Why Urbanbonds?</a></li>
+								<li><a href="#idUbFooter" class="ubTopMenuItems">Contact Us</a></li>
+								<!-- <li>
+			                                    <a style="text-transform: capitalize; font-size: 14px;">
+                                                 Sales&nbsp;&nbsp;+91 98819-00242 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Support&nbsp;&nbsp;+91 98902 35901
+			                                    </a>
+			                                </li> -->
+							</ul>
+							<ul class="member-actions">
+								
+								<li><a href="/login.jsp"
+									class="btn-white btn-small">&nbsp;&nbsp;Log in&nbsp;</a></li>
+								<!-- <li><a href="#download" class="login">Log in</a></li> -->
+								<!-- <li><a href="#download" class="btn-white btn-small">Sign up</a></li> -->
+							</ul>
+						</nav>
+					</div>
+					<div class="navicon">
+						<a class="nav-toggle" href="#"><span></span></a>
+					</div>
+				</div>
+			</header>
+		</section>
+		<div class="container">
+			<div class="video">
+				<div
+					style="display: table; width: 100%; height: 100%; position: absolute; text-align: center; z-index: 2015;"
+					align="center">
+					<span id="ubPlayVidBtnContainer"
+						style="display: table-cell; color: #E0E0E0; z-index: 2011;">
+						<span id="ubPlayVidButton"
+						style="display: inline-block; cursor: pointer; position: absolute; z-index: 2010; top: 50%; right: 47%">
+							<i class='fa fa-play fa-4x'></i><br />
+						<span style="display: inline-block; background-color: rgba(0, 0, 0, 0.5); padding: 2px; box-shadow: 1px 1px 4px 4px rgba(0, 0, 0, 0.5);">Play</span>
+					</span>
+					</span>
+				</div>
+				<video id="ubHomeVideo" width="100%" height="100%" frameborder="0"
+					style="display: table-cell; width: 100%; height: 100%;">
+					<source id="idVideoSource" src="/assets/new_home_resources/UrbanBonds-video.mp4?autoplay=1" type="video/mp4">
+				</video>
+			</div>
+			<!--  <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="hero-content text-center">
+                        <h1>Complete peace of mind!</h1>
+                        <p class="intro">UrbanBonds offers India's most comprehensive Society Management and Accounting software services.</p>
+                        <a href="#" class="btn btn-accent btn-large">Learn more</a>
+                    </div>
+                </div>
+            </div> -->
+		</div>
+		<div class="ubDownArrow floating-arrow">
+			<a href="#idTestimonial" style="color: white"><i
+				class="fa fa-angle-down"></i></a>
+		</div>
+	</section>
+
+	<!-- Testimonials Section -->
+
+	<section class="testimonial-slider text-center" id="idTestimonial"
+		style="padding: 80px">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="flexslider">
+						<ul class="slides">
+							<li>
+								<div class="avatar">
+									<img src="/assets\img\people\anurag_dubey.jpg"
+										alt="Sedna Testimonial Avatar">
+								</div>
+								<h3>
+									"With the help of Urban Bonds, we have been able to connect all
+									our society members across the globe. It was difficult reaching
+									them earlier to remind them on payments or passing on important
+									notices. Now it is possible in matter of seconds." <br /> <br />
+									"Excellent service & support by the team of Urban Bonds &
+									economical too. A must try for residential societies."
+								</h3>
+								<p class="author">Anurag Dubey, Secretary, Sai Vihar
+									Residency Condominium.</p>
+							</li>
+							<li>
+								<div class="avatar">
+									<img src="/assets\img\people\kenneth_dsa.jpg"
+										alt="Sedna Testimonial Avatar">
+								</div>
+								<h3>The accounting package is very good and we can see all
+									the ledger records, the balance sheet is updated with every
+									entry done. The software is simple to use. We have had
+									remarkable success with getting our dues collected and we hope
+									to reduce our dues to zero this year.</h3>
+								<p class="author">Kenneth D'Sa, Chairman, Crystal Garden
+									Apartments</p>
+							</li>
+							<li>
+								<div class="avatar">
+									<img src="/assets\img\people\vivek_titarmare.jpg"
+										alt="Sedna Testimonial Avatar">
+								</div>
+								<h3>UrbanBonds software is really up to the mark in all
+									areas. With a society of 1,000 plus flats one can imagine that
+									I had to be always on my toes. With UB, most of the questions
+									are answered automatically and we can keep track of all the
+									queries asked and resolved. A graphical representation within
+									seconds tell me the story of the situation and I can act
+									accordingly.</h3>
+								<p class="author">Vivek Titarmare, Chairman, Rose Icon,
+									Apartments</p>
+							</li>
+							<li>
+								<div class="avatar">
+									<img src="/assets\img\people\sandeep_mandge.jpg"
+										alt="Sedna Testimonial Avatar">
+								</div>
+								<h3>
+									"Initially we were hesitant to move away from our traditional
+									desktop software but UB team closely worked with us and
+									supported for all our queries and concerns and it was smooth
+									transition from Tally to UrbanBonds."<br /> "Thank you UB team
+									for all your support and making great software which is simple
+									yet powerful."
+								</h3>
+								<p class="author">Sandeep Mandge, Treasurer, Prakrtii CHS
+									Ltd</p>
+							</li>
+							<li>
+								<div class="avatar">
+									<img src="/assets\img\people\rahul_patekar.jpg"
+										alt="Sedna Testimonial Avatar">
+								</div>
+								<h3>"Urban Bonds has changed the way for operating all
+									society affairs in much more Digitized way and bringing fun to
+									othewise mundane job of society management. We are really happy
+									bonding with your team, Thanks a ton."</h3>
+								<p class="author">Rahul Patekar, Secretary, Mahaavir Jyoti
+									CHS Ltd</p>
+							</li>
+							<li>
+								<div class="avatar">
+									<img src="/assets\img\people\jitendra_chaudhari.jpg"
+										alt="Sedna Testimonial Avatar">
+								</div>
+								<h3>"We chose Urbanbonds based on favorable cost / benefit
+									analysis in comparison with other software systems we
+									evaluated. Here we get here the timely support and importantly
+									promise to delivery and maintenance by professionally dedicated
+									people."</h3>
+								<p class="author">Jitendra Chaudhari, Treasurer, Rose Icon
+									Apartment Condominium</p>
+							</li>
+							<li>
+								<div class="avatar">
+									<img src="/assets\img\people\mukesh_snand.jpg"
+										alt="Sedna Testimonial Avatar">
+								</div>
+								<h3>
+									"UrbanBonds made our Society's maintenance of accounts more
+									systematic and easy to handle. The system gives us a clear view
+									of payments received, quarter wise list of defaulters,
+									calculation of late payment charges, etc. Workflow for raising
+									the bills and creating invoices is very good. <br />UrbanBonds
+									team was very helpful in making our society go live. UrbanBonds
+									has become a part of our daily life now and made things very
+									easy in terms of managing finances and communication."
+								</h3>
+								<p class="author">Mukesh Snand, Secretary, Shivranjan Towers
+									CHS Ltd.</p>
+							</li>
+							<li>
+								<div class="avatar">
+									<img src="/assets\img\people\deepak_palvankar.jpg"
+										alt="Sedna Testimonial Avatar">
+								</div>
+								<h3>
+									"UrbanBonds portal makes it easy to manage societies
+									transparently. The accounting package on the portal is easy to
+									use and complies with the statutory audits, making it easier to
+									finalize the accounts in a very short period. <br /> The
+									unique mobile app has been very useful to complete workflows of
+									approvals of expenses, check bank balances and to pay monthly
+									dues straight from the mobile. The team at UrbanBonds also to
+									make continuous improvements and add new features."
+								</h3>
+								<p class="author">Deepak Palvankar, Treasurer, Paradise CHS
+									Ltd.</p>
+							</li>
+							<li>
+								<div class="avatar">
+									<img src="/assets\img\people\rahul_bhagwat.jpg"
+										alt="Sedna Testimonial Avatar">
+								</div>
+								<h3>"I can see clear difference of how we were managing
+									society before UrbanBonds and after started using it. Now
+									society management is more streamlined and easy. What I really
+									enjoying is getting various society statistics, data at my
+									finger tips. I also appreciate technical support from UB which
+									is really prompt and open to accept suggestion from us."</h3>
+								<p class="author">Rahul Bhagwat, Chairman, Rose County
+									Apartments</p>
+							</li>
+							<li>
+								<div class="avatar">
+									<img src="/assets\img\people\vipin_kumar.jpg"
+										alt="Sedna Testimonial Avatar">
+								</div>
+								<h3>
+									"We really liked the system urbanbonds, from both an end user
+									and committee member perspective. We found it one of the best
+									cloud based systems out there. Being led by Chartered Accountants
+									and folks who know this trade, it covers minute details which
+									helps us to ensure that we are covered from all financial
+									regulations. <br /> Being a technologist, I was impressed the
+									technical design and architecture used. All the best to
+									UrbanBonds and I wish them to be a star in the niche domain
+									they are into."
+								</h3>
+								<p class="author">Vipin Kumar, Treasurer, Royal Imperio CHS
+									Ltd.</p>
+							</li>
+
+
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style="position: relative; display: block;">
+			<div class="ubDownArrow floating-arrow" style="bottom: -2em"
+				id="testimonialDownArrow">
+				<a href="#idFeatures" style="color: white"><i
+					class="fa fa-angle-down"></i></a>
+			</div>
+		</div>
+	</section>
+
+	<!-- Features slide section -->
+
+	<section class="intro" align="center" id="idFeatures"
+		style="min-height: 650px">
+		<div class="container" id="featutersSlideRow" style="width: 100%;">
+			<div class="row" style="padding: 0px 20px 20px 20px;">
+				<div id="slider" style="display: inline-block;">
+
+					<ul class="ubSliderUL" id="idFeaturesUL">
+						<!-- Features slide will be included here dynamically( javascript for the same is written in 'ubFeaturesSlide.js' file)-->
+					</ul>
+					<div style="display: block; text-align: center">
+						<div
+							style="display: inline-block; float: center; margin-right: 10px">
+							<button class="controlPrevFeature">
+								<i class="fa fa-arrow-circle-left fa-2x"></i>
+							</button>
+							<button class="controlNextFeature">
+								<i class="fa fa-arrow-circle-right fa-2x"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style="display: block; margin-top: 20px; text-align: center">
+			<div class="ubDownArrow floating-arrow" style="position: relative;">
+				<a href="#idUbCounts" style="color: rgb(255, 82, 116);"><i
+					class="fa fa-angle-down"></i></a>
+			</div>
+		</div>
+	</section>
+
+	<!-- Numbers Statistics Section -->
+
+	<section class="hero-strip section-padding"
+		style="margin-top: 0px; padding: 65px 0;" id="idUbCounts">
+		<div class="container">
+			<div class="col-md-12 text-center">
+				<div style="padding: 15px" class="ubCounterSection">
+					<ul>
+						<li><span class="count">99,31,01,314</span> <span
+							class="title">Rs. Bill Raised</span></li>
+						<li><span class="count">7,75,671</span> <span class="title">Ledger
+								Transactions</span></li>
+						<li><span class="count">10,84,935</span> <span class="title">Email/
+								SMS notifications</span></li>
+						<li><span class="count">68,20,09,142</span> <span
+							class="title">Rs. Vendor Payments</span></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div style="position: relative; display: block; font-family: initial">
+			<div class="ubDownArrow floating-arrow" style="top: 25px">
+				<a href="#idUbAbout" style="color: white"><i
+					class="fa fa-angle-down"></i></a>
+			</div>
+		</div>
+	</section>
+
+	<!-- About Us Section -->
+
+	<section class="blog-intro"
+		style="background-color: white; padding: 40px 60px 80px 60px"
+		id="idUbAbout">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2>
+						About Us<span></span>
+					</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" style="padding: 0 30px">
+					<h5>Our Story</h5>
+					<p style="text-align: justify">UrbanBonds was born due to a
+						fundamental need to automate & streamline the time consuming,
+						effort intensive and unstructured operations of housing societies
+						and residential communities. We took up the challenge of driving
+						societies to 100% automation without any dependency on a
+						substitute software/ system and are immensely happy to see the
+						dream come true.</p>
+				</div>
+				<div class="col-md-4" style="padding: 0 30px">
+					<h5>Our Expertise</h5>
+					<p style="text-align: justify">With a penchant to simply and
+						resolve intricate problems end to end, Team UrbanBonds is
+						committed to excellence in quality and service till the last
+						smile. We strongly believe that any systemic automation and
+						refinement is only possible when the entire set of processes
+						followed by an organization are perfectly mapped into a scalable
+						and always "ON" system.</p>
+				</div>
+				<div class="col-md-4" style="padding: 0 30px">
+					<h5>Our Approach</h5>
+					<p style="text-align: justify">At UrbanBonds, we drive immense
+						pleasure by having process excellence. With that goal in mind, our
+						approach is always towards simplification, automation providing
+						tangible benefits in terms of costs, time and value offering.</p>
+				</div>
+			</div>
+		</div>
+		<div style="position: relative; display: block;">
+			<div class="ubDownArrow floating-arrow" style="top: 20px">
+				<a href="#idUbStory" style="color: rgb(255, 82, 116);"><i
+					class="fa fa-angle-down"></i></a>
+			</div>
+		</div>
+	</section>
+
+	<!-- Our story and device images -->
+
+	<section class="hero-strip section-padding"
+		style="margin-top: 0px; padding: 80px;" id="idUbStory">
+		<div class="container">
+			<div class="col-md-6 text-center">
+				<div align="left" style="width: 90%;">
+					<h5 style="color: white">Why UrbanBonds?</h5>
+					<p style="text-align: justify">All the time intensive, tedious
+						and unstructured operations of your Society are magically and
+						extraordinarily transformed by our one-stop solution, that is
+						available on the device of your choice, at any time. UrbanBonds
+						provides real time reports and analytics on your data for you to
+						stay abreast with your Society. With the right checks and balances
+						in place, you can relax and reclaim your peace of mind.</p>
+				</div>
+			</div>
+			<div class="col-md-6 text-center" id="idUbDeviceImages">
+				<div style="position: relative">
+					<div
+						style="display: block; position: absolute; float: left; min-height: 250px; top: -20px">
+
+						<img src="assets/img/sliders/revolution/mac.png" width="323"
+							height="258" alt="Image 1" id="idImgMac"
+							style="position: absolute; bottom: 0px; left: 100px" /> <img
+							src="assets/img/sliders/revolution/ipad.png" width="158"
+							height="127" alt="Image 1" id="idImgIpad"
+							style="position: absolute; bottom: 0px;" /> <img
+							src="assets/img/sliders/revolution/iphone.png" width="48"
+							height="98" alt="Image 1" id="idImgIphone"
+							style="position: absolute; bottom: 0px; left: 180px" /> <img
+							src="assets/img/sliders/revolution/macbook.png" width="241"
+							height="143" alt="Image 1" id="idImgMacBook"
+							style="position: absolute; bottom: 0px; left: 280px" />
+
+						<!-- <img src="assets/img/sliders/revolution/hint1-blue.png" width="253" height="54" id="rev-hint1" alt="Image 1" style="position: absolute; top: -50px; left: 100px"/>
+						
+						<img src="assets/img/sliders/revolution/hint2-blue.png" width="241" height="39" id="rev-hint2" alt="Image 1" style="position: absolute; top: -50px; left: 100px"/> -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style="position: relative; display: block;">
+			<div class="ubDownArrow floating-arrow" style="top: 30px">
+				<a href="#idUbFooter" style="color: white"><i
+					class="fa fa-angle-down"></i></a>
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer Section -->
+
+	<footer style="background-color: rgb(240, 240, 240)" id="idUbFooter">
+		<div class="container">
+			<div class="row" style="padding: 40px 10px;" align="center">
+				<ul class="ubFeaturesUL" style="display: inline-block; width: 80%;"
+					align="center">
+					<li class="ubFeaturesLI" style="width: 33%; padding-left: 10px">
+						<div class="ubFeaturesIcon">
+							<i class="fa fa-phone fa-2x"></i>
+						</div>
+
+						<div class="ubFeaturesInfo" align="left">
+							<h5>Talk with Us</h5>
+							<p style="color: #616161">
+								<a style="color: #616161">sales@UrbanBonds.com (Sales)<br />
+									support@UrbanBonds.com (Support)
+								</a>
+							</p>
+						</div>
+					</li>
+					<li class="ubFeaturesLI" style="width: 33%; padding-left: 10px">
+						<div class="ubFeaturesIcon">
+							<i class="fa fa-envelope-o fa-2x"></i>
+						</div>
+
+						<div class="ubFeaturesInfo" align="left">
+							<h5>Mail Us</h5>
+							<p style="color: #616161">enquiry@UrbanBonds.com</p>
+						</div>
+					</li>
+					<li class="ubFeaturesLI" style="width: 33%; padding-left: 10px">
+						<div class="ubFeaturesIcon">
+							<a href="https://goo.gl/maps/SnLkpZEVj852" target="_blank"
+								class="ubMapFontIcon"><i
+								class="fa fa-map-marker fa-2x  ubLocationIcon"></i></a>
+						</div>
+
+						<div class="ubFeaturesInfo" align="left">
+							<h5>Find Us</h5>
+							<p style="color: #616161">
+								Agile Avenues Private Limited <br /> Office #112, Kumar Sahawas <br />
+								Baner Pashan Link Road,<br /> Pashan, <br /> Pune - 411021
+							</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 col-sm-12">
+					<p
+						style="text-align: center !important; border-top: 1px solid #BDBDBD; padding-top: 5px">
+						<span class="margin-right-10"
+							style="color: black; margin-right: 10px;" id="ubCopyrightStmt">Copyright
+							2017 Agile Avenues Pvt Ltd. All Rights Reserved</span> <a
+							href="/public/terms_of_service_and_privacy_policy.jsp"
+							style="text-decoration: underline !important; color: rgb(255, 82, 116) !important;">Terms
+							of Service &amp; Privacy Policy</a>
+					</p>
+				</div>
+			</div>
+		</div>
+		<span style="display: none;">smp_08_Jun_2017.362</span>
+		<!-- Reach us drawer section -->
+
+		<div id="idContactUsContainer" class="ssDrawer ssDrawerClosed"
+			align="center">
+			<div class="drawerActionBtn" id="drawerActionBtnId"
+				style="cursor: pointer;" title="Contact Us" align="left">
+				<span style="display: inline-block; font-size: 14px;"> <!-- <i class="fa fa-pencil"></i> -->
+					Reach Us
+				</span>
+			</div>
+			<div style="width: 410px; height: 100%; display: inline-block">
+				<div class="ssDrawerInner">
+					<span style="float: right; color: black; cursor: pointer; padding: 4px"
+						id="idUbDrawerClose"><i class="fa fa-times"></i></span>
+					<h2 style="font-size: 16px; font-weight: 600; margin-bottom: 10px"
+						id="drawerTitle">Write to Us</h2>
+					<div id="divInfoBox"
+						style="display: none; color: black; padding: 5px; font-size: 14px; font-weight: 600"></div>
+					<div id="divTableContactUs">
+						<table class="ubReachUsInputTable">
+							<tr>
+								<td width="90%"><input type="text"
+									class="form-control ubReachUsFormInputs"
+									placeholder="Your Name" name="personName" id="personName"
+									size="30" maxlength="50" /></td>
+							</tr>
+							<tr>
+								<td><input type="text"
+									class="form-control ubReachUsFormInputs" placeholder="Subject"
+									name="subject" id="subject" size="50" maxlength="50" /></td>
+							</tr>
+							<tr>
+								<td><textarea class="form-control ubReachUsFormInputs"
+										placeholder="Your message" name="description" id="description"
+										rows="6" cols="50" maxlength="1000" style="resize: none;"></textarea>
+									<div style="font-size: 11px">
+										Total characters :<span id="charremain"></span>.&nbsp; Maximum
+										1000.
+									</div></td>
+							</tr>
+							<tr>
+								<td></td>
+							</tr>
+							<tr>
+								<td><input type="text"
+									class="form-control ubReachUsFormInputs"
+									placeholder="Your Email Address" name="email" id="email"
+									size="30" maxlength="50" /></td>
+							</tr>
+
+							<tr>
+								<td>
+									<div style="width: 15%; float: left;">
+										<input type="text" class="form-control ubReachUsFormInputs"
+											style="border-right: none; border-radius: 4px 0px 0px 4px !important"
+											placeholder="+91" size="3" maxlength="3" readonly="readonly" />
+									</div>
+									<div style="width: 85%; float: left;">
+										<input type="text" class="form-control ubReachUsFormInputs"
+											style="border-left: none; border-radius: 0px 4px 4px 0px !important;"
+											placeholder="Your Contact Number" name="contactNo"
+											id="contactNo" size="10" maxlength="10" />
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<td align="center" style="padding-top: 10px"><input
+									type="button" id="submitBtn" value="Submit"
+									class="ssDrawerSbmtbtn" /> <span
+									style="color: white; display: none;" id="ssLoadinIcon">
+										<i class='fa fa-spinner fa-pulse fa-fw fa-2x'></i>
+								</span></td>
+							</tr>
+						</table>
+					</div>
+					<div></div>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<script
+		src="/assets/new_home_resources/bower_components/retina.js/dist/retina.js"></script>
+	<script
+		src="/assets/new_home_resources/js/jquery.fancybox.pack.js"></script>
+	<script
+		src="/assets/new_home_resources/js/vendor/bootstrap.min.js"></script>
+	<script src="/assets/new_home_resources/js/scripts.js"></script>
+	<script
+		src="/assets/new_home_resources/js/jquery.flexslider-min.js"></script>
+	<script
+		src="/assets/new_home_resources/bower_components/classie/classie.js"></script>
+	<script
+		src="/assets/new_home_resources/bower_components/jquery-waypoints/lib/jquery.waypoints.min.js"></script>
+
+
+	<!-- Google Code for Website-Jan Conversion Page -->
+	<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 865509917;
+var google_conversion_language = "en";
+var google_conversion_format = "3";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "tHM9CI64z20QncTanAM";
+var google_remarketing_only = false;
+/* ]]> */
+</script>
+	<script type="text/javascript"
+		src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+	<noscript>
+		<div style="display: inline;">
+			<img height="1" width="1" style="border-style: none;" alt=""
+				src="//www.googleadservices.com/pagead/conversion/865509917/?label=tHM9CI64z20QncTanAM&amp;guid=ON&amp;script=0" />
+		</div>
+	</noscript>
+
+
+
+</body>
+<!-- END BODY -->
+</html>

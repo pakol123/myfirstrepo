@@ -21,7 +21,7 @@ class reportController extends Controller
                      ->get();
 
 //dd($result);
-             return response()->json(array('CategoryCount'=>$result->get()));        
+             return response()->json(array('CategoryCount'=>$result));        
 
 
     }
@@ -68,7 +68,7 @@ class reportController extends Controller
 
       	foreach ($feedbacks as $feedback)
       	{
-      		$resultText = $resultText.$feedback->TEXT;
+      		$resultText = $resultText.$feedback->TEXT." ";
       	}
 
       	return $resultText;
@@ -109,7 +109,7 @@ $feedbacks = \App\feedback::all();
 
       	foreach ($feedbacks as $feedback)
       	{
-      		$resultText = $resultText.$feedback->TEXT;
+      		$resultText = $resultText.$feedback->TEXT." ";
       	}
              return response()->json(array('resultCategory'=>$resultCategory,'resultSubcategory'=>$resultSubcategory,'resultRatings'=>$resultRatings,'feedbacktext'=>$resultText,'avgRating'=>\App\feedback::where('DOMAIN_ID',$id)->avg('RATING')));   
     	
