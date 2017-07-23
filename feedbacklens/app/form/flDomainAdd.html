@@ -57,7 +57,7 @@
                     {{getDomainAvgRating(domain.DOMAIN_ID).rat | number : 1}}
                 </span>
                 <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-danger" ng-show="!getDomainAvgRating(domain.DOMAIN_ID).isFlt">
-                    {{getDomainAvgRating(domain.DOMAIN_ID).rat}}
+                    {{getDomainAvgRating(domain.DOMAIN_ID).rat != 0 ? getDomainAvgRating(domain.DOMAIN_ID).rat : '...'}}
                 </span>
                 <div class="box-info">
                     <p class="text-muted">{{domain.DOMAIN_URL}}</p>

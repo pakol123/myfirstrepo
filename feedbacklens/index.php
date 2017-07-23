@@ -17,7 +17,7 @@
             <!-- <link rel="stylesheet" href="styles/angular/angular-material.min.css"> -->
             <link rel="stylesheet" href="styles/main.css">
             <link rel="stylesheet" href="plugin/flPlugin.css">
-            
+            <link rel="stylesheet" href="styles/jqcloud.min.css">
 
             <style>
                 .custSelect {
@@ -72,5 +72,7 @@
         <!-- <script src="scripts/angular-material.min.js"></script> -->
 
         <script src="plugin/preview/flPluginMain.js"></script>
+        <script src="scripts/jqcloud.min.js"></script>
+        <script src="scripts/angular-jqcloud.js"></script>
     </body>
 </html>

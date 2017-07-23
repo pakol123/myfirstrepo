@@ -1,0 +1,129 @@
+<style type="text/css">
+    .flSelectInput {
+        border: none;
+        border-bottom: 1px solid #E0E0E0;
+        padding: 3px;
+    }
+    .flDomainStars {
+        list-style-type: none;
+        display: block;
+        float: right;
+        padding: 2px 8px;
+    }    
+        
+    .flDomainStars > li{
+        float: left;        
+    }
+
+    .flDomainStars > li > i{
+        color: #FFEB3B;        
+    }
+</style>
+
+<div class="page page-dashboard" data-ng-controller="reportsController">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-sm-6 col-md-offset-3 text-center">
+                <span class="ui-select custSelect" style="width: 70%; background-color:white ">
+                    <select ng-model="dash.domainId" ng-change="dash.onSelectDomain()" id="domainNamesList">
+                        <option value="{{domain.DOMAIN_ID}}" data-ng-repeat="domain in dashdomains" >{{domain.DOMAIN_URL}}</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="divider divider-md"></div>
+
+    <div class="row" ng-if="dashdomains.length > 0">
+        <div class="col-md-6">
+            <section class="panel panel-default panel-minimal">
+                <div class="panel-heading">
+                    Statistics By Categories
+                </div>
+                <div class="panel-body" ng-if="dash.domainId != ''">
+                    <div class="row" ng-show="hasFeedBacks">
+                        <div class="col-lg-12">
+                            <div data-echarts data-options="pie1.options" style="height: 350px;"></div>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="!hasFeedBacks">
+                        <div class="col-lg-7">
+                            <div class="callout callout-warning">
+                                <p>Did't find any feedback!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-md-6" ng-if="dashdomains.length > 0 && dash.domainId != ''">
+            <section class="panel panel-default panel-minimal">
+                <div class="panel-heading">Statistics By Ratings
+                    <ul class="flDomainStars">
+                        <li ng-if="avgRating != '' && avgRating != 0" style="padding-right: 5px">{{avgRating | number: 1}}</li>
+                        <li ng-repeat="i in getNumber(getDomainAvgRating(dash.domainId).rat)"><i class="fa fa-star"></i></li>
+                        <li ng-if="isDecimalPoint(getDomainAvgRating(dash.domainId).rat)"><i class="fa fa-star-half"></i></li>
+                    </ul>
+                </div>
+                    <div class="panel-body" >
+                        <div data-echarts data-options="bar1.options" style="height: 350px;" ng-show="totalFeedBAcks > 0"></div>
+                    
+                        <div class="row" ng-show="totalFeedBAcks == 0">
+                            <div class="col-lg-7">
+                                <div class="callout callout-warning">
+                                    <p>Did't find any feedback!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="row" ng-if="dashdomains.length > 0">
+        <div class="col-md-6">
+            <section class="panel panel-default panel-minimal">
+                <div class="panel-heading">
+                    Statistics By Sub Categories
+                </div>
+                <div class="panel-body" ng-if="dash.domainId != ''">
+                    <div class="row" ng-show="hasFeedBacks">
+                        <div class="col-lg-12">
+                            <div data-echarts data-options="pie2.options" style="height: 350px;"></div>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="!hasFeedBacks">
+                        <div class="col-lg-7">
+                            <div class="callout callout-warning">
+                                <p>Did't find any feedback!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-md-6" ng-if="dashdomains.length > 0 && dash.domainId != ''">
+            <section class="panel panel-default panel-minimal">
+                <div class="panel-heading">Word Cloud
+                    <ul class="flDomainStars">
+                        <li ng-if="avgRating != '' && avgRating != 0" style="padding-right: 5px">{{avgRating | number: 1}}</li>
+                        <li ng-repeat="i in getNumber(getDomainAvgRating(dash.domainId).rat)"><i class="fa fa-star"></i></li>
+                        <li ng-if="isDecimalPoint(getDomainAvgRating(dash.domainId).rat)"><i class="fa fa-star-half"></i></li>
+                    </ul>
+                </div>
+                    <div class="panel-body" >
+                        <jqcloud words="feedbackWordCounts" width="500" height="350" steps="7" ng-show="totalFeedBAcks > 0"></jqcloud>
+                    
+                        <div class="row" ng-show="totalFeedBAcks == 0">
+                            <div class="col-lg-7">
+                                <div class="callout callout-warning">
+                                    <p>Did't find any feedback!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+        </div>
+    </div> 
+</div>
+  

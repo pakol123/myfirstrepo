@@ -12,6 +12,7 @@
         "satellizer",
         "ui.router",
         "ngecharts",
+        "angular-jqcloud",
         "app.nav",
         "app.page",
         "app.i18n",
@@ -22,7 +23,8 @@
         "app.users",
         "app.feedbacks",
         "app.plugin",
-        "app.dashboard"
+        "app.dashboard",
+        "app.reports"
         ])
 }(),
 
@@ -73,7 +75,12 @@ function() {
 
 function() {
     "use strict";
-    angular.module("app.dashboard", [])
+    angular.module("app.dashboard", []) 
+}(),
+
+function() {
+    "use strict";
+    angular.module("app.reports", [])
 }(),
 
 
@@ -168,6 +175,37 @@ function() {
         }
 
         a.getFeedbacks();
+
+        // Prepare array for word cloud
+        b.prepareJQCloudInputObj = function(feedbackComments) {
+                var feedbackWordCounts = [];
+
+                var feedbackWordCount = {};
+                var obj = {};
+                if(feedbackComments != '' && feedbackComments.length > 0) {
+                    var fdWordsArray = feedbackComments.split(' ');
+
+                    for (var i = 0; i < fdWordsArray.length;  i++) {
+                       //obj[fdWordsArray[i]] = (obj[fdWordsArray[i]] || 0) + 1;
+                       var count = 0;
+                       for (var j = 0; j < fdWordsArray.length;  j++) {
+                            if(fdWordsArray[i] == fdWordsArray[j])
+                                count = count + 1;
+                       }
+
+                       var removeItem = fdWordsArray[i];
+                        fdWordsArray = jQuery.grep(fdWordsArray, function(value) {
+                          return value != removeItem;
+                        });
+                       feedbackWordCount = {'text': fdWordsArray[i], 'weight': count};
+
+                       feedbackWordCounts.push(feedbackWordCount);
+                    }
+                }
+
+                return feedbackWordCounts;
+            }
+
         // Display Tost
 
         b.notify = function(type, msg) {
@@ -205,7 +243,8 @@ function() {
                  "page/signup",
                  "page/flUsers",
                  "page/flFeedbacks",
-                 "page/flPlugin"
+                 "page/flPlugin",
+                 "page/flReports"
              ], 
         c = function(b) {
             var c, d;
@@ -363,6 +402,7 @@ function() {
             a.dashdomains = data.domains;
             a.dash.domainId = a.dashdomains[0].DOMAIN_ID.toString();
             a.getCategoryWiseCount();
+            a.dash.getFeedBackCommentStr();
 
             a.domainAvgRatings = data.feedbackrating;
             a.feedbackCounts = data.feedbackCount
@@ -373,6 +413,7 @@ function() {
         a.dash.onSelectDomain = function () {
             if(a.dash.domainId != '') {
                 a.getCategoryWiseCount();
+                a.dash.getFeedBackCommentStr();
             }
         }
 
@@ -518,6 +559,19 @@ function() {
                 else
                     return false;    
             }
+
+            a.feedbackWordCounts = [];
+            a.dash.getFeedBackCommentStr = function() {
+                z.get('public/api/report/feedbackText/'+a.dash.domainId).success(
+                    function(data){
+                        a.feedbackWordCounts = y.prepareJQCloudInputObj(JSON.stringify(data));
+                        
+                    }).error(function(error){
+                            
+                    });
+            }
+
+            
     }
     angular.module("app.dashboard").controller("DashboardCtrl", ["$scope", "$http", "$rootScope", a])
 }(),
@@ -1413,6 +1467,327 @@ function() {
     }
 
     angular.module('app.feedbacks').controller("feedbackController", ["$scope", "$rootScope", "$http", "logger",a])
+}(),
+
+/*Reports Controller*/
+
+function() {
+    "use strict";
+
+    function a(a,z,y) {
+        
+        a.chartColors = [a.color.primary, a.color.danger, a.color.warning, a.color.success, a.color.info];
+        a.categoryWiseCount = [
+            {catCount: 0, catName: 'Problems'},
+            {catCount: 0, catName: 'Suggestions'},
+            {catCount: 0, catName: 'Complaints'},
+            {catCount: 0, catName: 'Others'},
+        ];
+        a.pieChartDataArray = [];
+        a.dashdomains = [];
+        a.pie1 = {}, a.pie1.options = {};
+        a.hasFeedBacks = false;
+        a.dash = {domainId: ''};
+        a.domainAvgRatings = [];
+        a.feedbackCounts = [];
+
+        a.bar1 = {options: {}};
+        a.ratingWiseFDCounts = [];
+        a.avgRating = '';
+        a.totalFeedBAcks = '';
+
+        a.subCategoryWiseCount = [];
+        a.pie2 = {options: {}};
+
+        a.feedbackComments = '';
+        a.feedbackWordCounts = [];
+
+        y.getAllDomains(y.currentUser.ORG_ID).success(function(data){
+            a.dashdomains = data.domains;
+            a.dash.domainId = a.dashdomains[0].DOMAIN_ID.toString();
+            a.getFeedBackStats();
+            
+            a.domainAvgRatings = data.feedbackrating;
+            a.feedbackCounts = data.feedbackCount
+        }).error(function(error){
+
+        });
+
+        a.dash.onSelectDomain = function () {
+            if(a.dash.domainId != '') {
+                a.getFeedBackStats();
+            }
+        }
+
+        a.getFeedBackStats = function() {
+            
+            z.get('public/api/report/getReportDetails/'+a.dash.domainId).success(function(data) {
+
+                /*Pie Chart*/
+                   var feedbacks = 0;
+                   angular.forEach(a.categoryWiseCount, function(cat, key) {
+                        var catFound = false;
+                        angular.forEach(data.resultCategory, function(recCat, key) {
+                            if(recCat.CAT_NAME == cat.catName) {
+                                cat.catCount = recCat.cat_count;
+                                catFound = true;
+                            }
+                        });
+                        if(!catFound)
+                            cat.catCount = 0;
+
+                        feedbacks = feedbacks + cat.catCount;
+                   });
+                   a.hasFeedBacks = feedbacks > 0 ? true : false;
+
+                   if(a.hasFeedBacks)
+                        a.setPieChart();
+
+                /*End Pie Chart*/ 
+
+                /*Bar Chart*/
+                a.bar1.options = {};
+                a.ratingWiseFDCounts = data.resultRatings;
+                a.avgRating = data.avgRating;
+                a.totalFeedBAcks = 0;
+                angular.forEach(a.ratingWiseFDCounts, function(obj){
+                    a.totalFeedBAcks = a.totalFeedBAcks + obj.rating_count;
+                });
+                       
+                if(a.totalFeedBAcks > 0)
+                    a.setBarOptions();
+
+                /*End Bar Chart*/    
+
+                 /*Bar Chart*/
+                a.pie2.options = {};
+                a.subCategoryWiseCount = data.resultSubcategory;
+
+                angular.forEach(data.resultSubcategory, function(obj){
+                    var innerObj = {'value': obj.subCat_count, 'name': obj.SUBCAT_NAME};
+                    a.subCategoryWiseCount.push(innerObj);
+                });
+                       
+                if(a.totalFeedBAcks > 0)
+                    a.setDonutChart();
+
+                /*End Bar Chart*/
+
+                /*JQcloud*/
+                a.feedbackComments = data.feedbacktext;
+                a.feedbackWordCounts = y.prepareJQCloudInputObj(a.feedbackComments);
+                /*End JQcloud*/
+
+            }).error(function(error){
+            });
+        }
+
+        a.setPieChart = function() {
+            a.pieChartDataArray = [];
+            angular.forEach(a.categoryWiseCount, function(cat, key) {
+                        var columnColor = a.chartColors[key % 5];
+                        var pieChartData = {};
+                        if(cat.catCount > 0) {
+                            pieChartData = {
+                                value: cat.catCount,
+                                type:'pie',
+                                name: cat.catName,
+                                itemStyle: {
+                                    normal: {
+                                        color: columnColor,
+                                        label: {
+                                            show: !0,
+                                            textStyle: {
+                                                color: columnColor
+                                            }
+                                        },
+                                        labelLine: {
+                                            show: !0,
+                                            lineStyle: {
+                                                color: columnColor
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            a.pieChartDataArray.push(pieChartData);
+                        }
+             });
+            a.setPieChartOptions();
+        }
+
+        a.setPieChartOptions = function() {
+            /*Pie*/
+            a.pie1 = {}, a.pie1.options = {
+                animation: !0,
+                /*title: {
+                    text: "<h1>Title</h1>",
+                    x: "left"
+                },*/
+                tooltip: {
+                    trigger: "item",
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        restore : {show: true, title: "restore"},
+                        saveAsImage : {show: true, title: "save as image"}
+                    }
+                },
+                calculable: !0,
+                series: [{
+                    name: "Feedbacks",
+                    type: "pie",
+                    radius: "55%",
+                    center: ["50%", "60%"],
+                    data: a.pieChartDataArray
+                }]
+            } /*End pie*/
+        }
+
+        /* Show Rating stars*/
+        a.getDomainAvgRating = function(domainId) {
+                var avg = 0;
+                angular.forEach(a.domainAvgRatings, function(rating){
+                    if(rating.DOMAIN_ID == domainId)
+                        avg = rating.rating_count;
+                });
+
+                var flNmbr = Math.floor(avg);
+
+                if((avg - flNmbr) > 0)
+                    return {rat: avg, isFlt: true};
+                else
+                    return {rat:flNmbr, isFlt: false};    
+               
+            }
+
+            a.getNumber = function(num) {
+
+                var flNmbr = Math.floor(num);
+                var dynArray = new Array(flNmbr);
+
+                for(var i = 0; i<flNmbr; i++)
+                    dynArray[i] = i;
+                return dynArray;   
+            }
+
+            a.isDecimalPoint = function(num) {
+
+                var flNmbr = Math.floor(num);
+                if((num - flNmbr) > 0)
+                    return true;
+                else
+                    return false;    
+            }
+
+
+            /*Bar Chart*/
+            
+            a.setBarOptions = function() {
+                a.bar1.options = {
+                    tooltip: {
+                        trigger: "axis"
+                    },
+                    legend: {
+                        data: ["Feedbacks("+a.totalFeedBAcks+")"]
+                    },
+                    toolbox: {
+                        show: !0,
+                        feature: {
+                            restore: {
+                                show: !0,
+                                title: "restore"
+                            },
+                            saveAsImage: {
+                                show: !0,
+                                title: "save as image"
+                            }
+                        }
+                    },
+                    calculable: !0,
+                    xAxis: [{
+                        type: "category",
+                        data: ["1", "2", "3", "4", "5"]
+                    }],
+                    yAxis: [{
+                        type: "value"
+                    }],
+                    series: [{
+                        name: "Feedbacks",
+                        type: "bar",
+                        data: [
+                                a.ratingWiseFDCounts[0].rating_count,
+                                a.ratingWiseFDCounts[1].rating_count,
+                                a.ratingWiseFDCounts[2].rating_count,
+                                a.ratingWiseFDCounts[3].rating_count,
+                                a.ratingWiseFDCounts[4].rating_count,
+                            ],
+                        markPoint: {
+                            data: [{
+                                type: "max",
+                                name: "Max"
+                            }, {
+                                type: "min",
+                                name: "Min"
+                            }]
+                        },
+                    }]
+                }
+            }
+
+            a.setDonutChart = function() {
+                a.pie2.options = {
+                    tooltip: {
+                        trigger: "item",
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    toolbox: {
+                        show: !0,
+                        feature: {
+                            restore: {
+                                show: !0,
+                                title: "restore"
+                            },
+                            saveAsImage: {
+                                show: !0,
+                                title: "save as image"
+                            }
+                        }
+                    },
+                    calculable: !0,
+                    series: [{
+                        name: "Sub Categor",
+                        type: "pie",
+                        radius: ["50%", "70%"],
+                        itemStyle: {
+                            normal: {
+                                label: {
+                                    show: !1
+                                },
+                                labelLine: {
+                                    show: !1
+                                }
+                            },
+                            emphasis: {
+                                label: {
+                                    show: !0,
+                                    position: "center",
+                                    textStyle: {
+                                        fontSize: "30",
+                                        fontWeight: "bold"
+                                    }
+                                }
+                            }
+                        },
+                        data: a.subCategoryWiseCount
+                    }]
+                }
+            }            
+    }
+    angular.module("app.reports").controller("reportsController", ["$scope", "$http", "$rootScope", a])
 }();
 
 
