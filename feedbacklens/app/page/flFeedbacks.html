@@ -89,21 +89,21 @@
                 <thead>
                     <tr>
                         <th width="4%">#</th>
-                        <th width="8%" ng-if="rating == ''">Rating</th>
+                        <th width="8%">Rating</th>
                         <th width="40%">Comments</th>
                         <th width="16%">Email</th>
-                        <th width="16%" ng-if="catId == ''">Category</th>
-                        <th width="16%" ng-if="subCatId == ''">Sub Category</th>
+                        <th width="16%">Category</th>
+                        <th width="16%">Sub Category</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr data-ng-repeat="feedback in feedbacks">
                       <td style="text-align: center;">{{$index+1}}</td>
-                      <td style="text-align: center;" ng-if="rating == ''"><span class="label {{themeColors[feedback.RATING-1]}}">{{feedback.RATING}}</span></td>
+                      <td style="text-align: center;"><span class="label {{themeColors[feedback.RATING-1]}}">{{feedback.RATING}}</span></td>
                       <td>{{feedback.TEXT.length > 35 ? feedback.TEXT.substring(0,35) + '...': feedback.TEXT}}</td>
                       <td>{{feedback.EMAIL != '' ? feedback.EMAIL : '-'}}</td>
-                      <td ng-if="catId == ''">{{feedback.CAT_ID}}</td>
-                      <td ng-if="subCatId == ''">{{feedback.SUBCAT_ID}}</td>
+                      <td>{{feedback.CAT_ID}}</td>
+                      <td>{{feedback.SUBCAT_ID}}</td>
                     </tr>
                 </tbody>
             </table>

@@ -1461,8 +1461,23 @@ function() {
         }
 
         a.applyFilterTogetFeedbacks = function() {
-            alert(a.domainId);
-            var reqObj = {domain_id:a.domainId, rating: a.rating, cat_id: a.catId, subcat_id: a.subCatId, fromDate: a.startDate, toDate: a.endDate};
+            
+            //var reqObj = {domain_id:a.domainId, rating: a.rating, cat_id: a.catId, subcat_id: a.subCatId, fromDate: a.startDate, toDate: a.endDate};
+
+            var reqObj = {};
+            reqObj.domain_id = a.domainId;
+            if(a.rating != '' && a.rating)
+                reqObj.rating = a.rating;
+            if(a.catId != '' && a.catId)
+                reqObj.cat_id = a.catId;
+            if(a.subCatId != '' && a.subCatId)
+                reqObj.subcat_id = a.subCatId;
+            if(a.startDate != '' && a.startDate)
+                reqObj.fromDate = a.startDate;
+            if(a.endDate != '' && a.endDate)
+                reqObj.toDate = a.endDate;
+
+            alert(JSON.stringify(reqObj));
             e.get('public/api/feedback/filter/' + a.domainId, {params:reqObj}).success(function(data) {
                 console.log(data);
                    a.feedbacks=data.filteredFeedbacks;
