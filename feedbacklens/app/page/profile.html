@@ -1,72 +1,136 @@
 
-<div class="page page-profile">
+<div class="page page-profile" data-ng-controller="profileController">
 
-    <header class="profile-header">
+    <!-- <header class="profile-header">
         <div class="profile-img">
             <img alt="" src="images/g1.jpg" class="img-circle">
         </div>
-
-        <!-- <div class="profile-social">
+        <div class="profile-social">
+            <h2 style="color: white">{{currentUser.FIRST_NAME + ' ' + currentUser.LAST_NAME}}</h2>
+        </div>
+        <div class="profile-social">
             <a href="javascript:;" class="btn-icon btn-icon-round btn-facebook"><i class="ti-facebook"></i></a>
             <a href="javascript:;" class="btn-icon btn-icon-round btn-twitter"><i class="ti-twitter"></i></a>
             <a href="javascript:;" class="btn-icon btn-icon-round btn-instagram"><i class="ti-instagram"></i></a>
-        </div> -->
+        </div>
 
-        <!-- <div class="profile-info">
+        <div class="profile-info">
             <ul class="list-unstyled list-inline">
                 <li><i class="ti-video-clapper"></i> Films <span class="text-muted">(39)</span></li>
                 <li><i class="ti-camera"></i> Photos <span class="text-muted">(63)</span</li>
                 <li><i class="ti-bookmark"></i> Collections <span class="text-muted">(55)</span</li>
                 <li><i class="ti-check"></i> Tasks <span class="text-muted">(34)</span</li>
             </ul>
-        </div> -->
-    </header>
-
+        </div> 
+    </header> -->
 
     <div class="row">
-        <div class="col-sm-3">
-            <div class="panel mini-box">
-                <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-danger">
-                    <i class="ti-video-clapper"></i>
-                </span>
-                <div class="box-info">
-                    <p class="size-h2">39</p>
-                    <p class="text-muted">Amazing Films</p>
+        <div class="col-sm-6 col-md-offset-3">
+             <section class="panel panel-box">
+                        <div class="panel-top bg-primary">
+                            <div class="text-center">
+                                <h3>{{currentUser.FIRST_NAME + ' ' + currentUser.LAST_NAME}}</h3>
+                                <p>{{currentUser.role.ROLE_NAME}}</p> 
+                            </div>
+                            <div class="divider divider-xl"></div>
+                            <div class="divider divider-lg"></div>
+                        </div>
+                        <div class="panel-img bg-primary">
+                            <img alt="" src="images/g1.jpg" class="img-circle">
+                        </div>
+                        <div class="list-justified-container">
+                            <ul class="list-justified text-center">
+                                <li>
+                                    <p class="size-h3" style="color: #E0E0E0"><span class="icon glyphicon glyphicon-envelope"></span></p>
+                                    <p class="text-muted">{{currentUser.EMAIL}}</p>
+                                </li>
+                                
+                                <li>
+                                    <p class="size-h3" style="color: #E0E0E0"><span class="icon glyphicon glyphicon-earphone"></span></p>
+                                    <p class="text-muted">{{currentUser.PHONE_NO}}</p>
+                                </li>
+                            </ul>
+                        </div>
+             </section>
+         </div>
+     </div>
+
+     <div class="row">
+        <div class="col-sm-6 col-md-offset-3">
+            <div class="panel panel-profile">
+                <div class="panel-heading bg-default clearfix" ng-click="isPerDetCollapsed = !isPerDetCollapsed">
+                    <!-- <a href="" class="pull-left profile">
+                        <img alt="" src="images/g1.jpg" class="img-circle img80_80">
+                    </a> -->
+                    <h4 class="text-center" style="text-transform: capitalize">Personal Details</h4>
+                    
                 </div>
-            </div>                    
-        </div>
-        <div class="col-sm-3">
-            <div class="panel mini-box">
-                <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-warning">
-                    <i class="ti-camera"></i>
-                </span>
-                <div class="box-info">
-                    <p class="size-h2">63</p>
-                    <p class="text-muted">Wonderful Photos</p>
-                </div>
-            </div>                    
-        </div>
-        <div class="col-sm-3">
-            <div class="panel mini-box">
-                <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-success">
-                    <i class="ti-bookmark"></i>
-                </span>
-                <div class="box-info">
-                    <p class="size-h2">55</p>
-                    <p class="text-muted">New Collections</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="panel mini-box">
-                <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-info">
-                    <i class="ti-check"></i>
-                </span>
-                <div class="box-info">
-                    <p class="size-h2">34</p>
-                    <p class="text-muted">Tasks Finised</p>
+                <div class="panel-body" uib-collapse="isPerDetCollapsed">
+                    <div class="media">
+                        <div class="media-body">
+                            <ul class="list-unstyled list-info">
+                                <li>
+                                    <span class="icon glyphicon glyphicon-user"></span>
+                                    <label>Role</label>
+                                    {{currentUser.role.ROLE_NAME}}
+                                </li>
+                                <li>
+                                    <span class="icon glyphicon glyphicon-envelope"></span>
+                                    <label>Email</label>
+                                    {{currentUser.EMAIL}}
+                                </li>
+                                <li>
+                                    <span class="icon glyphicon glyphicon-home"></span>
+                                    <label>Address</label>
+                                    {{currentUser.ADDRESS}}
+                                </li>
+                                <li>
+                                    <span class="icon glyphicon glyphicon-earphone"></span>
+                                    <label>Contact</label>
+                                    {{currentUser.PHONE_NO}}
+                                </li>
+                            </ul>
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-sm-6 col-md-offset-3">
+            <div class="panel panel-profile">
+                <div class="panel-heading bg-default clearfix" ng-click="isAccDetCollapsed = !isAccDetCollapsed">
+                    <!-- <a href="" class="pull-left profile">
+                        <img alt="" src="images/g1.jpg" class="img-circle img80_80">
+                    </a> -->
+                    <h4 class="text-center" style="text-transform: capitalize">Account</h4>
+                    
+                </div>
+                <div class="panel-body" uib-collapse="isAccDetCollapsed">
+                    <div class="media">
+                        <div class="media-body">
+                            <ul class="list-unstyled list-info">
+                                <li>
+                                    <span class="icon glyphicon glyphicon-briefcase"></span>
+                                    <label>Organization</label>
+                                    {{currentUser.organisation.ORG_NAME}}
+                                </li>
+                                <li ng-if="currentUser.role.ROLE_NAME == 'ADMIN'">
+                                    <span class="icon glyphicon glyphicon-star"></span>
+                                    <label>Plan</label>
+                                    {{currentUser.organisation.plans[0].PLAN_NAME}}
+                                </li>
+                            </ul>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
 </div>

@@ -24,7 +24,8 @@
         "app.feedbacks",
         "app.plugin",
         "app.dashboard",
-        "app.reports"
+        "app.reports",
+        "app.profile"
         ])
 }(),
 
@@ -81,6 +82,11 @@ function() {
 function() {
     "use strict";
     angular.module("app.reports", [])
+}(),
+
+function() {
+    "use strict";
+    angular.module("app.profile", [])
 }(),
 
 
@@ -1025,7 +1031,7 @@ function() {
                         sessionStorage.authenticated = true;
                         sessionStorage.setItem('noOfDomains', response.data.no_of_domains);
 
-                        //console.log(JSON.stringify(response.data.no_of_domains));
+                        console.log(response.data);
                         d.currentUser = response.data.user;
                         d.noOfDomains = response.data.no_of_domains;
                         d.authenticated = true;
@@ -1788,7 +1794,17 @@ function() {
             }            
     }
     angular.module("app.reports").controller("reportsController", ["$scope", "$http", "$rootScope", a])
+}(),
+
+
+/* Controller profile */
+
+function() {
+    "use strict";
+    function a(a,b,c) {
+        a.isPerDetCollapsed = true;
+        a.isAccDetCollapsed = true;
+    }
+
+    angular.module("app.profile").controller("profileController", ["$scope", "$http", "$rootScope", a])
 }();
-
-
-
