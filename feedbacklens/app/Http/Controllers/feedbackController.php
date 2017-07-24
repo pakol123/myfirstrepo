@@ -80,7 +80,13 @@ public function create(Request $request)
 
      public function filterFeedback(Request $request,$id)
       {
+
+        Log::info(Request("rating"));
+        Log::info(Request("cat_id"));
+        Log::info(Request("subcat_id"));
+        Log::info(Request("domain_id"));
         Log::info(Request("fromDate"));
+        Log::info(Request("toDate"));
         $input = $request->except(['token','fromDate','toDate']);
         $fromDate = Carbon::parse(Request('fromDate'));
         $toDate = Carbon::parse(Request('toDate'));

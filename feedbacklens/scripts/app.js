@@ -1461,7 +1461,8 @@ function() {
         }
 
         a.applyFilterTogetFeedbacks = function() {
-            var reqObj = {rating: a.rating, cat_id: a.catId, subcat_id: a.subCatId, fromDate: a.startDate, toDate: a.endDate};
+            alert(a.domainId);
+            var reqObj = {domain_id:a.domainId, rating: a.rating, cat_id: a.catId, subcat_id: a.subCatId, fromDate: a.startDate, toDate: a.endDate};
             e.get('public/api/feedback/filter/' + a.domainId, {params:reqObj}).success(function(data) {
                 console.log(data);
                    a.feedbacks=data.filteredFeedbacks;

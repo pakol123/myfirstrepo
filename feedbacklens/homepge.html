@@ -1,0 +1,1303 @@
+
+<!DOCTYPE html>
+
+
+
+
+
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+<meta charset="utf-8" />
+<title>UrbanBonds</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+<meta name="description"
+	content="India's most comprehensive Society Management and Accounting software. Perfect for managing day-to-day operations for Co-operative Housing Societies, Apartment Owners Associations, Residential Management Firms and Facility Management companies." />
+<meta name="keyphrases"
+	content="society accounting software, society management system, software for residential societies, accounting and management portal, web based society management software, web based apartment management software" />
+<meta name="keywords"
+	content="society management software, society management system, society management services, Society Management System, Society Management Software, Society Accounting, Co-operative Housing Society Management, Apartment Owners Associations, Society Managing Committee, Society Management, Apartment Management, Community Management, Society Bookkeeping, Amenity Management, Comprehensive & Cost-effective accounting" />
+
+<meta name="robots" content="all, index, follow" />
+<meta name="distribution" content="global" />
+<meta name="rating" content="general" />
+
+<meta http-equiv="Cache-Control"
+	content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+
+<link rel="stylesheet"
+	href="assets/new_home_resources/css/normalize.min.css">
+<link rel="stylesheet"
+	href="assets/new_home_resources/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="assets/new_home_resources/css/jquery.fancybox.css">
+<link rel="stylesheet"
+	href="assets/new_home_resources/css/flexslider.css">
+<link rel="stylesheet"
+	href="assets/new_home_resources/css/styles.css">
+<link rel="stylesheet"
+	href="assets/new_home_resources/css/queries.css">
+<link rel="stylesheet"
+	href="assets/new_home_resources/css/etline-font.css">
+<link rel="stylesheet"
+	href="assets/new_home_resources/bower_components/animate.css/animate.min.css">
+<!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"> -->
+
+<link
+	href="assets/plugins/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css" />
+<!-- Always put below all other css files -->
+<link rel="stylesheet"
+	href="assets/new_home_resources/css/ubHomeDarkTheme.css">
+
+<script
+	src="assets/new_home_resources/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+<script src="assets/plugins/jquery-1.10.2.min.js"
+	type="text/javascript"></script>
+<script src="assets/plugins/jquery-migrate-1.2.1.min.js"
+	type="text/javascript"></script>
+<!-- counter up -->
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script> -->
+<script
+	src="assets/new_home_resources/js/ubHomeCounterUp.js?verson=2"></script>
+<script type="text/javascript"
+	src="common/scripts/maxlength.js"></script>
+<script type="text/javascript"
+	src="common/scripts/ss-validate.js"></script>
+<!-- features slider Javascript -->
+<script src="assets/new_home_resources/js/ubFeaturesSlide.js"></script>
+
+<link rel="shortcut icon" href="/favicon.png" />
+
+<script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-70492076-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<script type="text/javascript">
+	    var drawerOpenCount1;
+	    var drawerOpenCount2;
+	    var slideCount;
+	    var slideWidth;
+	    var slideHeight;
+	    var sliderUlWidth;
+	    var docViewTop;
+	    var docViewBottom;
+        var macLeft; 
+        var ipadLeft; 
+        var macLeft; 
+        var macLeft;
+        
+        var drawerTimeOut30Sec = 30000;
+        var drawerTimeOut2Min = 120000;
+        var drawerTimeOut5Sec = 5000;
+        
+	    $(document).ready(function() {
+	        drawerOpenCount1 = 0;
+	        drawerOpenCount2 = 0;
+	        setDrawerTimeOut1(drawerTimeOut30Sec);
+	        
+	        // Set window properties
+	        docViewTop = $(window).scrollTop();
+	        docViewBottom = docViewTop + $(window).height();
+	
+	        // Background video setup
+	        $("#ubPlayVidBtnContainer").click(function() {
+	        	if ($("#idContactUsContainer").hasClass("ssDrawerOpen")) {
+                    toggleDrawer(0);
+                }
+	        	
+	            if ($("#ubHomeVideo").get(0).paused) {
+	                $("#ubPlayVidButton").html("<i class='fa fa-pause fa-4x'></i>");
+	                $("#ubHomeVideo").get(0).play();
+	                $("#ubPlayVidButton").animate({
+	                    opacity: 0.9,
+	                }, 500, function() {
+	                    $("#ubPlayVidButton").animate({
+	                        opacity: 0,
+	                    }, 500, function() {
+	    
+	                    });
+	                });
+	            } else {
+	                if (drawerOpenCount1 == 0) {
+	                    setDrawerTimeOut1(drawerTimeOut5Sec);
+	                }
+	                
+	                $("#ubHomeVideo").get(0).pause();
+	                $("#ubPlayVidButton").html("<i class='fa fa-play fa-4x'></i><br/><span style='display: inline-block; background-color: rgba(0, 0, 0, 0.5); padding: 4px; box-shadow: 1px 1px 4px 4px rgba(0, 0, 0, 0.5);'>Play</span>");
+	                $("#ubPlayVidButton").css("opacity", "0.9");
+	            }
+	            
+	        });
+	        
+	        // set initial slider properties
+	        slideCount = $('.ubSliderLI').length;
+	        
+            // Set slider properties
+            setSliderCssPropertis();
+	        
+	        // Move slide continuesly
+	        setInterval(function() {
+	            moveRight();
+	        }, 5000);
+	
+	        $('button.controlPrevFeature').click(function() {
+	            moveLeft();
+	        });
+	
+	        $('button.controlNextFeature').click(function() {
+	            moveRight();
+	        });
+	
+	        // drawer JS
+	        // Show 'reach us' dialog if user stays on page for 10 seconds long.
+	
+	        $("#personName").val('');
+	        $("#subject").val('');
+	        $("#description").val('');
+	        $("#email").val('');
+	        $("#contactNo").val('');
+	        // Sets the Maximum length of narration..
+	        setformfieldsize($('#description'), 1000, 'charremain');
+	
+	        $("#back").click(function() {
+	            location.href = "/ssController";
+	        });
+	
+	        $("#submitBtn").click(function() {
+	            if (isEmpty('#personName', '#alertBox', '')) {
+	                showError('Enter name');
+	                $("#personName").focus();
+	                return false;
+	            }
+	            if (!isValidString('#personName', 'A-Za-z\s', '#alertBox', '')) {
+	                showError('Enter only alphabets in name');
+	                $("#personName").focus();
+	                return false;
+	            }
+	            if (isEmpty('#subject', '#alertBox', '')) {
+	                showError('Enter subject');
+	                $("#subject").focus();
+	                return false;
+	            }
+	            if (isEmpty('#description', '#alertBox', '')) {
+	                showError('Enter description');
+	                $("#description").focus();
+	                return false;
+	            }
+	            if (isEmpty('#email', '#alertBox', '')) {
+	                showError('Enter email id');
+	                $("#email").focus();
+	                return false;
+	            }
+	            if (!emailValidator1('#email')) {
+	                showError('Enter valid email id');
+	                $("#email").focus();
+	                return false;
+	            }
+	            if (isEmpty('#contactNo', '#alertBox', '')) {
+	                showError('Enter contact number');
+	                $("#contactNo").focus();
+	                return false;
+	            }
+	            if (!isValidString('#contactNo', '0-9', '#alertBox', '')) {
+	                showError('Enter only digits in contact number');
+	                return false;
+	            }
+	
+	            sendMailOnContactUs();
+	        });
+	
+	        $("#drawerActionBtnId").click(function() {
+	            toggleDrawer(0);
+	        });
+	
+	        $("#idUbDrawerClose").click(function() {
+	            toggleDrawer(0);
+	        });
+	
+	        // counter up
+	        if( jQuery(".ubCounterSection").length != '' ){
+	            jQuery('.ubCounterSection .count').counterUp({
+	                delay: 50,
+	                time: 5000
+	            });
+	        }
+	        
+	     // Animate devices(iphone, ipad etc.images) from right to left
+	        macLeft = $("#idImgMac").css("left");
+            ipadLeft = $("#idImgIpad").css("left");
+            iphoneLeft = $("#idImgIphone").css("left");
+            macBookLeft = $("#idImgMacBook").css("left");
+            
+            $("#idImgMac").css("left", "1000px");
+            $("#idImgIpad").css("left", "1000px");
+            $("#idImgIphone").css("left", "1000px");
+            $("#idImgMacBook").css("left", "1000px");
+	        
+            $("#idUbStory").waypoint(animateDevices, {
+                offset: "100%",
+                triggerOnce: !0
+            });
+            
+            $(".nav-toggle").click(function() {
+            	showHideReachUsDrawer();
+            });
+            
+            $(".ubTopMenuItems").click(function() {
+            	showHideReachUsDrawer();
+            });
+            
+            $("#ubHomeVideo").on('ended',function(){
+            	if ($("#ubHomeVideo").get(0).paused && drawerOpenCount1 == 0) {
+            		setDrawerTimeOut1(drawerTimeOut5Sec);
+                }
+            	changeVideoSource();
+            });
+            
+            /***************** Initiate Flexslider ******************/
+            $('.flexslider').flexslider({
+                animation: "slide"
+            });
+            
+            $(window).resize(function(){
+            	setSliderCssPropertis();
+            });
+	    });
+
+	    function showHideReachUsDrawer(){
+	    	 var isMenuOpen = $('.header-nav').hasClass('open');
+             if(isMenuOpen) {
+            	 $('#idContactUsContainer').fadeIn();
+             } else {
+            	 $('#idContactUsContainer').hide();  
+             }
+	    }
+	    
+	    function setSliderCssPropertis(){
+	    	var windowWidth = $(window).width();
+            if(windowWidth <= 800 && windowWidth > 580){
+                $(".ubFeaturesLI").css("width", "50%");
+            } else if(windowWidth > 800){
+                $(".ubFeaturesLI").css("width", "33%");
+            } else if(windowWidth < 580){
+                $(".ubFeaturesLI").css("width", "100%");
+            }
+            
+	    	 // set properties of features section slider
+            featutersSlideRow = $("#featutersSlideRow").width();
+            slideWidth = featutersSlideRow;
+            slideHeight = $('.ubSliderLI').height();
+            sliderUlWidth = slideCount * slideWidth;
+    
+            $('.ubSliderLI').css({
+                width: slideWidth
+            });
+    
+            $('#slider').css({
+                width: slideWidth,
+                minHeight: slideHeight
+            });
+    
+            $('.ubSliderUL').css({
+                width: sliderUlWidth,
+                marginLeft: -slideWidth
+            });
+    
+            $('.ubSliderLI:last-child').prependTo('.ubSliderUL');
+	    }
+	
+	    // Animate devices(iphone, ipad etc.images) from right to left
+	       function animateDevices(){
+	    	   
+	    	   $("#idImgMac").animate({
+	    		   left : macLeft
+	    	   }, 1000);
+	    	   
+	    	   $("#idImgIpad").animate({
+                   left : ipadLeft
+               }, 800);
+	    	   
+	    	   $("#idImgIphone").animate({
+                   left : iphoneLeft
+               }, 1500);
+	    	   
+	    	   $("#idImgMacBook").animate({
+                   left : macBookLeft
+               }, 2000);
+	    	   
+	    	   this.destroy();
+	        }
+	       
+	    function toggleDrawer(openedInTime) {
+	        if ($("#idContactUsContainer").hasClass("ssDrawerClosed")) {
+	            $("#idContactUsContainer").removeClass("ssDrawerClosed");
+	            $("#idContactUsContainer").addClass("ssDrawerOpen");
+	            $(".ssDrawerInner").css("margin-top", "0%");
+	            $(".ssDrawerInner").css("border-top-left-radius", "0px");
+	            /* $("#idUbDrawerClose").hide(); */
+	            $("#divInfoBox").hide();
+	            
+	            
+	            $("#divTableContactUs").fadeIn();
+	            showHideLoading(false);
+	            $("submitBtn").prop("disabled", false);
+	            $("#divInfoBox").html('');
+	            $("#charremain").html('0');
+	            drawerTitle = "Write to Us";
+	            $("#drawerTitle").css("font-size", "14px");
+	            if(openedInTime == 0) {
+	            	drawerOpenCount1 = drawerOpenCount1 + 1;
+	            } else if(openedInTime > 0 && openedInTime <= drawerTimeOut30Sec){
+	            	drawerOpenCount1 = drawerOpenCount1 + 1;
+	            } else if(openedInTime == drawerTimeOut2Min){
+	            	drawerOpenCount2 = drawerOpenCount2 + 1;
+	            	drawerTitle = "Interested?<br/>Get a live demo now.";
+	            	$("#drawerTitle").css("font-size", "13px");
+	            }
+	
+	            $("#drawerTitle").html(drawerTitle);
+	            $("#drawerTitle").fadeIn();
+	            
+	        } else if ($("#idContactUsContainer").hasClass("ssDrawerOpen")) {
+	            $("#idContactUsContainer").removeClass("ssDrawerOpen");
+	            $("#idContactUsContainer").addClass("ssDrawerClosed");
+	            $("#divInfoBox").hide();
+	            $("#drawerTitle").fadeIn();
+	            $("#divTableContactUs").fadeIn();
+	            $(".ssDrawerInner").css("margin-top", "0%");
+	            $(".drawerActionBtn").fadeIn();
+	            /*  $(".drawerActionBtn").css("top", $(".ssDrawerInner").css("top")); */
+	            $("#drawerTitle").text("Write to Us");
+                $("#drawerTitle").fadeIn();
+	        }
+	    }
+	
+	    function sendMailOnContactUs() {
+	        $("submitBtn").prop("disabled", true);
+	        showHideLoading(true);
+	        $.ajax({
+	            url: '/ssController',
+	            dataType: "json",
+	            async: false,
+	            data: {
+	                operation: 442 ,
+	                pageType : "public",
+	                personName: $("#personName").val(),
+	                subject: $("#subject").val(),
+	                description: $("#description").val(),
+	                email: $("#email").val(),
+	                contactNo: $("#contactNo").val()
+	            },
+	            success: function(data) {
+	                $(".ssDrawerInner").css("margin-top", "40%");
+	                $(".ssDrawerInner").css("border-top-left-radius", "10px");
+	                var msgString = "Thank you for contacting us, we will get back to you shortly.";
+	                $("#drawerTitle").hide();
+	                $("#divTableContactUs").hide();
+	                $("#divInfoBox").css({color: 'black', fontWeight: 600, fontSize: '14px'});
+	                $("#divInfoBox").fadeIn();
+	                // Display text one by one character.
+	                showText("#divInfoBox", msgString, 0, 100);
+	                $(".drawerActionBtn").hide();
+	                $("#idUbDrawerClose").show();
+	                clearInputs();
+	
+	            },
+	            error: function(data) {
+	                showHideLoading(false);
+	                $("submitBtn").prop("disabled", false);
+	                showError('Something went wrong, please try again!');
+	            }
+	        });
+	    }
+	    var showText = function(target, message, index, interval) {
+	        if (index < message.length) {
+	            $(target).append(message[index++]);
+	            setTimeout(function() {
+	                showText(target, message, index, interval);
+	            }, interval);
+	        }
+	    }
+	
+	    function emailValidator1(element) {
+	        var elem = $(element).val();
+	        if (elem.length != 0) {
+	            var emailExp = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+	            if (elem.match(emailExp)) {
+	                return true;
+	            } else {
+	                return false;
+	            }
+	        } else {
+	            return true;
+	        }
+	    }
+	
+	    function showError(errorMsg) {
+	        $("#divInfoBox").css('font-size', '14px');
+	        $("#divInfoBox").css('color', '#f44336');
+	        $("#divInfoBox").text("*" + errorMsg);
+	        $("#divInfoBox").fadeIn();
+	        setTimeout(function() {
+	            $("#divInfoBox").fadeOut();
+	            $("#divInfoBox").text('');
+	            $("#divInfoBox").css('font-size', '20px');
+	            $("#divInfoBox").css('color', '#f44336');
+	        }, 3000);
+	    }
+	
+	    function showHideLoading(show) {
+	        if (show) {
+	            $("submitBtn").hide();
+	            $("ssLoadinIcon").fadeIn();
+	        } else {
+	            $("ssLoadinIcon").hide();
+	            $("submitBtn").fadeIn();
+	        }
+	    }
+	
+	    function clearInputs() {
+	        $(".form-control").each(function(index) {
+	            $(this).val('');
+	        });
+	    }
+	
+	    function moveLeft() {
+	        $('.ubSliderUL').animate({
+	            left: +slideWidth
+	        }, 300, function() {
+	            $('.ubSliderLI:last-child').prependTo('.ubSliderUL');
+	            $('.ubSliderUL').css('left', '');
+	        });
+	    };
+	
+	    function moveRight() {
+	        $('.ubSliderUL').animate({
+	            left: -slideWidth
+	        }, 300, function() {
+	            $('.ubSliderUL').css('left', '');
+	            $('.ubSliderLI:first-child').appendTo('.ubSliderUL');
+	        });
+	    };
+	
+	    // Set drawer time out to open when video is paused/stoped
+	    function setDrawerTimeOut1(drawerTimeOut) {
+	            setTimeout(
+	                function() {
+	                    if ($("#ubHomeVideo").get(0).paused && drawerOpenCount1 == 0) {
+	                        toggleDrawer(drawerTimeOut);
+	                        setDrawerTimeOut2(drawerTimeOut2Min);
+	                    }
+	                },
+	                drawerTimeOut
+	            );
+	    }
+	    
+	    function setDrawerTimeOut2(drawerTimeOut) {
+            setTimeout(
+                function() {
+                	
+                    if ($("#ubHomeVideo").get(0).paused && drawerOpenCount2 == 0 && drawerOpenCount1 > 0) {
+                    	if ($("#idContactUsContainer").hasClass("ssDrawerClosed")) {
+                    	    toggleDrawer(drawerTimeOut);
+                    	 }
+                    }
+                },
+                drawerTimeOut
+            );
+        }
+	    
+	    function changeVideoSource(){
+	    	var sourceString = $("#idVideoSource").attr("src");
+	    	var videoName = sourceString.substring(sourceString.lastIndexOf("/")+1,sourceString.lastIndexOf("?"));
+	    	if(videoName == 'UrbanBonds-video.mp4') {
+	    		videoName = 'UrbanBonds_Billing_And_Payments_Video.mp4';		
+	    	} else {
+	    		videoName = 'UrbanBonds-video.mp4';
+	    	}
+	    	
+	    	var videoPath = "/assets/new_home_resources/" + videoName + "?autoplay=1";
+	    	$("#idVideoSource").attr("src", videoPath);
+            $("#ubHomeVideo")[0].load();
+            $("#ubPlayVidButton").html("<i class='fa fa-play fa-4x'></i><br/><span style='display: inline-block; background-color: rgba(0, 0, 0, 0.5); padding: 4px; box-shadow: 1px 1px 4px 4px rgba(0, 0, 0, 0.5);'>Play</span>");
+            $("#ubPlayVidButton").css("opacity", "0.9");
+	    }
+	</script>
+	<!--<style>
+@import url("http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css");
+@import url("http://fonts.googleapis.com/css?family=Roboto:400,300,700italic,700,500&subset=latin,latin-ext");
+
+body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    	
+      }
+	
+	/* COMMON PRICING STYLES */
+		.panel.price,
+		.panel.price>.panel-heading{
+			border-radius:0px;
+			 -moz-transition: all .3s ease;
+			-o-transition:  all .3s ease;
+			-webkit-transition:  all .3s ease;
+		}
+		.panel.price:hover{
+			box-shadow: 0px 0px 30px rgba(0,0,0, .2);
+		}
+		.panel.price:hover>.panel-heading{
+			box-shadow: 0px 0px 30px rgba(0,0,0, .2) inset;
+		}
+		
+				
+		.panel.price>.panel-heading{
+			box-shadow: 0px 5px 0px rgba(50,50,50, .2) inset;
+			text-shadow:0px 3px 0px rgba(50,50,50, .6);
+		}
+			
+		.price .list-group-item{
+			border-bottom-:1px solid rgba(250,250,250, .5);
+		}
+		
+		.panel.price .list-group-item:last-child {
+			border-bottom-right-radius: 0px;
+			border-bottom-left-radius: 0px;
+		}
+		.panel.price .list-group-item:first-child {
+			border-top-right-radius: 0px;
+			border-top-left-radius: 0px;
+		}
+		
+		.price .panel-footer {
+			color: #fff;
+			border-bottom:0px;
+			background-color:  rgba(0,0,0, .1);
+			box-shadow: 0px 3px 0px rgba(0,0,0, .3);
+		}
+		
+		
+		.panel.price .btn{
+			box-shadow: 0 -1px 0px rgba(50,50,50, .2) inset;
+			border:0px;
+		}
+		
+	/* green panel */
+	
+		
+		.price.panel-green>.panel-heading {
+			color: #fff;
+			background-color: #57AC57;
+			border-color: #71DF71;
+			border-bottom: 1px solid #71DF71;
+		}
+		
+			
+		.price.panel-green>.panel-body {
+			color: #fff;
+			background-color: #65C965;
+		}
+				
+		
+		.price.panel-green>.panel-body .lead{
+				text-shadow: 0px 3px 0px rgba(50,50,50, .3);
+		}
+		
+		.price.panel-green .list-group-item {
+			color: #333;
+			background-color: rgba(50,50,50, .01);
+			font-weight:600;
+			text-shadow: 0px 1px 0px rgba(250,250,250, .75);
+		}
+		
+		/* blue panel */
+	
+		
+		.price.panel-blue>.panel-heading {
+			color: #fff;
+			background-color: #608BB4;
+			border-color: #78AEE1;
+			border-bottom: 1px solid #78AEE1;
+		}
+		
+			
+		.price.panel-blue>.panel-body {
+			color: #fff;
+			background-color: #73A3D4;
+		}
+				
+		
+		.price.panel-blue>.panel-body .lead{
+				text-shadow: 0px 3px 0px rgba(50,50,50, .3);
+		}
+		
+		.price.panel-blue .list-group-item {
+			color: #333;
+			background-color: rgba(50,50,50, .01);
+			font-weight:600;
+			text-shadow: 0px 1px 0px rgba(250,250,250, .75);
+		}
+		
+		/* red price */
+		
+	
+		.price.panel-red>.panel-heading {
+			color: #fff;
+			background-color: #D04E50;
+			border-color: #FF6062;
+			border-bottom: 1px solid #FF6062;
+		}
+		
+			
+		.price.panel-red>.panel-body {
+			color: #fff;
+			background-color: #EF5A5C;
+		}
+		
+		
+		
+		
+		.price.panel-red>.panel-body .lead{
+				text-shadow: 0px 3px 0px rgba(50,50,50, .3);
+		}
+		
+		.price.panel-red .list-group-item {
+			color: #333;
+			background-color: rgba(50,50,50, .01);
+			font-weight:600;
+			text-shadow: 0px 1px 0px rgba(250,250,250, .75);
+		}
+		
+		/* grey price */
+		
+	
+		.price.panel-grey>.panel-heading {
+			color: #fff;
+			background-color: #6D6D6D;
+			border-color: #B7B7B7;
+			border-bottom: 1px solid #B7B7B7;
+		}
+		
+			
+		.price.panel-grey>.panel-body {
+			color: #fff;
+			background-color: #808080;
+		}
+		
+
+		
+		.price.panel-grey>.panel-body .lead{
+				text-shadow: 0px 3px 0px rgba(50,50,50, .3);
+		}
+		
+		.price.panel-grey .list-group-item {
+			color: #333;
+			background-color: rgba(50,50,50, .01);
+			font-weight:600;
+			text-shadow: 0px 1px 0px rgba(250,250,250, .75);
+		}
+		
+		/* white price */
+		
+	
+		.price.panel-white>.panel-heading {
+			color: #333;
+			background-color: #f9f9f9;
+			border-color: #ccc;
+			border-bottom: 1px solid #ccc;
+			text-shadow: 0px 2px 0px rgba(250,250,250, .7);
+		}
+		
+		.panel.panel-white.price:hover>.panel-heading{
+			box-shadow: 0px 0px 30px rgba(0,0,0, .05) inset;
+		}
+			
+		.price.panel-white>.panel-body {
+			color: #fff;
+			background-color: #dfdfdf;
+		}
+				
+		.price.panel-white>.panel-body .lead{
+				text-shadow: 0px 2px 0px rgba(250,250,250, .8);
+				color:#666;
+		}
+		
+		.price:hover.panel-white>.panel-body .lead{
+				text-shadow: 0px 2px 0px rgba(250,250,250, .9);
+				color:#333;
+		}
+		
+		.price.panel-white .list-group-item {
+			color: #333;
+			background-color: rgba(50,50,50, .01);
+			font-weight:600;
+			text-shadow: 0px 1px 0px rgba(250,250,250, .75);
+		}
+	</style> -->
+</head>
+<body id="top">
+	<!--[if lt IE 8]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+	<section class="hero">
+		<section class="navigation ubHeaderGradient">
+			<header>
+				<div class="header-content">
+
+					<div class="logo">
+						<a href=""><img
+							src="https://www.feedbacklens.com/img/oie_transparent.png" alt="Sedna logo"
+							style="height: 45px"></a>
+					</div>
+					<div class="header-nav">
+						<nav>
+							<ul class="primary-nav">
+								<li><a href="#idTestimonial" class="ubTopMenuItems">Free Trial</a></li>
+								<li><a href="#idUbCounts" class="ubTopMenuItems">How it Works</a></li>
+								<li><a href="#idUbAbout" class="ubTopMenuItems">About Us</a></li>
+								<li><a href="#idUbStory" class="ubTopMenuItems">FAQs</a></li>
+								<li><a href="#idUbFooter" class="ubTopMenuItems">Contact Us</a></li>
+								<!-- <li>
+			                                    <a style="text-transform: capitalize; font-size: 14px;">
+                                                 Sales&nbsp;&nbsp;+91 98819-00242 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Support&nbsp;&nbsp;+91 98902 35901
+			                                    </a>
+			                                </li> -->
+							</ul>
+							<ul class="member-actions">
+								
+								<li><a href="/login.jsp"
+									class="btn-white btn-small">&nbsp;&nbsp;Log in&nbsp;</a></li>
+								<!-- <li><a href="#download" class="login">Log in</a></li> -->
+								<!-- <li><a href="#download" class="btn-white btn-small">Sign up</a></li> -->
+							</ul>
+						</nav>
+					</div>
+					<div class="navicon">
+						<a class="nav-toggle" href="#"><span></span></a>
+					</div>
+				</div>
+			</header>
+		</section>
+		<div class="container">
+			<div class="video">
+				<div
+					style="display: table; width: 100%; height: 100%; position: absolute; text-align: center; z-index: 2015;"
+					align="center">
+					<span id="ubPlayVidBtnContainer"
+						style="display: table-cell; color: #E0E0E0; z-index: 2011;">
+						<span id="ubPlayVidButton"
+						style="display: inline-block; cursor: pointer; position: absolute; z-index: 2010; top: 50%; right: 47%">
+							<i class='fa fa-play fa-4x'></i><br />
+						<span style="display: inline-block; background-color: rgba(0, 0, 0, 0.5); padding: 2px; box-shadow: 1px 1px 4px 4px rgba(0, 0, 0, 0.5);">Play</span>
+					</span>
+					</span>
+				</div>
+				<video id="ubHomeVideo" width="100%" height="100%" frameborder="0"
+					style="display: table-cell; width: 100%; height: 100%;">
+					<source id="idVideoSource" src="/assets/new_home_resources/UrbanBonds-video.mp4?autoplay=1" type="video/mp4">
+				</video>
+			</div>
+			<!--  <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="hero-content text-center">
+                        <h1>Complete peace of mind!</h1>
+                        <p class="intro">UrbanBonds offers India's most comprehensive Society Management and Accounting software services.</p>
+                        <a href="#" class="btn btn-accent btn-large">Learn more</a>
+                    </div>
+                </div>
+            </div> -->
+		</div>
+		<div class="ubDownArrow floating-arrow">
+			<a href="#idTestimonial" style="color: white"><i
+				class="fa fa-angle-down"></i></a>
+		</div>
+	</section>
+
+	<!-- Testimonials Section -->
+	<!-- About Us Section -->
+
+	<section class="blog-intro"
+		style="background-color: white; padding: 40px 60px 80px 60px"
+		id="idUbAbout">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2>
+						About Us<span></span>
+					</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1" style="padding: 0 30px">
+					<h5>Our Story</h5>
+					<p style="text-align: justify"> FeedbackLens is one of the platforms for you to connect with your customers and get valuable feedback in real-time on the service you provide or products you delivery. Knowing what your customers really think about their experience is the key to your success and Feedbacklens provides you with a easy way  to facilitate active listening. It gives you an opportunity to highlght you customers that their opnion really matters and is critical in the growth.  FeedbackLens has a very unique and simple way that drive superior customer feedback management methodology for our clients globally,  across all industries and that too  in a very cost effective manner. Specialized in customer care and satisfaction, Feedbacklens feedback management systems was created by our expert team with a focus on quality and affordability.                   
+                   <br/>
+Ask us how we can help you getting started with your customer insights. For more information click &nbsp;&nbsp; <a href="#more" class="btn btn-info" role="button">here</a></p>
+				</div>
+				
+			</div>
+		</div>
+		<div style="position: relative; display: block;">
+			<div class="ubDownArrow floating-arrow" style="top: 20px">
+				<a href="#idUbStory" style="color: rgb(255, 82, 116);"><i
+					class="fa fa-angle-down"></i></a>
+			</div>
+		</div>
+	</section>
+
+		<section class="blog-intro"
+		style="background-color: white; padding: 40px 60px 80px 60px"
+		id="idUbAbout">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2>
+						How it works<span></span>
+					</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1" style="padding: 0 30px">
+					<div class="row">
+					<div class="col-md-4">
+                     <div  style="height:290px">
+                        <center>
+                            <img src="https://www.feedbacklens.com/img/freeiconmaker_0.png">
+                        </center>
+                        <br/><br/>
+                        <span  style="font-size:17px;">Signup with your basic information</span></div>
+
+					</div>
+					<div class="col-md-4">
+					 <div >
+                         <center>
+                         <img src="https://www.feedbacklens.com/img/freeiconmaker_2.png">
+                         </center> <br/><br/>
+                         <span   style="font-size:17px;">Simply add the plug-in provided to you by us on the page you want to gather feedback</span>
+                         </div>
+					</div>
+					<div class="col-sm-4">
+                      <div >
+                         <center>
+                             <img src="https://www.feedbacklens.com/img/freeiconmaker_1.png"></center> <br/><br/>
+                         <span    style="font-size:17px;">Capture and analyze feedback received using tools from feedbacklens</span>
+                         </div>
+
+
+
+					</div>
+					</div>
+				</div>
+				
+			</div>
+			<div class="row">
+			<div class="col-md-10 col-md-offset-1" style="padding: 0 30px">
+			<p>
+                    Simplicity is one of the main principles of feedbacklens. We are committed to make your experience as simple as we can and will do everything possible to quickly set you up so that you start get valuable insights of your customers. Following are few details on how it all works   
+            </p>
+
+            <ul style="list-style-type:circle">
+             <li>   <p >As soon as you make up your mind to use feedbacklens as a tool to understand customer insights, please click <a href="http://feedbacklens.com/signupfrm.php">here</a> to  signup . All you have to do is provide some basic information about you to signup;</p></li>
+              <li><p > On completion of your signup, you will receive an email about plug-in installation that needs to be integrated with your website page. To get more specific information please do the same on each page that you are willing to collect feedback on.</p></li>
+              <li><p >Once you integrate the plug-in you are all set to get the live feedback from your customers, customer will see a feedback icon on left hand side of your home page (or any page per your setup); providing feedback is then just a click away.</p></li>
+              <li><p> Now, based on your subscription, you can visit your dashboard panel or simple use our mobile app to monitor the feedback received. It's very easy to access your dashboard panel with credentials you are provided after successful signup. There are various categories which help you to analyse customer insights.</p></li>
+              <li><p>You  can also download feedback report based on ratings, categories, dates which is available in csv or pdf format .</li>
+                </ul>
+
+<p >We take data security  very seriously and will be kept confidential, no data will be shared without your prior approval . Please  contact us anytime at admin@feedbacklens.com if you need specific information .</p>
+
+			</div>
+			</div>
+		</div>
+		<div style="position: relative; display: block;">
+			<div class="ubDownArrow floating-arrow" style="top: 20px">
+				<a href="#idUbStory" style="color: rgb(255, 82, 116);"><i
+					class="fa fa-angle-down"></i></a>
+			</div>
+		</div>
+	
+
+	<!-- Numbers Statistics Section -->
+<section class="blog-intro"
+		style="background-color: white; padding: 40px 60px 80px 60px"
+		id="idUbAbout">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2>
+						Pricing<span></span>
+					</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 ">
+					
+					
+<div class="col-xs-6 col-sm-6 col-md-3 col-lg-4">
+				
+					<!-- PRICE ITEM -->
+					<div class="panel price panel-red">
+						<div class="panel-heading  text-center">
+						<h3>FREE PLAN</h3>
+						</div>
+						<div class="panel-body text-center">
+							<p class="lead" style="font-size:40px"><strong>$0&nbsp;&nbsp; / month</strong></p>
+						</div>
+						<ul class="list-group list-group-flush text-center">
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> Personal use</li>
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> Unlimited projects</li>
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> 27/7 support</li>
+						</ul>
+						<div class="panel-footer">
+							<a class="btn btn-lg btn-block btn-danger" href="#">GET STARTED NOW!</a>
+						</div>
+					</div>
+					<!-- /PRICE ITEM -->
+					
+					
+				</div>
+
+<div class="col-xs-6 col-sm-6 col-md-3 col-lg-4">
+				
+					<!-- PRICE ITEM -->
+					<div class="panel price panel-grey">
+						<div class="panel-heading  text-center">
+						<h3>PRO PLAN</h3>
+						</div>
+						<div class="panel-body text-center">
+							<p class="lead" style="font-size:40px"><strong>$10 / month</strong></p>
+						</div>
+						<ul class="list-group list-group-flush text-center">
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> Personal use</li>
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> Unlimited projects</li>
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> 27/7 support</li>
+						</ul>
+						<div class="panel-footer">
+							<a class="btn btn-lg btn-block btn-danger" href="#">BUY NOW!</a>
+						</div>
+					</div>
+					<!-- /PRICE ITEM -->
+					
+					
+				</div>
+
+				<div class="col-xs-6 col-sm-6 col-md-3 col-lg-4">
+				
+					<!-- PRICE ITEM -->
+					<div class="panel price panel-red">
+						<div class="panel-heading  text-center">
+						<h3>PRO PLAN</h3>
+						</div>
+						<div class="panel-body text-center">
+							<p class="lead" style="font-size:40px"><strong>$10 / month</strong></p>
+						</div>
+						<ul class="list-group list-group-flush text-center">
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> Personal use</li>
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> Unlimited projects</li>
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> 27/7 support</li>
+						</ul>
+						<div class="panel-footer">
+							<a class="btn btn-lg btn-block btn-danger" href="#">BUY NOW!</a>
+						</div>
+					</div>
+					<!-- /PRICE ITEM -->
+					
+					
+				</div>
+
+
+
+				</div>
+				
+			</div>
+		</div>
+		<div style="position: relative; display: block;">
+			<div class="ubDownArrow floating-arrow" style="top: 20px">
+				<a href="#idUbStory" style="color: rgb(255, 82, 116);"><i
+					class="fa fa-angle-down"></i></a>
+			</div>
+		</div>
+	</section>
+
+	
+
+	<!-- About Us Section -->
+
+	<section class="blog-intro"
+		style="background-color: white; padding: 40px 60px 80px 60px"
+		id="idUbAbout">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2>
+						About Us<span></span>
+					</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1" style="padding: 0 30px">
+					<h5>Our Story</h5>
+					<p style="text-align: justify"> FeedbackLens is one of the platforms for you to connect with your customers and get valuable feedback in real-time on the service you provide or products you delivery. Knowing what your customers really think about their experience is the key to your success and Feedbacklens provides you with a easy way  to facilitate active listening. It gives you an opportunity to highlght you customers that their opnion really matters and is critical in the growth.  FeedbackLens has a very unique and simple way that drive superior customer feedback management methodology for our clients globally,  across all industries and that too  in a very cost effective manner. Specialized in customer care and satisfaction, Feedbacklens feedback management systems was created by our expert team with a focus on quality and affordability.                   
+                   <br/>
+Ask us how we can help you getting started with your customer insights. For more information click &nbsp;&nbsp; <a href="#more" class="btn btn-info" role="button">here</a></p>
+				</div>
+				
+			</div>
+		</div>
+		<div style="position: relative; display: block;">
+			<div class="ubDownArrow floating-arrow" style="top: 20px">
+				<a href="#idUbStory" style="color: rgb(255, 82, 116);"><i
+					class="fa fa-angle-down"></i></a>
+			</div>
+		</div>
+	</section>
+
+	<!-- Our story and device images -->
+
+	<section class="hero-strip section-padding"
+		style="margin-top: 0px; padding: 80px;" id="idUbStory">
+		<div class="container">
+			<div class="col-md-6 text-center">
+				<div align="left" style="width: 90%;">
+					<h5 style="color: white">Why UrbanBonds?</h5>
+					<p style="text-align: justify">All the time intensive, tedious
+						and unstructured operations of your Society are magically and
+						extraordinarily transformed by our one-stop solution, that is
+						available on the device of your choice, at any time. UrbanBonds
+						provides real time reports and analytics on your data for you to
+						stay abreast with your Society. With the right checks and balances
+						in place, you can relax and reclaim your peace of mind.</p>
+				</div>
+			</div>
+			<div class="col-md-6 text-center" id="idUbDeviceImages">
+				<div style="position: relative">
+					<div
+						style="display: block; position: absolute; float: left; min-height: 250px; top: -20px">
+
+						<img src="assets/img/sliders/revolution/mac.png" width="323"
+							height="258" alt="Image 1" id="idImgMac"
+							style="position: absolute; bottom: 0px; left: 100px" /> <img
+							src="assets/img/sliders/revolution/ipad.png" width="158"
+							height="127" alt="Image 1" id="idImgIpad"
+							style="position: absolute; bottom: 0px;" /> <img
+							src="assets/img/sliders/revolution/iphone.png" width="48"
+							height="98" alt="Image 1" id="idImgIphone"
+							style="position: absolute; bottom: 0px; left: 180px" /> <img
+							src="assets/img/sliders/revolution/macbook.png" width="241"
+							height="143" alt="Image 1" id="idImgMacBook"
+							style="position: absolute; bottom: 0px; left: 280px" />
+
+						<!-- <img src="assets/img/sliders/revolution/hint1-blue.png" width="253" height="54" id="rev-hint1" alt="Image 1" style="position: absolute; top: -50px; left: 100px"/>
+						
+						<img src="assets/img/sliders/revolution/hint2-blue.png" width="241" height="39" id="rev-hint2" alt="Image 1" style="position: absolute; top: -50px; left: 100px"/> -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style="position: relative; display: block;">
+			<div class="ubDownArrow floating-arrow" style="top: 30px">
+				<a href="#idUbFooter" style="color: white"><i
+					class="fa fa-angle-down"></i></a>
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer Section -->
+
+	<footer style="background-color: rgb(240, 240, 240)" id="idUbFooter">
+		<div class="container">
+			<div class="row" style="padding: 40px 10px;" align="center">
+				<ul class="ubFeaturesUL" style="display: inline-block; width: 80%;"
+					align="center">
+					<li class="ubFeaturesLI" style="width: 33%; padding-left: 10px">
+						<div class="ubFeaturesIcon">
+							<i class="fa fa-phone fa-2x"></i>
+						</div>
+
+						<div class="ubFeaturesInfo" align="left">
+							<h5>Talk with Us</h5>
+							<p style="color: #616161">
+								<a style="color: #616161">sales@feedbacklens.com (Sales)<br />
+									support@feedbacklens.com (Support)
+								</a>
+							</p>
+						</div>
+					</li>
+					<li class="ubFeaturesLI" style="width: 33%; padding-left: 10px">
+						<div class="ubFeaturesIcon">
+							<i class="fa fa-envelope-o fa-2x"></i>
+						</div>
+
+						<div class="ubFeaturesInfo" align="left">
+							<h5>Mail Us</h5>
+							<p style="color: #616161">enquiry@feedbacklens.com</p>
+						</div>
+					</li>
+					<li class="ubFeaturesLI" style="width: 33%; padding-left: 10px">
+						<div class="ubFeaturesIcon">
+							<a href="https://goo.gl/maps/SnLkpZEVj852" target="_blank"
+								class="ubMapFontIcon"><i
+								class="fa fa-map-marker fa-2x  ubLocationIcon"></i></a>
+						</div>
+
+						<div class="ubFeaturesInfo" align="left">
+							<h5>Find Us</h5>
+							<p style="color: #616161">
+								Kolhsys Technologies Pvt Ltd <br /> 20. Henry Lawson Drive <br />
+								Lynbrook<br /> Melbourne, <br /> Victoria - 3975
+							</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 col-sm-12">
+					<p
+						style="text-align: center !important; border-top: 1px solid #BDBDBD; padding-top: 5px">
+						<span class="margin-right-10"
+							style="color: black; margin-right: 10px;" id="ubCopyrightStmt">Copyright
+							2017 Kolhsys technologies Pvt Ltd. All Rights Reserved</span> <a
+							href="/public/terms_of_service_and_privacy_policy.jsp"
+							style="text-decoration: underline !important; color: rgb(255, 82, 116) !important;">Terms
+							of Service &amp; Privacy Policy</a>
+					</p>
+				</div>
+			</div>
+		</div>
+		<span style="display: none;">smp_08_Jun_2017.362</span>
+		<!-- Reach us drawer section -->
+
+		<div id="idContactUsContainer" class="ssDrawer ssDrawerClosed"
+			align="center">
+			<div class="drawerActionBtn" id="drawerActionBtnId"
+				style="cursor: pointer;" title="Contact Us" align="left">
+				<span style="display: inline-block; font-size: 14px;"> <!-- <i class="fa fa-pencil"></i> -->
+					Reach Us
+				</span>
+			</div>
+			<div style="width: 410px; height: 100%; display: inline-block">
+				<div class="ssDrawerInner">
+					<span style="float: right; color: black; cursor: pointer; padding: 4px"
+						id="idUbDrawerClose"><i class="fa fa-times"></i></span>
+					<h2 style="font-size: 16px; font-weight: 600; margin-bottom: 10px"
+						id="drawerTitle">Write to Us</h2>
+					<div id="divInfoBox"
+						style="display: none; color: black; padding: 5px; font-size: 14px; font-weight: 600"></div>
+					<div id="divTableContactUs">
+						<table class="ubReachUsInputTable">
+							<tr>
+								<td width="90%"><input type="text"
+									class="form-control ubReachUsFormInputs"
+									placeholder="Your Name" name="personName" id="personName"
+									size="30" maxlength="50" /></td>
+							</tr>
+							<tr>
+								<td><input type="text"
+									class="form-control ubReachUsFormInputs" placeholder="Subject"
+									name="subject" id="subject" size="50" maxlength="50" /></td>
+							</tr>
+							<tr>
+								<td><textarea class="form-control ubReachUsFormInputs"
+										placeholder="Your message" name="description" id="description"
+										rows="6" cols="50" maxlength="1000" style="resize: none;"></textarea>
+									<div style="font-size: 11px">
+										Total characters :<span id="charremain"></span>.&nbsp; Maximum
+										1000.
+									</div></td>
+							</tr>
+							<tr>
+								<td></td>
+							</tr>
+							<tr>
+								<td><input type="text"
+									class="form-control ubReachUsFormInputs"
+									placeholder="Your Email Address" name="email" id="email"
+									size="30" maxlength="50" /></td>
+							</tr>
+
+							<tr>
+								<td>
+									<div style="width: 15%; float: left;">
+										<input type="text" class="form-control ubReachUsFormInputs"
+											style="border-right: none; border-radius: 4px 0px 0px 4px !important"
+											placeholder="+91" size="3" maxlength="3" readonly="readonly" />
+									</div>
+									<div style="width: 85%; float: left;">
+										<input type="text" class="form-control ubReachUsFormInputs"
+											style="border-left: none; border-radius: 0px 4px 4px 0px !important;"
+											placeholder="Your Contact Number" name="contactNo"
+											id="contactNo" size="10" maxlength="10" />
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<td align="center" style="padding-top: 10px"><input
+									type="button" id="submitBtn" value="Submit"
+									class="ssDrawerSbmtbtn" /> <span
+									style="color: white; display: none;" id="ssLoadinIcon">
+										<i class='fa fa-spinner fa-pulse fa-fw fa-2x'></i>
+								</span></td>
+							</tr>
+						</table>
+					</div>
+					<div></div>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<script
+		src="/assets/new_home_resources/bower_components/retina.js/dist/retina.js"></script>
+	<script
+		src="/assets/new_home_resources/js/jquery.fancybox.pack.js"></script>
+	<script
+		src="/assets/new_home_resources/js/vendor/bootstrap.min.js"></script>
+	<script src="/assets/new_home_resources/js/scripts.js"></script>
+	<script
+		src="/assets/new_home_resources/js/jquery.flexslider-min.js"></script>
+	<script
+		src="/assets/new_home_resources/bower_components/classie/classie.js"></script>
+	<script
+		src="/assets/new_home_resources/bower_components/jquery-waypoints/lib/jquery.waypoints.min.js"></script>
+
+
+	<!-- Google Code for Website-Jan Conversion Page -->
+	<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 865509917;
+var google_conversion_language = "en";
+var google_conversion_format = "3";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "tHM9CI64z20QncTanAM";
+var google_remarketing_only = false;
+/* ]]> */
+</script>
+	<script type="text/javascript"
+		src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+	<noscript>
+		<div style="display: inline;">
+			<img height="1" width="1" style="border-style: none;" alt=""
+				src="//www.googleadservices.com/pagead/conversion/865509917/?label=tHM9CI64z20QncTanAM&amp;guid=ON&amp;script=0" />
+		</div>
+	</noscript>
+
+
+
+</body>
+<!-- END BODY -->
+</html>
