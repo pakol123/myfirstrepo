@@ -443,7 +443,7 @@ function() {
                         feedbacks = feedbacks + cat.catCount;
                    });
                    a.hasFeedBacks = feedbacks > 0 ? true : false;
-
+                   
                    if(a.hasFeedBacks)
                         a.setPieChart();
 
@@ -1725,11 +1725,11 @@ function() {
                         name: "Feedbacks",
                         type: "bar",
                         data: [
-                                a.ratingWiseFDCounts[0].rating_count,
-                                a.ratingWiseFDCounts[1].rating_count,
-                                a.ratingWiseFDCounts[2].rating_count,
-                                a.ratingWiseFDCounts[3].rating_count,
-                                a.ratingWiseFDCounts[4].rating_count,
+                                a.ratingWiseFDCounts[0] ? a.ratingWiseFDCounts[0].rating_count : 0,
+                                a.ratingWiseFDCounts[1] ? a.ratingWiseFDCounts[1].rating_count : 0,
+                                a.ratingWiseFDCounts[2] ? a.ratingWiseFDCounts[2].rating_count : 0,
+                                a.ratingWiseFDCounts[3] ? a.ratingWiseFDCounts[3].rating_count : 0,
+                                a.ratingWiseFDCounts[4] ? a.ratingWiseFDCounts[4].rating_count : 0,
                             ],
                         markPoint: {
                             data: [{
