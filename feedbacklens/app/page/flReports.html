@@ -22,7 +22,7 @@
 
 <div class="page page-dashboard" data-ng-controller="reportsController">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" ng-show="dashdomains.length > 0">
             <div class="col-sm-6 col-md-offset-3 text-center">
                 <span class="ui-select custSelect" style="width: 70%; background-color:white ">
                     <select ng-model="dash.domainId" ng-change="dash.onSelectDomain()" id="domainNamesList">
@@ -31,9 +31,15 @@
                 </span>
             </div>
         </div>
+
+        <div class="col-md-6 col-md-offset-3 text-center" ng-show="dashdomains.length == 0"">    
+          <div align="center">
+            <p>You don't have any domain registered for feedbacks!</p>
+            <a href="#/form/flDomainAdd" style="display: inline-block;"><h4><u>Lets start by adding one</u></h4></a>
+          </div>
+        </div>
     </div>
     <div class="divider divider-md"></div>
-
     <div class="row" ng-if="dashdomains.length > 0">
         <div class="col-md-6">
             <section class="panel panel-default panel-minimal">

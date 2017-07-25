@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
+use Log;
 
 class sessionController extends Controller
 {
@@ -39,14 +40,10 @@ public function getAuthenticatedUser()
     return response()->json(['token_absent'], $e->getStatusCode());
 
   }
-
+ 
     //return response()->json(compact('user'));
-  $id = $user->organisation->plans->where('IS_ACTIVE',1);
-
-  dd(count($id));
-
-  //($id[0]->NO_OF_DOMAINS);
-  //dd($user);
+  $id = $user->organisation->plans->where('IS_ACTIVE',0);
+ 
   return response()->json(array('user'=>$user,'no_of_domains'=>$id[0]->NO_OF_DOMAINS,'role_name'=>$user->role->ROLE_NAME));
 }
 

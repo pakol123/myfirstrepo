@@ -40,7 +40,7 @@ public function userAdd(Request $request)
        if($this->validateEmailandPhone(request('email')) == 1)
        {
           
-          return response()->json(['error' => 'Email duplication'], 400);
+          return response()->json(['error' => 'Email is already used'], 400);
 
        }
 
@@ -142,7 +142,7 @@ public function userAdd(Request $request)
 
        //Auth()->login($user);
 
-        \Mail::to($user->EMAIL)->send(new Welcome($org,$user));
+        //\Mail::to($user->EMAIL)->send(new Welcome($org,$user));
             return response()->json(['success' => 'registration successful'], 200);
       //  return \Redirect::to('/')->with('user', 'pratik');
 

@@ -1,12 +1,16 @@
-
+<style>
+  .col-md-1, .col-md-2,.col-md-3 {
+     padding-left: 2px !important; padding-right: 2px !important;
+  }
+</style>
 <div class="page page-table" data-ng-controller="feedbackController">
 
-    <div class="row">
-        <div class="col-md-3">
+    <div class="row" ng-show="domains.length > 0">
+        <div class="col-md-12">
           <section class="panel panel-default">
-            <div class="panel-heading" style="position: relative;"><strong><span class="glyphicon glyphicon-th"></span> Filter</strong></div>
-              <div class="panel-body">
-                <div>
+            <div class="panel-heading" ng-click="isFilterOpen = !isFilterOpen" style="position: relative;"><strong><span class="glyphicon glyphicon-th"></span>Apply Filter</strong></div>
+              <div class="panel-body" style="padding-bottom: 2px" uib-collapse="isFilterOpen">
+                <div class="col-md-2">
                   <span class="ui-select custSelect" style="width: 100%; background-color:white;">
                     <select ng-model="domainId" ng-change="onSelectDomain()">
                       <option value=""><span style="color: grey;text-align: center">Select Domain</span></option>
@@ -14,51 +18,53 @@
                     </select>
                   </span>
                 </div>
-                <div class="divider divider-md"></div> 
-                <div class="input-group ui-datepicker">
-                        <input type="text" 
-                               class="form-control"
-                               uib-datepicker-popup="{{format}}"
-                               ng-model="startDate"
-                               is-open="popup1.opened"
-                               min-date="minFromStartDate"
-                               max-date="maxDate"
-                               datepicker-options="dateOptions"
-                               ng-required="true"
-                               close-text="Close"
-                               readonly='readonly'
-                               placeholder='From Date'
-                               ng-disabled="domainId == ''"/>
-                        <span class="input-group-addon" ng-click="openStartDateCal()"><i class="ti-calendar"></i></span>
-                    </div>
-                <div class="divider divider-md"></div>
-                <div class="input-group ui-datepicker">
-                        <input type="text" 
-                               class="form-control"
-                               uib-datepicker-popup="{{format}}"
-                               ng-model="endDate"
-                               is-open="popup2.opened"
-                               min-date="startDate"
-                               max-date="maxDate"
-                               datepicker-options="dateOptions"
-                               ng-required="true"
-                               close-text="Close"
-                               readonly='readonly'
-                               placeholder='To Date'
-                               ng-disabled="domainId == ''"/>
-                        <span class="input-group-addon" ng-click="openEndDateCal()"><i class="ti-calendar"></i></span>
-                    </div>
-                <div class="divider divider-md"></div>  
-                <div>
+                <div class="col-md-2">
+                  <div class="input-group ui-datepicker" class="col-md-3">
+                          <input type="text" 
+                                 class="form-control"
+                                 uib-datepicker-popup="{{format}}"
+                                 ng-model="startDate"
+                                 is-open="popup1.opened"
+                                 min-date="minFromStartDate"
+                                 max-date="maxDate"
+                                 datepicker-options="dateOptions"
+                                 ng-required="true"
+                                 close-text="Close"
+                                 readonly='readonly'
+                                 placeholder='From Date'
+                                 ng-disabled="domainId == ''"/>
+                          <span class="input-group-addon" ng-click="openStartDateCal()"><i class="ti-calendar"></i></span>
+                      </div>
+                </div>   
+                <div class="col-md-2">
+                  <div class="input-group ui-datepicker">
+                          <input type="text" 
+                                 class="form-control"
+                                 uib-datepicker-popup="{{format}}"
+                                 ng-model="endDate"
+                                 is-open="popup2.opened"
+                                 min-date="startDate"
+                                 max-date="maxDate"
+                                 datepicker-options="dateOptions"
+                                 ng-required="true"
+                                 close-text="Close"
+                                 readonly='readonly'
+                                 placeholder='To Date'
+                                 ng-disabled="domainId == ''"/>
+                          <span class="input-group-addon" ng-click="openEndDateCal()"><i class="ti-calendar"></i></span>
+                      </div>
+                </div>
+
+                <div class="col-md-2">
                   <span class="ui-select custSelect" style="width: 100%; background-color:white ">
                     <select ng-model="catId" ng-disabled="domainId == ''" class="form-control">
-                      <option value=""><span style="color: grey;text-align: center">All Categories</span></option>
+                      <option value=""><span style="color: grey;text-align: center">Categories</span></option>
                       <option value="{{cat.CAT_ID}}" data-ng-repeat="cat in categories">{{cat.CAT_NAME}}</option>
                     </select>
                   </span>
                 </div>
-                <div class="divider divider-md"></div>  
-                <div>
+                  
+                <div class="col-md-3">
                   <span class="ui-select custSelect" style="width: 100%; background-color:white ">
                     <select ng-model="subCatId" ng-disabled="domainId == ''" class="form-control">
                       <option value=""><span style="color: grey;text-align: center">All Sub Categories</span></option>
@@ -66,23 +72,25 @@
                     </select>
                   </span>
                 </div>
-                <div class="divider divider-md"></div>  
-                <div>
-                  <span class="ui-select custSelect" style="width: 50%; background-color:white ">
+                 
+                <div class="col-md-1">
+                  <span class="ui-select custSelect" style="width: 100%; background-color:white ">
                     <select ng-model="rating" ng-disabled="domainId == ''" class="form-control">
-                      <option value=""><span style="color: grey;text-align: center">All Ratings</span></option>
+                      <option value=""><span style="color: grey;text-align: center">Ratings</span></option>
                       <option value="{{rt}}" data-ng-repeat="rt in [1,2,3,4,5]">{{rt}}</option>
                     </select>
                   </span>
                 </div>
-                <div class="divider divider-lg"></div>
-                <button type="button" class="btn btn-primary btn-block btn-w-md" ng-click="applyFilterTogetFeedbacks()" ng-disabled="domainId == ''">Submit</button>
+                
               </div>
+              <div style="padding:5px 16px 10px 16px" uib-collapse="isFilterOpen">
+                <button class="btn btn-primary btn-w-md" ng-click="applyFilterTogetFeedbacks()" ng-disabled="domainId == ''">Submit</button>
+              </div>  
             </section>
         </div>
-    
-    
-        <div class="col-md-9" ng-show="feedbacks != '' && feedbacks.length > 0">
+    </div>
+    <div class="row">
+        <div class="col-md-12" ng-show="feedbacks != '' && feedbacks.length > 0">
           <div class="panel panel-default">
             <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Feedbacks</strong></div>
             <table class="table">
@@ -102,19 +110,69 @@
                       <td style="text-align: center;"><span class="label {{themeColors[feedback.RATING-1]}}">{{feedback.RATING}}</span></td>
                       <td>{{feedback.TEXT.length > 35 ? feedback.TEXT.substring(0,35) + '...': feedback.TEXT}}</td>
                       <td>{{feedback.EMAIL != '' ? feedback.EMAIL : '-'}}</td>
-                      <td>{{feedback.CAT_ID}}</td>
-                      <td>{{feedback.SUBCAT_ID}}</td>
+                      <td>{{feedback.CAT_NAME}}</td>
+                      <td>{{feedback.SUBCAT_NAME}}</td>
                     </tr>
                 </tbody>
             </table>
           </div>
     </div>
 
-    <div class="col-md-9" ng-show="feedbacks == '' || feedbacks.length == 0">
-          
-              <div class="callout callout-info">
-                    <p>Didn't find any feedback!</p>
-                </div>
-            
+    <div class="col-md-12" ng-show="domains.length > 0 && (feedbacks == '' || feedbacks.length == 0)">
+      <div class="callout callout-danger">
+        <p>Didn't find any feedback!</p>
+      </div>
     </div>
+
+    <div class="col-md-6 col-md-offset-3 text-center" ng-show="domains.length == 0">    
+      <div align="center" >
+        <p>You don't have any domain registered for feedbacks!</p>
+        <a href="#/form/flDomainAdd" style="display: inline-block;"><h4><u>Lets start by adding one</u></h4></a>
+      </div>
+    </div>
+
 </div>
+<div class="panel-body" data-ng-controller="ModalDemoCtrl">
+    <script type="text/ng-template" id="feedbackDetails.html">
+                        <div class="modal-header">
+                            <h3>Feedback Details</h3>
+                        </div>
+                        <div class="modal-body">
+                            <ul class="list-unstyled list-info">
+                                <li>
+                                    <span class="icon glyphicon glyphicon-user"></span>
+                                    <label>User name</label>
+                                    {{main.name}}
+                                </li>
+                                <li>
+                                    <span class="icon glyphicon glyphicon-envelope"></span>
+                                    <label>Email</label>
+                                    lisa@doe.com
+                                </li>
+                                <li>
+                                    <span class="icon glyphicon glyphicon-home"></span>
+                                    <label>Address</label>
+                                    Street 123, Avenue 45, Country
+                                </li>
+                                <li>
+                                    <span class="icon glyphicon glyphicon-earphone"></span>
+                                    <label>Contact</label>
+                                    (+012) 345 6789
+                                </li>
+                                <li>
+                                    <span class="icon glyphicon glyphicon-flag"></span>
+                                    <label>Nationality</label>
+                                    Australia
+                                </li>
+                                <li>
+                                    <span class="icon glyphicon glyphicon-globe"></span>
+                                    <label>Website</label>
+                                    www.site.com
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-warning" ng-click="cancel()">Close</button>
+                        </div>
+    </script>
+    </div>

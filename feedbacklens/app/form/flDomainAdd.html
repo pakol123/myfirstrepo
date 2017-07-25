@@ -14,6 +14,14 @@
     .flDomainStars > li > i{
         color: #FFEB3B;        
     }
+
+    .domainNameDiv {
+        width: 100%;
+    }
+
+    .domainNameDiv input {
+        float:left;
+    }
 </style>
 
 <div class="page" data-ng-controller="domainInfoController">
@@ -22,15 +30,24 @@
         <div class="panel-body" uib-collapse="isAddDomainFormCollapsed">
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
+                    <div class="callout callout-danger" ng-show="showDomainFormError">
+                        <span class="ti-close" style="cursor: pointer; float:right" ng-click="showDomainFormError = false"></span>
+                        <p style="width: 80%; margin-right: 0px">Domain with this name is already registered!</p>
+                    </div>
                     <form role="form" data-ng-submit="submitDomainInfoForm()" name="addDomainForm">
                         <div class="form-group">
                             <label for="domainName">Domain Name*</label>
-                            <input  type="text" 
+                            <div class="domainNameDiv">
+                                <input  type="text" class="form-control" placeholder="www." style="width: 12%; border-right:none;text-align: right" readonly="readonly">
+
+                                <input  type="text" 
                                     class="form-control" 
                                     placeholder="Domain Name"
                                     data-ng-model="domain.domainName"
                                     maxlength="200" 
-                                    required>
+                                    required style="width: 88%;border-left:none;">
+                                
+                            </div>        
                         </div>
                         <div class="form-group">
                             <label for="domainSector">Domain Sector*</label>
@@ -66,7 +83,7 @@
                             <li ng-repeat="i in getNumber(getDomainAvgRating(domain.DOMAIN_ID).rat)"><i class="fa fa-star"></i></li>
                             <li ng-if="isDecimalPoint(getDomainAvgRating(domain.DOMAIN_ID).rat)"><i class="fa fa-star-half"></i></li>
                         </ul>
-                        <p style="font-size: 10px;display:block;color: #BDBDBD; float:left;width:100%">{{getDomainFeedbacks(domain.DOMAIN_ID)}} feedbacks.</p>
+                        <p style="font-size: 10px;display:block;color: #BDBDBD; float:left;width:100%">{{getDomainFeedbacks(domain.DOMAIN_ID)}} feedback{{getDomainFeedbacks(domain.DOMAIN_ID) == 1 ? '' : 's'}}.</p>
                     </div>
                     <p ng-if="getDomainFeedbacks(domain.DOMAIN_ID) == 0" style="font-size: 10px; color: #BDBDBD"><i>No feedbacks.</i></p>
                 </div>

@@ -175,7 +175,6 @@ function() {
             var requestObj = {'domainId' : 9, 'notification': '0'};
             x.get('public/api/feedback/getFeedback',{params:requestObj}).success(function(data) {
                    a.lastFeedbacks=data.feedbacks;
-                   //console.log(data);
                 }).error(function(error){
             });
         }
@@ -314,7 +313,6 @@ function() {
                     b.path('/');
                   }
             }*/ 
-            alert(sessionStorage.getItem('user'));
 
             if(!user) {
                 a.authenticated = false;
@@ -391,9 +389,9 @@ function() {
 
         a.chartColors = [a.color.primary, a.color.danger, a.color.warning, a.color.success, a.color.info];
         a.categoryWiseCount = [
-            {catCount: 0, catName: 'Problems'},
-            {catCount: 0, catName: 'Suggestions'},
-            {catCount: 0, catName: 'Complaints'},
+            {catCount: 0, catName: 'Problem'},
+            {catCount: 0, catName: 'Suggestion'},
+            {catCount: 0, catName: 'Complaint'},
             {catCount: 0, catName: 'Others'},
         ];
         a.pieChartDataArray = [];
@@ -427,7 +425,6 @@ function() {
             
             z.get('public/api/report/category/'+a.dash.domainId).success(function(data) { 
                    //a.categoryWiseCount=data.CategoryCount;
-                   //console.log(a.categoryWiseCount);
                    var feedbacks = 0;
                    angular.forEach(a.categoryWiseCount, function(cat, key) {
                         var catFound = false;
@@ -460,7 +457,7 @@ function() {
                             pieChartData = {
                                 value: cat.catCount,
                                 type:'pie',
-                                name: cat.catName,
+                                name: cat.catName + 's',
                                 itemStyle: {
                                     normal: {
                                         color: columnColor,
@@ -519,7 +516,7 @@ function() {
         /* User Section */
         a.dash.users = [];
         a.dash.getAllUsers = function() {
-            z.get('public/api/allUsers?ORG_ID='+y.currentUser.ORG_ID).success(
+            z.get('public/api/allUsers?orgId='+y.currentUser.ORG_ID).success(
                 function(data){
                     a.dash.users = data.users;
                 }).error(function(error){
@@ -1026,12 +1023,9 @@ function() {
                       // Because we returned the $http.get request in the $auth.login
                       // promise, we can chain the next promise to the end here
                     }).then(function(response) {
-                       console.log(response.data);
                         sessionStorage.setItem('currentUser', JSON.stringify(response.data.user));
                         sessionStorage.authenticated = true;
                         sessionStorage.setItem('noOfDomains', response.data.no_of_domains);
-
-                        console.log(response.data);
                         d.currentUser = response.data.user;
                         d.noOfDomains = response.data.no_of_domains;
                         d.authenticated = true;
@@ -1059,6 +1053,7 @@ function() {
                  domainName: "",
                  domainSector: "",
             };
+            a.showDomainFormError = false;
 
             original = angular.copy(a.domain);
 
@@ -1066,6 +1061,7 @@ function() {
             a.domain.createdBy= b.currentUser.USER_ID;
             a.domainAvgRatings = [];
             a.feedbackCount = [];
+
             a.getDomains = function() {
                 b.getAllDomains(b.currentUser.ORG_ID).success(function(data){
                     a.domains = data.domains;
@@ -1085,15 +1081,22 @@ function() {
                 return a.addDomainForm.$valid && !angular.equals(a.domain, original);
             };
 
-            a.submitDomainInfoForm = function() {               
+            a.submitDomainInfoForm = function() { 
+
                 c.post('public/api/domain/create', a.domain).success(
                     function(data){
                         b.notify('success', "Successfully Added domain");
                         a.getDomains();
                         a.domain = original;
-                    }).error(function(error){
-                         
-                        b.notify('error', "Failed to add domain");
+                        a.showDomainFormError = false;
+                    }).error(function(error, code){
+                         if(code == 400) {
+                                a.showDomainFormError = true;
+                         }
+                         else { 
+                            b.notify('error', "Failed to add domain");
+                            a.showDomainFormError = false;
+                        }
                     });
             }
 
@@ -1174,11 +1177,11 @@ function() {
 
             a.users = [];
             a.original = angular.copy(a.user);
-
             a.user.orgId = b.currentUser.ORG_ID;
             a.user.createdBy = b.currentUser.USER_ID;
-            
             a.roles = [];
+            a.errorMsg = '';
+            a.showUserFormError = false;
 
             a.profileBackTheme = ['bg-danger', 'bg-success', 'bg-info', 'bg-warning'];
 
@@ -1197,9 +1200,12 @@ function() {
                 // change following URL parameter passing method
             a.getAllUsers = function() {
                 
-                c.get('public/api/allUsers?ORG_ID='+b.currentUser.ORG_ID).success(
+                c.get('public/api/allUsers?orgId='+b.currentUser.ORG_ID).success(
                 function(data){
                     a.users = data.users;
+                    if(a.users.length == 0)
+                        a.isAddUserFormCollapsed = false;
+
                 }).error(function(error){
                         
                 });
@@ -1208,7 +1214,7 @@ function() {
             a.getAllUsers();
 
             a.canSubmit = function() {
-                return a.addUserForm.$valid && !angular.equals(a.user, a.original);
+                return a.addUserForm.$valid;
             };
 
             a.submitUserInfoForm = function() {
@@ -1219,6 +1225,8 @@ function() {
                         a.user.role = (a.roles[0].ROLE_ID).toString();
                         a.getAllUsers();
                     }).error(function(error){
+                        a.errorMsg = error.error;
+                        a.showUserFormError = error;
                         b.notify('error', "Failed to add user");
                     });
             }
@@ -1240,6 +1248,9 @@ function() {
         a.categories = [];
         a.subCategories = [];
         a.subCatUpdate = {};
+        a.isIntegrationInfoCollapsed = true;
+        a.headTagText = '<head>';
+        a.pluginAPIText = '<link rel="stylesheet" href="http://kolhsys.com/plugin/flPlugin.css"> <script src="http://kolhsys.com/plugin/preview/flPluginMain.js"></script>'
 
         b.getAllDomains(b.currentUser.ORG_ID).success(function(data){
             a.domains = data.domains;
@@ -1257,13 +1268,12 @@ function() {
 
         a.getSubCategories = function(domainId) {
             b.getSubCatsByDomainId(domainId).success(function(data){
-
+                console.log(data);
                 a.subCategories = data.subcat;
-                console.log(a.subCategories);
                 a.categories = data.cat;
                 a.plugin.pluginId = data.properties.PLUGIN_ID;
-                a.plugin.ALIGNMENT = data.properties.ALIGNMENT;
-                a.plugin.PLUGIN_COLOR = data.properties.PLUGIN_COLOR;
+                a.plugin.ALIGNMENT = data.properties.ALIGNMENT ? data.properties.ALIGNMENT.toString() : '';
+                a.plugin.PLUGIN_COLOR = data.properties.PLUGIN_COLOR ? data.properties.PLUGIN_COLOR.toString() : '';
                 a.plugin.ISACTIVE = data.properties.ISACTIVE;
                 a.isActive = a.showFullPreview = a.plugin.ISACTIVE == 1 ? true : false;
                 original = angular.copy(a.plugin);
@@ -1335,7 +1345,6 @@ function() {
             a.subCatUpdate.subcatId = subCatId;
             a.subCatUpdate.isactive = isActive ? 1 : 0;
             a.subCatUpdate.pluginId = a.plugin.pluginId;
-                //alert(JSON.stringify(a.subCatUpdate));
             c.post('public/api/plugin/updateSubCat',a.subCatUpdate).success(function(data) {
                 b.notify('success', "Successfully " + (isActive ? "enabled":"disabled") + " sub category");
                 a.getSubCategories(a.domainId);
@@ -1345,8 +1354,6 @@ function() {
         }
 
         a.showSubCatToggleConfirm = function(subCatId, isActive) {
-            //alert($('#idSubCatToggle' + isActive).prop('checked'));
-
             var toggleSubCatElement = $('#idSubCatToggle' + isActive);
             var toggleSubCat = toggleSubCatElement.prop('checked');
             var e = h.open({
@@ -1360,6 +1367,24 @@ function() {
             }, function() {
                 toggleSubCatElement.prop('checked', !toggleSubCat);
             });
+        }
+
+        
+
+        a.copyAPILinks = function() {
+           if (document.selection) { 
+                var range = document.body.createTextRange();
+                range.moveToElementText(document.getElementById('idPluginAPIText'));
+                range.select().createTextRange();
+                document.execCommand("Copy"); 
+                b.notify('success', "Copied");
+            } else if (window.getSelection) {
+                var range = document.createRange();
+                 range.selectNode(document.getElementById('idPluginAPIText'));
+                 window.getSelection().addRange(range);
+                 document.execCommand("Copy");
+                 b.notify('success', "Copied");
+            }
         }
 
     } // End of plugin controller function
@@ -1379,7 +1404,7 @@ function() {
 
 function() {
     "use strict";
-    function a(a,b,e,d) {
+    function a(a,b,e,d,z) {
 
         a.feedbacks = [];
         a.domains = [];
@@ -1387,6 +1412,7 @@ function() {
         a.plugin = {};
         a.categories = [];
         a.domain = {};
+        a.isFilterOpen = false;
 
         a.domainId = '', a.catId = '', a.subCatId = '', a.startDate = '', a.endDate = '', a.rating = '';
         
@@ -1400,6 +1426,7 @@ function() {
             startingDay: 1
         };
         a.toDay = new Date();
+
         
 
         /* Service calls*/
@@ -1454,7 +1481,6 @@ function() {
             
             e.get('public/api/feedback/getFeedback',{params:requestObj}).success(function(data) {
                    a.feedbacks=data.feedbacks;
-                   //console.log(data);
                 }).error(function(error){
                     
             });
@@ -1477,18 +1503,33 @@ function() {
             if(a.endDate != '' && a.endDate)
                 reqObj.toDate = a.endDate;
 
-            alert(JSON.stringify(reqObj));
             e.get('public/api/feedback/filter/' + a.domainId, {params:reqObj}).success(function(data) {
-                console.log(data);
                    a.feedbacks=data.filteredFeedbacks;
                 }).error(function(error){
                     
             });
         }
 
+        a.showFeedbackDetails = function() {
+            var e = z.open({
+                animation: true,
+                template: 'feedbackDetails.html',
+                controller: "ModalDemoCtrl",
+                size: 'sm'
+            });
+        }
     }
 
-    angular.module('app.feedbacks').controller("feedbackController", ["$scope", "$rootScope", "$http", "logger",a])
+    function b(a, b) {
+        a.ok = function() {
+            b.close()
+        }, a.cancel = function() {
+            b.dismiss("cancel")
+        }
+    }
+
+
+    angular.module('app.feedbacks').controller("feedbackController", ["$scope", "$rootScope", "$http", "logger","$uibModal",a]).controller("ModalInstanceCtrl", ["$scope", "$uibModalInstance", b])
 }(),
 
 /*Reports Controller*/
@@ -1500,9 +1541,9 @@ function() {
         
         a.chartColors = [a.color.primary, a.color.danger, a.color.warning, a.color.success, a.color.info];
         a.categoryWiseCount = [
-            {catCount: 0, catName: 'Problems'},
-            {catCount: 0, catName: 'Suggestions'},
-            {catCount: 0, catName: 'Complaints'},
+            {catCount: 0, catName: 'Problem'},
+            {catCount: 0, catName: 'Suggestion'},
+            {catCount: 0, catName: 'Complaint'},
             {catCount: 0, catName: 'Others'},
         ];
         a.pieChartDataArray = [];
@@ -1613,7 +1654,7 @@ function() {
                             pieChartData = {
                                 value: cat.catCount,
                                 type:'pie',
-                                name: cat.catName,
+                                name: cat.catName + 's',
                                 itemStyle: {
                                     normal: {
                                         color: columnColor,

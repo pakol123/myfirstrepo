@@ -117,7 +117,7 @@
                                     <label>Organization</label>
                                     {{currentUser.organisation.ORG_NAME}}
                                 </li>
-                                <li ng-if="currentUser.role.ROLE_NAME == 'ADMIN'">
+                                <li ng-if="currentUser.role.ROLE_NAME.toLowerCase() == 'admin'">
                                     <span class="icon glyphicon glyphicon-star"></span>
                                     <label>Plan</label>
                                     {{currentUser.organisation.plans[0].PLAN_NAME}}

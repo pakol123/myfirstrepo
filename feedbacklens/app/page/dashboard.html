@@ -117,9 +117,9 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Users</strong></div>
-                    <!-- <div class="panel-body">
+                    <div class="panel-body" ng-if="dash.users.length == 0>
                         <a href="#/page/flUsers" class="btn btn-primary">Add Users</a>
-                    </div> -->
+                    </div>
                     <ul class="list-group" ng-if="dash.users.length > 0">
                         <li class="list-group-item" ng-repeat="userDet in dash.users">
                             {{userDet.FIRST_NAME + ' ' + userDet.LAST_NAME}}

@@ -6,6 +6,10 @@
 	            <div class="panel-heading" ng-click="isAddUserFormCollapsed = !isAddUserFormCollapsed"><strong><span class="glyphicon glyphicon-th"></span> Add User</strong></div>
 		            <div class="panel-body" uib-collapse="isAddUserFormCollapsed">
 		                <div class="col-md-6 col-md-offset-3">
+		                	<div class="callout callout-danger" ng-show="showUserFormError">
+		                        <span class="ti-close" style="cursor: pointer; float:right" ng-click="showUserFormError = false"></span>
+		                        <p style="width: 80%; margin-right: 0px"><i class="fa fa-exclamation-circle"></i> {{errorMsg}}</p>
+		                    </div>
 		                    <form name="addUserForm" class="form-horizontal form-validation" data-ng-submit="submitUserInfoForm()">
 			                    <div class="form-group">
 			                        <div class="col-sm-3">
@@ -39,8 +43,8 @@
 			                            <label for="">Role</label>
 			                        </div>
 				                    <div class="col-sm-9">
-				                        <span class="ui-select" style="margin-left: 0px">
-							                <select data-ng-model="user.role">
+				                        <span class="ui-select" style="margin-left: 0px; width: 120px">
+							                <select data-ng-model="user.role" required>
 							                    <option value="{{role.ROLE_ID}}" data-ng-repeat="role in roles">{{role.ROLE_NAME}}</option>
 							                </select>
 							            </span>
