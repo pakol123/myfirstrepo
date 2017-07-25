@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use JWTAuth;
 use App\User;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -40,9 +41,12 @@ public function getAuthenticatedUser()
   }
 
     //return response()->json(compact('user'));
-  $id = $user->organisation->plans->where('IS_ACTIVE',0);
+  $id = $user->organisation->plans->where('IS_ACTIVE',1);
+
+  dd(count($id));
 
   //($id[0]->NO_OF_DOMAINS);
+  //dd($user);
   return response()->json(array('user'=>$user,'no_of_domains'=>$id[0]->NO_OF_DOMAINS,'role_name'=>$user->role->ROLE_NAME));
 }
 
@@ -93,7 +97,14 @@ public function getAuthenticatedUser()
 public function allUsers(Request $request)
 {
     //dd(user::all()->where('ORG_ID',request('ORG_ID')));
-   return response()->json(array('users'=>user::all()->where('ORG_ID',request('ORG_ID'))));
+  $users = DB::table('fl_users')
+            ->join('fl_role_master', 'fl_users.ROLE_ID', '=', 'fl_role_master.ROLE_ID')
+            ->select('fl_users.*', 'fl_role_master.ROLE_NAME')
+            ->where('fl_users.ORG_ID',Request('orgId'))
+            ->get();
+
+return response()->json(array('users'=>$users));
+   //return response()->json(array('users'=>user::all()->where('ORG_ID',request('orgId'))));
 
 }
 

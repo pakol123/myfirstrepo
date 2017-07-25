@@ -1026,7 +1026,7 @@ function() {
                       // Because we returned the $http.get request in the $auth.login
                       // promise, we can chain the next promise to the end here
                     }).then(function(response) {
-                       
+                       console.log(response.data);
                         sessionStorage.setItem('currentUser', JSON.stringify(response.data.user));
                         sessionStorage.authenticated = true;
                         sessionStorage.setItem('noOfDomains', response.data.no_of_domains);
