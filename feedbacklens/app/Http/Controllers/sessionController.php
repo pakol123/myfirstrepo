@@ -42,9 +42,14 @@ public function getAuthenticatedUser()
   }
  
     //return response()->json(compact('user'));
-  $id = $user->organisation->plans->where('IS_ACTIVE',0);
+
+  //dd($user->organisation->plans);
+  $id = $user->organisation;
+ $idd = $id->filteredPlans;
+//dd($idd);
+
  
-  return response()->json(array('user'=>$user,'no_of_domains'=>$id[0]->NO_OF_DOMAINS,'role_name'=>$user->role->ROLE_NAME));
+  return response()->json(array('user'=>$user,'no_of_domains'=>$idd[0]->NO_OF_DOMAINS,'role_name'=>$user->role->ROLE_NAME));
 }
 
     public function checkUser(Request $request)

@@ -70,7 +70,7 @@ public function create(Request $request)
             ->join('fl_category_master', 'fl_feedback.CAT_ID', '=', 'fl_category_master.CAT_ID')
             ->join('fl_subcategory_master', 'fl_feedback.SUBCAT_ID', '=', 'fl_subcategory_master.SUBCAT_ID')
             ->join('fl_domain','fl_feedback.DOMAIN_ID','=','fl_domain.DOMAIN_ID')
-            ->select('fl_feedback.TEXT', 'fl_domain.DOMAIN_URL','fl_subcategory_master.SUBCAT_NAME', 'fl_category_master.CAT_NAME')
+            ->select('fl_feedback.TEXT','fl_feedback.RATING' ,'fl_domain.DOMAIN_URL','fl_subcategory_master.SUBCAT_NAME', 'fl_category_master.CAT_NAME')
             ->where('fl_domain.ORG_ID',Request('orgId'))
             ->orderBy('FEEDBACK_ID','desc')->take(10)
             ->get();

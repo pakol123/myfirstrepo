@@ -27,4 +27,9 @@ class organisation extends Model
            return $this->belongsToMany(plan::class,'fl_org_plan_map','ORG_ID','PLAN_ID')->withPivot('START_DATE','END_DATE','IS_ACTIVE');
     }
 
+     public function filteredPlans()
+    {
+           return $this->belongsToMany(plan::class,'fl_org_plan_map','ORG_ID','PLAN_ID')->withPivot('START_DATE','END_DATE','IS_ACTIVE')->wherePivot('IS_ACTIVE',1);
+    }
+
 }

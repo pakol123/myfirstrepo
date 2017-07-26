@@ -60,12 +60,12 @@ class reportController extends Controller
 
 
 
- public function getfeedbackText()
+ public function getfeedbackText(Request $request)
       {
 
       	$resultText = "";
 
-      	$feedbacks = \App\feedback::all();
+      	$feedbacks = \App\feedback::all()->where('domain_Id',Request('domainId'));
 
       	foreach ($feedbacks as $feedback)
       	{
