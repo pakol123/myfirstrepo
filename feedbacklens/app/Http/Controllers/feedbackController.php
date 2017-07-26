@@ -88,7 +88,35 @@ public function create(Request $request)
         $input = $request->except(['token','fromDate','toDate']);
         $fromDate = Carbon::parse(Request('fromDate'));
         $toDate = Carbon::parse(Request('toDate'));
-        $filteredFeedbacks = \App\feedback::where($input)->whereBetween('CREATED_AT',[$fromDate,$toDate])->get();
+       
+if ($request->has('cat_id')) {
+
+    if($input['cat_id'])
+        {
+            $input['fl_feedback.cat_id'] = $input['cat_id'];
+            unset($input['cat_id']);
+        }
+    //
+}
+        if ($request->has('subcat_id')) {
+
+            if($input['subcat_id'])
+        {
+            $input['fl_feedback.subcat_id'] = $input['subcat_id'];
+            unset($input['subcat_id']);
+        }
+        }
+         
+        // dd($input);
+
+$filteredFeedbacks = DB::table('fl_feedback')
+            ->join('fl_category_master', 'fl_feedback.CAT_ID', '=', 'fl_category_master.CAT_ID')
+            ->join('fl_subcategory_master', 'fl_feedback.SUBCAT_ID', '=', 'fl_subcategory_master.SUBCAT_ID')
+            ->select('fl_feedback.*', 'fl_subcategory_master.SUBCAT_NAME', 'fl_category_master.CAT_NAME')
+            ->where($input)
+            //->whereBetween('fl_feedback.CREATED_AT',[$fromDate,$toDate])
+            ->get();
+       // $filteredFeedbacks = \App\feedback::where($input)->whereBetween('CREATED_AT',[$fromDate,$toDate])->get();
 
         return response()->json(array('filteredFeedbacks'=>$filteredFeedbacks));
       }  
