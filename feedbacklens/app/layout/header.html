@@ -11,7 +11,6 @@
                      'bg-danger': ['16','26','36'].indexOf(admin.skin) >= 0,
                     }">
         <a href="#/">
-            <span class="logo-icon glyphicon glyphicon-leaf"></span>
             <span class="logo-text">{{main.brand}}</span>
         </a>
     </div>
@@ -48,13 +47,13 @@
                     </div>
                     <ul class="list-group">
                         <li class="list-group-item" ng-repeat="lastFeedBack in lastFeedbacks">
-                            <a href="#/page/flFeedbacks" class="media">
+                            <a href="javascript:; class="media">
                                 <span class="media-left media-icon">
                                     <span class="btn-icon btn-icon-round {{btnColors[lastFeedBack.RATING-1]}}">{{lastFeedBack.RATING}}</span>
                                 </span>
                                 <div class="media-body">
                                     <span class="block">{{lastFeedBack.TEXT.length > 25 ? lastFeedBack.TEXT.substring(0,25) + '...': lastFeedBack.TEXT}}</span>
-                                    <span class="text-muted block">{{feedback.CAT_NAME}}</span>
+                                    <span class="text-muted block">{{lastFeedBack.DOMAIN_URL}}</span>
                                 </div>
                             </a>
                         </li>

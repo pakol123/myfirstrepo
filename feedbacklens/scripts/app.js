@@ -145,12 +145,15 @@ function() {
 
         var noOfDomains = sessionStorage.getItem('noOfDomains');
         var sessionUserObj = angular.fromJson(sessionUserObjStr);
-        if(sessionUserObj) {
-            b.currentUser = sessionUserObj;
-            b.authenticated = sessionAuthenticated;
-            b.noOfDomains = noOfDomains;
-        } else {
-            y.path("/");
+
+        a.lastFeedbacks = [];
+
+        a.getFeedbacks = function(orgId) {
+            var requestObj = {'orgId' : orgId};
+            x.get('public/api/notifications',{params:requestObj}).success(function(data) {
+                   a.lastFeedbacks=data.feedbacks;
+                }).error(function(error){
+            });
         }
 
         b.logout = function() {
@@ -163,7 +166,18 @@ function() {
           });
         }
 
-        // Common method to get all domains by orgId
+        if(sessionUserObj) {
+            b.currentUser = sessionUserObj;
+            b.authenticated = sessionAuthenticated;
+            b.noOfDomains = noOfDomains;
+
+            a.getFeedbacks(b.currentUser.ORG_ID);
+        } else {
+            b.logout();
+        }
+
+        
+       // Common method to get all domains by orgId
         b.getAllDomains = function(orgId) {
             return x.get('public/api/domain/getAllDomains/'+orgId);
         }
@@ -173,17 +187,7 @@ function() {
             return x.get('public/api/plugin/'+domainId);
         }
 
-        a.lastFeedbacks = [];
-
-        a.getFeedbacks = function() {
-            var requestObj = {'domainId' : 9, 'notification': '0'};
-            x.get('public/api/feedback/getFeedback',{params:requestObj}).success(function(data) {
-                   a.lastFeedbacks=data.feedbacks;
-                }).error(function(error){
-            });
-        }
-
-        a.getFeedbacks();
+       
 
         // Prepare array for word cloud
         b.prepareJQCloudInputObj = function(feedbackComments) {
@@ -229,6 +233,17 @@ function() {
                         return w.logError(msg);
                 }
         };
+
+        // Global function to get array from rating count for displaying stars
+        b.getArrayFrmNumber = function(num) {
+            var dynArray = new Array(num);
+
+            for(var i = 0; i<num; i++)
+                dynArray[i] = i;
+
+            return dynArray;   
+        }
+
     }
     angular.module("app").controller("AppCtrl", ["$scope","$rootScope","$route","$document","$auth","$location","$http","logger", a])
 }(),
@@ -1259,10 +1274,18 @@ function() {
         b.getAllDomains(b.currentUser.ORG_ID).success(function(data){
             a.domains = data.domains;
             
-            if(parseInt(sessionStorage.getItem('globalDomainId')) > 0)
+            if(parseInt(sessionStorage.getItem('globalDomainId')) > 0) {
                 a.domainId = sessionStorage.getItem('globalDomainId');
-            else
+
+                angular.forEach(a.domains, function(dom){
+                    if(dom.DOMAIN_ID == a.domainId)
+                        a.domainNameIn = dom.DOMAIN_URL;
+                });
+                
+            } else {
                 a.domainId = data.domains.length != 1 ? '' : data.domains[0].DOMAIN_ID;
+                a.domainNameIn = data.domains.length != 1 ? '' : data.domains[0].DOMAIN_URL;
+            }
 
             if(a.domainId > 0)
                 a.getSubCategories(a.domainId);
@@ -1272,7 +1295,6 @@ function() {
 
         a.getSubCategories = function(domainId) {
             b.getSubCatsByDomainId(domainId).success(function(data){
-                console.log(data);
                 a.subCategories = data.subcat;
                 a.categories = data.cat;
                 a.plugin.pluginId = data.properties.PLUGIN_ID;
@@ -1298,6 +1320,7 @@ function() {
         a.onSelectDomain = function () {
             if(a.domainId != '') {
                 a.getSubCategories(a.domainId);
+                a.domainNameIn = $("#domainNamesList option:selected").html();
             }
         }
 
@@ -1334,8 +1357,9 @@ function() {
 
         a.loadPlugin = function() {
             $("#idFlPluginModal").remove();
-            if(a.domainName != '')
-                getPluginProperties($("#domainNamesList option:selected").html());
+            
+            if(a.domainNameIn != '')
+                getPluginProperties(a.domainNameIn);
         }
 
         a.openPluginPreview = function() {
@@ -1373,22 +1397,14 @@ function() {
             });
         }
 
-        
-
         a.copyAPILinks = function() {
-           if (document.selection) { 
-                var range = document.body.createTextRange();
-                range.moveToElementText(document.getElementById('idPluginAPIText'));
-                range.select().createTextRange();
-                document.execCommand("Copy"); 
-                b.notify('success', "Copied");
-            } else if (window.getSelection) {
-                var range = document.createRange();
-                 range.selectNode(document.getElementById('idPluginAPIText'));
-                 window.getSelection().addRange(range);
-                 document.execCommand("Copy");
-                 b.notify('success', "Copied");
-            }
+            $("#idPluginAPIText").select();
+            document.execCommand("Copy"); 
+            b.notify('success', "Copied");
+        }
+
+        a.toggleRateElement  = function(rt, isReset, startClass) {
+            flToggleRateElement(rt, isReset, startClass);
         }
 
     } // End of plugin controller function
@@ -1491,9 +1507,6 @@ function() {
         }
 
         a.applyFilterTogetFeedbacks = function() {
-            
-            //var reqObj = {domain_id:a.domainId, rating: a.rating, cat_id: a.catId, subcat_id: a.subCatId, fromDate: a.startDate, toDate: a.endDate};
-
             var reqObj = {};
             reqObj.domain_id = a.domainId;
             if(a.rating != '' && a.rating)
@@ -1514,17 +1527,43 @@ function() {
             });
         }
 
-        a.showFeedbackDetails = function() {
+        a.feedbackDEtails = {};
+        a.showFeedbackDetails = function(feedbackDet) {
+            a.feedbackDEtails.catName =feedbackDet.CAT_NAME;
+            a.feedbackDEtails.subCatName =feedbackDet.SUBCAT_NAME;
+            a.feedbackDEtails.browser =feedbackDet.BROWSER;
+            a.feedbackDEtails.country =feedbackDet.COUNTRY;
+            a.feedbackDEtails.createdAt = new Date(feedbackDet.CREATED_AT).getTime();
+            a.feedbackDEtails.device =feedbackDet.DEVICE;
+            a.feedbackDEtails.email =feedbackDet.EMAIL;
+            a.feedbackDEtails.rating =feedbackDet.RATING;
+            a.feedbackDEtails.text =feedbackDet.TEXT;
+
             var e = z.open({
                 animation: true,
-                template: 'feedbackDetails.html',
-                controller: "ModalDemoCtrl",
-                size: 'sm'
+                templateUrl: 'feedbackDetails.html',
+                controller: "FeedbackModalInstCntr",
+                size: 'md',
+                resolve: {
+                    items: function() {
+                        return a.feedbackDEtails
+                    }
+                }
             });
+        }
+
+        a.getFeedbackDateTS = function(feedbackDate) {
+            var tmpDate = new Date(feedbackDate);
+            var dateTS = 0;
+            if(tmpDate)
+                dateTS = tmpDate.getTime();
+
+            return dateTS;
         }
     }
 
-    function b(a, b) {
+    function b(a, b, c) {
+        a.feedbackDEtails = c;
         a.ok = function() {
             b.close()
         }, a.cancel = function() {
@@ -1532,8 +1571,7 @@ function() {
         }
     }
 
-
-    angular.module('app.feedbacks').controller("feedbackController", ["$scope", "$rootScope", "$http", "logger","$uibModal",a]).controller("ModalInstanceCtrl", ["$scope", "$uibModalInstance", b])
+    angular.module('app.feedbacks').controller("feedbackController", ["$scope", "$rootScope", "$http", "logger","$uibModal",a]).controller("FeedbackModalInstCntr", ["$scope", "$uibModalInstance", "items", b])
 }(),
 
 /*Reports Controller*/
@@ -1629,10 +1667,12 @@ function() {
                  /*Bar Chart*/
                 a.pie2.options = {};
                 a.subCategoryWiseCount = data.resultSubcategory;
+                a.subCatNames = [];
 
                 angular.forEach(data.resultSubcategory, function(obj){
                     var innerObj = {'value': obj.subCat_count, 'name': obj.SUBCAT_NAME};
                     a.subCategoryWiseCount.push(innerObj);
+                    a.subCatNames.push(obj.SUBCAT_NAME);
                 });
                        
                 if(a.totalFeedBAcks > 0)
@@ -1810,6 +1850,11 @@ function() {
                     tooltip: {
                         trigger: "item",
                         formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        orient : 'vertical',
+                        x : 'left',
+                        data: a.subCatNames
                     },
                     toolbox: {
                         show: !0,

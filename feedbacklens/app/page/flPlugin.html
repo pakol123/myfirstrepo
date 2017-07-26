@@ -15,11 +15,10 @@
                 </div>
                 <div class="panel-body" uib-collapse="isIntegrationInfoCollapsed">
                 	<h4>So simple, just put the follwing line as it is in '{{headTagText}}' tag of your website:</h4>
-                    <p id="idPluginAPIText">
-                    	{{pluginAPIText}}
-                    </p>
+                   	<input type="text" id="idPluginAPIText" value="{{pluginAPIText}}" class="form-control" readonly="readonly">
                     <br/>
                     <button ng-click="copyAPILinks()" class="btn btn-warning btn-w-md">Copy</button>
+
             	</div>
         	</div>
     	</div>
@@ -37,6 +36,7 @@
                                 <option value=""><span style="color: grey;text-align: center">Select Domain</span></option>
                                 <option value="{{domain.DOMAIN_ID}}" data-ng-repeat="domain in domains">{{domain.DOMAIN_URL}}</option>
                             </select>
+
                         </span>
                     </div>
                 
@@ -47,12 +47,12 @@
 			                    <a href="#/form/flDomainAdd" style="display: inline-block;"><h4><u>Lets start by adding one</u></h4></a>
 		                    </div>
 		                </div>
+		                <input type="hidden" ng-model="domainNameIn">
         </div>
     </div>
     <div class="divider divider-md"></div>   
 		               
 		            
-
 	<!-- Plugin Properties Section -->
 	<div class="row">
 	    <div class="column col-md-6" ng-show="domainId != ''">
@@ -108,7 +108,7 @@
 				                                    class="form-control" 
 				                                    placeholder="Category Name"
 				                                    data-ng-model="subCat.subcatName"
-				                                    maxlength="200" 
+				                                    maxlength="100" 
 				                                    required>
 				                        </div>
 					                    <button type="submit" class="btn btn-primary btn-w-md" data-ng-disabled="!canSubmitPlAddCategory()">Submit</button>
@@ -119,15 +119,15 @@
 				                <div>
 				                	<ul class="list-group">
 					                    <li class="list-group-item" ng-repeat="category in subCategories">
-					                    	<div style="width: 75%; display: inline-block;">
+					                    	<div style="width: 84%; display: inline-block;">
 					                        	{{category.SUBCAT_NAME}}
 				                            </div>
 				                            <div style="width: 15%; display: inline-block;">
 				                            	<label class="ui-switch ui-switch-success ui-switch-sm"><input type="checkbox" ng-model="subCatCheck$index" ng-checked="category.pivot.ISACTIVE == 1" ng-click="showSubCatToggleConfirm(category.SUBCAT_ID, $index)" id="idSubCatToggle{{$index}}"><i></i></label>
 				                            </div>
-				                            <div style="width: 5%; display: inline-block;text-align:right">
+				                            <!-- <div style="width: 5%; display: inline-block;text-align:right">
 				                            	<span><i class="ti-close"></i></span>
-				                            </div>    
+				                            </div> -->    
 					                    </li>
 					                </ul>
 				                </div>
@@ -149,7 +149,7 @@
 				         <ul class="flRateElement">
 				            <li ng-repeat="rt in [1,2,3,4,5]">
 				               <svg height="40" width="40">
-				                  <circle cx="20" cy="20" r="15" fill="white" class="flCir flSampleCir" stroke="#FFD54F" stroke-width="2" onclick="flToggleRateElement(this, false, 'flSampleCir');" id="idCir{{rt}}"></circle>
+				               	  <polygon fill="#FFF" points="20,4.061834335327148 24.217514038085938,16.195087432861328 37.06020736694336,16.456802368164062 26.824085235595703,24.217281341552734 30.54378890991211,36.51227951049805 20,29.17526626586914 9.45621109008789,36.51227951049805 13.175914764404297,24.217281341552734 2.939790725708008,16.456802368164062 15.782485961914062,16.195087432861328 20,4.061834335327148 24.217514038085938,16.195087432861328" stroke="#FFD54F" stroke-width="2" stroke-linejoin="round" ng-click="toggleRateElement(rt, false, 'flSampleCir');" id="idCir{{rt}}" class="flCir flSampleCir" />
 				               </svg>
 				            </li>
 				         </ul>
@@ -161,8 +161,8 @@
 				            <option value="">Select Sub Category *</option>
 				            <option value="1" ng-repeat="subCat in subCategories" ng-if="subCat.pivot.ISACTIVE == 1">{{subCat.SUBCAT_NAME}}</option>
 				         </select>
-				         <textarea class="flPluginInput" rows="4" placeholder="Write Us *" style="resize: vertical;"></textarea>
-				         <input class="flPluginInput" type="email" placeholder="Email (Optional)"><input class="flPluginInput flSubmitButton" type="button" value="Submit" onclick="javascript:;">
+				         <textarea class="flPluginInput" rows="4" placeholder="Write Us *" style="resize: vertical;" maxlength="1000"></textarea>
+				         <input class="flPluginInput" type="email" placeholder="Email (Optional)"><input class="flPluginInput flSubmitButton" type="button" value="Submit" onclick="javascript:;" maxlength="100">
 				      </div>
 				   </div>
 				</div>

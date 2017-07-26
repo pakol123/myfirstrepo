@@ -110,24 +110,18 @@
         </div>
         <div class="col-md-6" ng-if="dashdomains.length > 0 && dash.domainId != ''">
             <section class="panel panel-default panel-minimal">
-                <div class="panel-heading">Word Cloud
-                    <ul class="flDomainStars">
-                        <li ng-if="avgRating != '' && avgRating != 0" style="padding-right: 5px">{{avgRating | number: 1}}</li>
-                        <li ng-repeat="i in getNumber(getDomainAvgRating(dash.domainId).rat)"><i class="fa fa-star"></i></li>
-                        <li ng-if="isDecimalPoint(getDomainAvgRating(dash.domainId).rat)"><i class="fa fa-star-half"></i></li>
-                    </ul>
-                </div>
-                    <div class="panel-body" >
-                        <jqcloud words="feedbackWordCounts" width="500" height="350" steps="7" ng-show="totalFeedBAcks > 0"></jqcloud>
+                <div class="panel-heading">Word Cloud</div>
+                <div class="panel-body" >
+                    <jqcloud words="feedbackWordCounts" width="500" height="350" steps="7" ng-show="totalFeedBAcks > 0"></jqcloud>
                     
-                        <div class="row" ng-show="totalFeedBAcks == 0">
-                            <div class="col-lg-7">
-                                <div class="callout callout-warning">
-                                    <p>Did't find any feedback!</p>
-                                </div>
+                    <div class="row" ng-show="totalFeedBAcks == 0">
+                        <div class="col-lg-7">
+                            <div class="callout callout-warning">
+                                <p>Did't find any feedback!</p>
                             </div>
                         </div>
                     </div>
+                </div>
             </section>
         </div>
     </div> 

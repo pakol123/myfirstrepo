@@ -47,7 +47,7 @@ function loadPlugin(domainIfoJson) {
 	rateElement.classList.add('flRateElement');
 	var svgCircle = '';
     for(var i=0; i<5; i++){
-        svgCircle = svgCircle.concat('<li><svg height="40" width="40"><circle cx="20" cy="20" r="15" fill="white" class="flCir rateCircles" stroke="#FFD54F" stroke-width="2"onclick="setRate(this, '+(i+1)+');" id="idCir'+i+'"/></svg></li>');
+        svgCircle = svgCircle.concat('<li><svg height="40" width="40"> <polygon fill="#FFF" points="20,4.061834335327148 24.217514038085938,16.195087432861328 37.06020736694336,16.456802368164062 26.824085235595703,24.217281341552734 30.54378890991211,36.51227951049805 20,29.17526626586914 9.45621109008789,36.51227951049805 13.175914764404297,24.217281341552734 2.939790725708008,16.456802368164062 15.782485961914062,16.195087432861328 20,4.061834335327148 24.217514038085938,16.195087432861328" stroke="#FFD54F" stroke-width="2" stroke-linejoin="round" onclick="setRate(this, '+(i+1)+');" id="idCir'+i+'" class="flCir rateCircles" /></svg></li>');
     }
     rateElement.innerHTML = svgCircle;
 
@@ -82,6 +82,7 @@ function loadPlugin(domainIfoJson) {
 	flTextAreaInput.rows = 4;
 	flTextAreaInput.placeholder = 'Write Us *';
 	flTextAreaInput.style.resize = 'vertical';
+	flTextAreaInput.maxLength = 1000;
 	div111.appendChild(flTextAreaInput);
 
 	// Input text for email
@@ -90,6 +91,7 @@ function loadPlugin(domainIfoJson) {
 	flTextInputEmail.id = 'idFlEmail';
 	flTextInputEmail.type = 'email';
 	flTextInputEmail.placeholder = 'Email (Optional)';
+	flTextInputEmail.maxLength = 100;
 	div111.appendChild(flTextInputEmail);
 
 	// Hidden Input text for rate
@@ -235,24 +237,26 @@ function flIsEmptyField(element) {
 function flToggleRateElement(ev, isReset) {
 	var x = document.getElementsByClassName("rateCircles");
             
-    for(var i=0; i<x.length; i++){
-       if(isReset){
-       		x[i].classList.remove('flClsBlue');
+    if(isReset){
+       		for(var i=0; i<x.length; i++){
+       			x[i].classList.remove('flClsBlue');
+       		}
        } else {    	
-	        if(x[i].id == ev.id)
-	            x[i].classList.add('flClsBlue');
-	        else
-	            x[i].classList.remove('flClsBlue');
-       } 
-                 
-    }
+	       for(var i=0; i<x.length; i++) {
+	       		if(i < rate)
+	            	x[i].classList.add('flClsBlue');
+	            else
+	            	x[i].classList.remove('flClsBlue');
+	       }
+       }
 }
 
 
 function getPluginProperties() {
 	var domainIfoJson = {};
 	var xhr = new XMLHttpRequest();
-	var domainName = 'www.rohitkolar.com'//window.location.hostname;
+	var domainName = window.location.hostname;
+	domainName = domainName.replace("www.", "");
 	var flReqUrl = 'public/api/domain/fetchData?domainName='.concat(domainName);
 	xhr.open("GET", flReqUrl, true);
 	xhr.onload = function (e) {

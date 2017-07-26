@@ -57,6 +57,10 @@
 }
 
 /* Rate element*/
+.flCir {
+    cursor: pointer !important;
+}
+
 .flCir:hover {
         fill: #FFD54F;
 }
