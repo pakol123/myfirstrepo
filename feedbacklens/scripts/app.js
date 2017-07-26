@@ -103,6 +103,7 @@ function() {
 
         b.themeColors = ['label-danger','label-warning', 'label-info', 'label-primary', 'label-success'];
         b.btnColors = ['btn-danger','btn-warning', 'btn-info', 'btn-primary', 'btn-success'];
+        b.backColor = ['bg-default','bg-danger','bg-warning', 'bg-info', 'bg-primary', 'bg-success'];
         a.main = {
             brand: "Feedbacklens",
             name: "Lisa",
@@ -1080,6 +1081,7 @@ function() {
             a.domain.createdBy= b.currentUser.USER_ID;
             a.domainAvgRatings = [];
             a.feedbackCount = [];
+            a.backColorGrey = 'backColorGrey';
 
             a.getDomains = function() {
                 b.getAllDomains(b.currentUser.ORG_ID).success(function(data){
@@ -1097,7 +1099,13 @@ function() {
             a.getDomains();
 
             a.canSubmit = function() {
-                return a.addDomainForm.$valid && !angular.equals(a.domain, original);
+                var dmnStr = a.domain.domainName;
+                var validDmnName = true;
+                if (dmnStr != '' && dmnStr.length > 0 && dmnStr.toLowerCase().match("^www")) {
+                   validDmnName = false;
+                }
+                
+                return a.addDomainForm.$valid && !angular.equals(a.domain, original) && validDmnName;
             };
 
             a.submitDomainInfoForm = function() { 
@@ -1140,9 +1148,9 @@ function() {
                 var flNmbr = Math.floor(avg);
 
                 if((avg - flNmbr) > 0)
-                    return {rat: avg, isFlt: true};
+                    return {rat: avg, isFlt: true, bfDec: flNmbr};
                 else
-                    return {rat:flNmbr, isFlt: false};    
+                    return {rat:flNmbr, isFlt: false, bfDec: flNmbr};    
                
             }
 

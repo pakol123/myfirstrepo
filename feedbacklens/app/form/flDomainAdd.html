@@ -22,6 +22,9 @@
     .domainNameDiv input {
         float:left;
     }
+    .backColorGrey {
+        background-color: #E0E0E0;
+    }
 </style>
 
 <div class="page" data-ng-controller="domainInfoController">
@@ -71,10 +74,10 @@
     <div class="row">
         <div class="col-sm-4" data-ng-repeat="domain in domains">
             <div class="panel mini-box">
-                <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-danger" ng-show="getDomainAvgRating(domain.DOMAIN_ID).isFlt">
+                <span class="btn-icon btn-icon-round btn-icon-lg-alt {{backColor[getDomainAvgRating(domain.DOMAIN_ID).bfDec]}}" ng-show="getDomainAvgRating(domain.DOMAIN_ID).isFlt">
                     {{getDomainAvgRating(domain.DOMAIN_ID).rat | number : 1}}
                 </span>
-                <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-danger" ng-show="!getDomainAvgRating(domain.DOMAIN_ID).isFlt">
+                <span class="btn-icon btn-icon-round btn-icon-lg-alt {{getDomainAvgRating(domain.DOMAIN_ID).bfDec > 0 ? backColor[getDomainAvgRating(domain.DOMAIN_ID).bfDec] : backColorGrey}}" ng-show="!getDomainAvgRating(domain.DOMAIN_ID).isFlt">
                     {{getDomainAvgRating(domain.DOMAIN_ID).rat != 0 ? getDomainAvgRating(domain.DOMAIN_ID).rat : '...'}}
                 </span>
                 <div class="box-info">
