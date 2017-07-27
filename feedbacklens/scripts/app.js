@@ -25,7 +25,8 @@
         "app.plugin",
         "app.dashboard",
         "app.reports",
-        "app.profile"
+        "app.profile",
+        
         ])
 }(),
 

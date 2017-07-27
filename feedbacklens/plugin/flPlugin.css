@@ -1,15 +1,49 @@
 .flPluginBtn {
-    padding: 3px;
     position: fixed;
+    z-index: 4000;
+    
+    background-color: #42A5F5;
+    border: 1px solid transparent;
+    
+    color: white;
+    font-weight: 600;
+    padding: 4px 4px 4px 4px !important;
+    width: 120px;
+    height: 40px;
+    font-size: 16px;
+    border-radius: 5px 5px 0px 0px;
+
+}
+
+.flPluginBtnPropRight {
+    -ms-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    -webkit-o-transform: rotate(-90deg);
     top: 50%;
-    right: 0px;
-    z-index: 100;
+    right: -40px;
+    
+}
+
+.flPluginBtnPropLeft {
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -webkit-o-transform: rotate(90deg);
+    top: 50%;
+    left: -40px;
+   
+}
+
+.flPluginBtnPropBottomCenter {
+    bottom: 0px;
+    left: 50%;
+    
 }
 
 .flPluginModal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 120; /* Sit on top */
+    z-index: 4500; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */

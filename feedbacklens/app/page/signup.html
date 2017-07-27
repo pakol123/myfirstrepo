@@ -1,25 +1,37 @@
 <div class="page-signup">
 
-    <div class="signin-header">
-        <section class="logo text-center">
-            <h1><a href="#/">{{main.brand}}</a></h1>
-        </section>
-    </div>
+        <h2 align="center" style="color: white">Sign Up</h2>
+   
 
     <div class="signup-body">
         <div class="container">
             <div class="form-container">
 
                 <section>
-                    <form class="form-horizontal text-center">
+                    <form class="form-horizontal text-center" id="signupForm" method="POST" action="api/registration">
                         <div class="form-group">
-                            <div class="input-group input-group-first">
+                            <div class="input-group">
                                 <span class="input-group-addon">
                                     <span class="ti-user"></span>
                                 </span>
                                 <input  type="text"
                                         class="form-control input-lg"
-                                        placeholder="Username"
+                                        placeholder="First Name"
+                                        maxlength="150"
+                                        name="fname"
+                                        >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <span class="ti-user"></span>
+                                </span>
+                                <input  type="text"
+                                        class="form-control input-lg"
+                                        placeholder="Last Name"
+                                        maxlength="150"
+                                        name="lname"
                                         >
                             </div>
                         </div>
@@ -31,7 +43,48 @@
                                 <input type="email"
                                        class="form-control input-lg"
                                        placeholder="Email"
+                                       maxlength="150"
+                                       name="email"
                                        >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-earphone"></span>
+                                </span>
+                                <input  type="text"
+                                        class="form-control input-lg"
+                                        placeholder="Phone No"
+                                        maxlength="20"
+                                        name="phone"
+                                        >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <span class="ti-home"></span>
+                                </span>
+                                <input  type="text"
+                                        class="form-control input-lg"
+                                        placeholder="Address"
+                                        maxlength="200"
+                                        name="address"
+                                        >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <span class="ti-briefcase"></span>
+                                </span>
+                                <input  type="text"
+                                        class="form-control input-lg"
+                                        placeholder="Organization Name"
+                                        maxlength="200"
+                                        name="organisation"
+                                        >
                             </div>
                         </div>
                         <div class="form-group">
@@ -42,6 +95,22 @@
                                 <input type="password"
                                        class="form-control input-lg"
                                        placeholder="Password"
+                                       maxlength="100"
+                                       name="password"
+                                       >
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <span class="ti-lock"></span>
+                                </span>
+                                <input type="password"
+                                       class="form-control input-lg"
+                                       placeholder="Confirm Password"
+                                       maxlength="100"
+                                       name="password_confirmation"
                                        >
                             </div>
                         </div>
@@ -50,7 +119,7 @@
                         <div class="form-group">
                             <p class="additional-info text-small">By clicking on sign up, you agree to <a href="javascript:;">terms & conditions</a> and <a href="javascript:;">privacy policy</a></p>
                             <div class="divider"></div>
-                            <a href="#/" class="btn btn-primary btn-block btn-lg">Sign up</a>
+                            <button class="btn btn-primary btn-block btn-lg" type="submit">Sign up</button>
                         </div>
  
                     </form>
@@ -58,7 +127,7 @@
 
                 <div class="divider"></div>
                 <section class="additional-info">
-                    <p class="text-right"><a href="#/page/signin" >Log in now</a></p>
+                    <p class="text-right"><a href="#/" >Log in now</a></p>
                 </section>
 
             </div>

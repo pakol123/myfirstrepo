@@ -1,12 +1,23 @@
 var hostUrl = 'localhost/myfirstrepo/feedbacklens/public/api/';
 var domainId;
+var myIp = '';
+var opSys  = '';
+var browser = '';
 
 window.onload = function() {
 
+	$.get("http://ipinfo.io", function(response) {
+    	myIp = response.ip;
+	}, "jsonp");
+
+	opSys = navigator.platform;
+	browser = navigator.appCodeName;
 	getPluginProperties();
 }
 
 function loadPlugin(domainIfoJson) {
+	
+
 	var pageBody = document.getElementsByTagName('body')[0];
 	// Floating button
 	var pluginBtn = b();
@@ -151,7 +162,7 @@ function loadPlugin(domainIfoJson) {
 }
 
 function setRate(ev, rate) {
-    flToggleRateElement(ev, false);
+    flToggleRateElement(rate, false);
     eId("idRate").value = rate;
 }
 
@@ -187,7 +198,7 @@ function flResetInputs() {
 	inputFields.comments.value = '';
 
     // Second parameter of following function is for check if to reset rate elements or set one selected
-	flToggleRateElement({}, true);
+	flToggleRateElement(0, true);
 }
 
 
@@ -234,7 +245,7 @@ function flIsEmptyField(element) {
 		return false;
 }
 
-function flToggleRateElement(ev, isReset) {
+function flToggleRateElement(rate, isReset) {
 	var x = document.getElementsByClassName("rateCircles");
             
     if(isReset){
@@ -269,6 +280,16 @@ function getPluginProperties() {
 			      	if(domainIfoJson.pluginconfig.properties.ISACTIVE == 1) {
 				    	loadPlugin(domainIfoJson);
 				    	domainId = domainIfoJson.domain.DOMAIN_ID;
+				    	//alert(JSON.stringify(domainIfoJson));   
+				    	if(domainIfoJson.pluginconfig.properties.ALIGNMENT.toLowerCase() == 'left')
+    						eId('idPluginBtn').classList.add('flPluginBtnPropLeft');
+    					else if(domainIfoJson.pluginconfig.properties.ALIGNMENT.toLowerCase() == 'right')
+    						eId('idPluginBtn').classList.add('flPluginBtnPropRight');
+    					else if(domainIfoJson.pluginconfig.properties.ALIGNMENT.toLowerCase() == 'center')
+    						eId('idPluginBtn').classList.add('flPluginBtnPropBottomCenter');
+
+    					eId('idPluginBtn').style.backgroundColor = domainIfoJson.pluginconfig.properties.PLUGIN_COLOR;
+	
 				  	}
 			  	}
 		    } else {
@@ -311,23 +332,20 @@ function postFeedback() {
 	var inputFields = flGetAllInputElements();
 
 	var resol=""+$(window).width()+"x"+$(window).height();
-	var fulldomain = 'URL';//window.location.href;
-	var os = 'Windows';
-	var device = 'Mobile';
-	var ip = '127.0.0.1';
-	var browser = 'chrome';
-	var country = 'india';
+	var fulldomain = 'Default';//window.location.href;
+	var device = 'default';
+	var country = 'default';
 
 	params = params.concat('domainId='+domainId+'&'+'&');
 	params = params.concat('catId='+inputFields.selectedCat.value+'&');
-	params = params.concat('subcatId='+inputFields.selectedSubCat.value+'&');
+	params = params.concat('subcatId='+inputFields.selectedSubCat.value+'&');    
 	params = params.concat('url='+fulldomain+'&');
 	params = params.concat('rating='+inputFields.selectedRate.value+'&');
 	params = params.concat('text='+inputFields.comments.value+'&');
-	params = params.concat('os='+os+'&');
+	params = params.concat('os='+opSys+'&');
 	params = params.concat('resolution='+resol+'&');
 	params = params.concat('device='+device+'&');
-	params = params.concat('ip='+ip+'&');
+	params = params.concat('ip='+myIp+'&');
 	params = params.concat('browser='+browser+'&');
 	params = params.concat('country='+country+'&');
 	params = params.concat('email='+inputFields.email.value);
