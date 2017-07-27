@@ -1005,7 +1005,8 @@ function() {
             var original;
             a.user = {
                 email: "",
-                password: ""
+                password: "",
+                IS_ACTIVE: 1
             };
 
             original = angular.copy(a.user);
