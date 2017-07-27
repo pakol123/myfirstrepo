@@ -45,11 +45,14 @@ public function getAuthenticatedUser()
 
   //dd($user->organisation->plans);
   $id = $user->organisation;
- $idd = $id->filteredPlans;
-//dd($idd);
+$count = DB::table('fl_domain')
+                ->where('ORG_ID', $id->ORG_ID)
+                ->count('*');
 
+// $idd = $id->filteredPlans;
+//echo $idd[0]->NO_OF_DOMAINS;
  
-  return response()->json(array('user'=>$user,'no_of_domains'=>$idd[0]->NO_OF_DOMAINS,'role_name'=>$user->role->ROLE_NAME));
+  return response()->json(array('user'=>$user,'no_of_domains'=>$count,'role_name'=>$user->role->ROLE_NAME));
 }
 
     public function checkUser(Request $request)

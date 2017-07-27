@@ -34,7 +34,10 @@ public function create(Request $request)
     $feedback->IP = Request('ip');
     $feedback->BROWSER = Request('browser');
     $feedback->COUNTRY = Request('country');
+     if ($request->has('email')) 
+           {
     $feedback->EMAIL = Request('email');
+}
     $feedback->CREATED_BY = 0;
 
     $feedback->save();
