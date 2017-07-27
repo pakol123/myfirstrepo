@@ -318,7 +318,7 @@ function() {
       // Setting $http intercept - redirectWhenLoggedOut
       e.interceptors.push('redirectWhenLoggedOut');
 
-      d.loginUrl = 'myfirstrepo/feedbacklens/public/api/login';
+      d.loginUrl = 'public/api/login';
 
     }])
 }(),
@@ -1929,9 +1929,12 @@ function() {
 
         a.submitSignUp = function() {
             b.post('public/api/registration', a.user).success(function(data) {
-                   d.path("/");
-                }).error(function(error){
-                    c.notify('Error', 'Something went wrong please try again');
+                   d.path("page/forgot-password");
+                }).error(function(error, code){
+                    if(code == 400)
+                        c.notify('error', error.error);
+                    else
+                        c.notify('error', 'Something went wrong please try again');
             });
         }
     }
