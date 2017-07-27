@@ -79,12 +79,10 @@ public function create(Request $request)
      }
 
 
-     
+public function exportAsFile(Request $request,$id)
+{
 
-     public function filterFeedback(Request $request,$id)
-      {
 
-      
         $input = $request->except(['token','fromDate','toDate']);
         $fromDate = Carbon::parse(Request('fromDate'));
         $toDate = Carbon::parse(Request('toDate'));
@@ -97,7 +95,62 @@ if ($request->has('cat_id')) {
             unset($input['cat_id']);
         }
     //
+   }
+        if ($request->has('subcat_id')) {
+
+            if($input['subcat_id'])
+        {
+            $input['fl_feedback.subcat_id'] = $input['subcat_id'];
+            unset($input['subcat_id']);
+        }
+        }
+         
+        // dd($input);
+
+$filteredFeedbacks = DB::table('fl_feedback')
+            ->join('fl_category_master', 'fl_feedback.CAT_ID', '=', 'fl_category_master.CAT_ID')
+            ->join('fl_subcategory_master', 'fl_feedback.SUBCAT_ID', '=', 'fl_subcategory_master.SUBCAT_ID')
+            ->select('fl_feedback.*', 'fl_subcategory_master.SUBCAT_NAME', 'fl_category_master.CAT_NAME')
+            ->where($input)
+            //->whereBetween('fl_feedback.CREATED_AT',[$fromDate,$toDate])
+            ->get();
+
+
+
+$fp = fopen('C:\Users\pratik\Desktop\urbenBonds\file.csv', 'w');
+fputcsv($fp,array('feedback_id','DOMAIN_ID','URL','RATING','CAT_ID','SUBCAT_ID','TEXT','OS','RESOLUTION','BROWSER','DEVICE','COUNTRY','IP','EMAIL','CREATED_AT','CREATED_BY','MODIFIED_AT','MODIFIED_BY'));
+foreach ($filteredFeedbacks as $me) {
+   $array = json_decode(json_encode($me), True);
+  
+fputcsv($fp, $array);
 }
+
+fclose($fp);
+
+
+
+}
+
+     
+
+     public function filterFeedback(Request $request,$id)
+      {
+
+      
+        $input = $request->except(['token','fromDate','toDate']);
+        $fromDate = Carbon::parse(Request('fromDate'));
+        $toDate = Carbon::parse(Request('toDate'));
+       
+           if ($request->has('cat_id')) 
+           {
+
+           if($input['cat_id'])
+          {
+            $input['fl_feedback.cat_id'] = $input['cat_id'];
+            unset($input['cat_id']);
+           }
+    //
+         }
         if ($request->has('subcat_id')) {
 
             if($input['subcat_id'])
@@ -118,17 +171,7 @@ $filteredFeedbacks = DB::table('fl_feedback')
             ->get();
        // $filteredFeedbacks = \App\feedback::where($input)->whereBetween('CREATED_AT',[$fromDate,$toDate])->get();
 
-$fp = fopen('C:\Users\pratik\Desktop\urbenBonds\file.csv', 'w');
-foreach ($filteredFeedbacks as $me) {
-   $array = json_decode(json_encode($me), True);
-  
-fputcsv($fp, $array);
-}
-
-fclose($fp);
-
-
-      // return response()->json(array('filteredFeedbacks'=>$filteredFeedbacks));
+       return response()->json(array('filteredFeedbacks'=>$filteredFeedbacks));
       }  
 
 
