@@ -13,16 +13,23 @@ class reportController extends Controller
     {
       Log::info($id);
 
-         $result = DB::table('fl_feedback')
+
+         $result = DB::select("select count(fl_feedback.CAT_ID),a.CAT_ID ,b.CAT_NAME from ((select '1' CAT_ID UNION ALL select '2' CAT_ID UNION ALL select '3' CAT_ID UNION ALL select '4') a left join fl_feedback on fl_feedback.CAT_ID = a.CAT_ID )inner JOIN fl_category_master b on b.CAT_ID = a.CAT_ID group by a.CAT_ID,b.CAT_NAME order by a.CAT_ID");
+
+         return response()->json(array('CategoryCount'=>$result));   
+
+        /* $result = DB::table('fl_feedback')
                      ->join('fl_category_master', 'fl_feedback.CAT_ID', '=', 'fl_category_master.CAT_ID')
                       ->where('fl_feedback.DOMAIN_ID', '=', $id)
                      ->select(DB::raw('count(fl_category_master.CAT_NAME) as cat_count,fl_category_master.CAT_NAME'))
                      ->groupBy('fl_category_master.CAT_NAME')
                      ->orderBy('fl_feedback.CAT_ID')
-                     ->get();
+                     ->get();*/
 
-//dd($result);
-             return response()->json(array('CategoryCount'=>$result));        
+
+          
+
+                  
 
 
     }
@@ -47,14 +54,17 @@ class reportController extends Controller
 
      public function getRatingCount(Request $request, $id)
     {
-    	$result = DB::table('fl_feedback')
+
+
+      $result = DB::select("select count(fl_feedback.RATING),a.RATING from (select '1' RATING UNION ALL select '2' RATING UNION ALL select '3' RATING UNION ALL select '4' RATING UNION ALL SELECT '5' RATING) a left join fl_feedback on fl_feedback.RATING = a.RATING  group by a.RATING order by a.RATING");
+    	/*$result = DB::table('fl_feedback')
                      ->select(DB::raw('count(*) as rating_count,RATING'))
                      ->where('DOMAIN_ID', '=', $id)
                      ->groupBy('RATING')
                      ->orderBy('RATING')
-                     ->get();
+                     ->get(); */
 
-             return response()->json(array('ratingCount'=>$result,'avgRating'=>\App\feedback::where('DOMAIN_ID',$id)->avg('RATING')));   
+        return response()->json(array('ratingCount'=>$result,'avgRating'=>\App\feedback::where('DOMAIN_ID',$id)->avg('RATING')));   
     	
     }
 
