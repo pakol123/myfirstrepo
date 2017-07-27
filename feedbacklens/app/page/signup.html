@@ -1,4 +1,4 @@
-<div class="page-signup">
+<div class="page-signup" ng-controller="signupController">
 
         <h2 align="center" style="color: white">Sign Up</h2>
    
@@ -8,7 +8,7 @@
             <div class="form-container">
 
                 <section>
-                    <form class="form-horizontal text-center" id="signupForm" method="POST" action="api/registration">
+                    <form class="form-horizontal text-center" id="signupForm" method="POST" name="addSignUpForm">
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">
@@ -18,7 +18,8 @@
                                         class="form-control input-lg"
                                         placeholder="First Name"
                                         maxlength="150"
-                                        name="fname"
+                                        ng-model="user.fname"
+                                        required
                                         >
                             </div>
                         </div>
@@ -31,7 +32,8 @@
                                         class="form-control input-lg"
                                         placeholder="Last Name"
                                         maxlength="150"
-                                        name="lname"
+                                        ng-model="user.lname"
+                                        required
                                         >
                             </div>
                         </div>
@@ -44,7 +46,8 @@
                                        class="form-control input-lg"
                                        placeholder="Email"
                                        maxlength="150"
-                                       name="email"
+                                       ng-model="user.email"
+                                       required
                                        >
                             </div>
                         </div>
@@ -57,7 +60,8 @@
                                         class="form-control input-lg"
                                         placeholder="Phone No"
                                         maxlength="20"
-                                        name="phone"
+                                        ng-model="user.phone"
+                                        required
                                         >
                             </div>
                         </div>
@@ -70,7 +74,8 @@
                                         class="form-control input-lg"
                                         placeholder="Address"
                                         maxlength="200"
-                                        name="address"
+                                        ng-model="user.address"
+                                        required
                                         >
                             </div>
                         </div>
@@ -83,7 +88,8 @@
                                         class="form-control input-lg"
                                         placeholder="Organization Name"
                                         maxlength="200"
-                                        name="organisation"
+                                        ng-model="user.organisation"
+                                        required
                                         >
                             </div>
                         </div>
@@ -96,7 +102,8 @@
                                        class="form-control input-lg"
                                        placeholder="Password"
                                        maxlength="100"
-                                       name="password"
+                                       ng-model="user.password"
+                                       required
                                        >
                             </div>
                         </div>
@@ -110,7 +117,8 @@
                                        class="form-control input-lg"
                                        placeholder="Confirm Password"
                                        maxlength="100"
-                                       name="password_confirmation"
+                                       ng-model="user.passwordConfirmation"
+                                       required
                                        >
                             </div>
                         </div>
@@ -119,7 +127,7 @@
                         <div class="form-group">
                             <p class="additional-info text-small">By clicking on sign up, you agree to <a href="javascript:;">terms & conditions</a> and <a href="javascript:;">privacy policy</a></p>
                             <div class="divider"></div>
-                            <button class="btn btn-primary btn-block btn-lg" type="submit">Sign up</button>
+                            <button class="btn btn-primary btn-block btn-lg" type="submit" ng-disabled="!canSubmit()" ng-click="submitSignUp()">Sign up</button>
                         </div>
  
                     </form>

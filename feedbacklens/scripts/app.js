@@ -26,7 +26,7 @@
         "app.dashboard",
         "app.reports",
         "app.profile",
-        
+        "app.signUp",
         ])
 }(),
 
@@ -93,6 +93,12 @@ function() {
     "use strict";
     angular.module("app.profile", [])
 }(),
+
+function() {
+    "use strict";
+    angular.module("app.signUp", [])
+}(),
+
 
 
 function() {
@@ -409,12 +415,7 @@ function() {
         }
 
         a.chartColors = [a.color.primary, a.color.danger, a.color.warning, a.color.success, a.color.info];
-        a.categoryWiseCount = [
-            {catCount: 0, catName: 'Problem'},
-            {catCount: 0, catName: 'Suggestion'},
-            {catCount: 0, catName: 'Complaint'},
-            {catCount: 0, catName: 'Others'},
-        ];
+        a.categoryWiseCount = [];
         a.pieChartDataArray = [];
         a.dashdomains = [];
         a.pie1 = {}, a.pie1.options = {};
@@ -445,23 +446,13 @@ function() {
         a.getCategoryWiseCount = function() {
             
             z.get('public/api/report/category/'+a.dash.domainId).success(function(data) { 
-                   //a.categoryWiseCount=data.CategoryCount;
+                   a.categoryWiseCount=data.CategoryCount;
                    var feedbacks = 0;
                    angular.forEach(a.categoryWiseCount, function(cat, key) {
-                        var catFound = false;
-                        angular.forEach(data.CategoryCount, function(recCat, key) {
-                            if(recCat.CAT_NAME == cat.catName) {
-                                cat.catCount = recCat.cat_count;
-                                catFound = true;
-                            }
-                        });
-                        if(!catFound)
-                            cat.catCount = 0;
-
-                        feedbacks = feedbacks + cat.catCount;
+                        feedbacks = feedbacks + cat.cat_count;
                    });
                    a.hasFeedBacks = feedbacks > 0 ? true : false;
-                   
+                   //alert(JSON.stringify(a.categoryWiseCount));
                    if(a.hasFeedBacks)
                         a.setPieChart();
 
@@ -474,11 +465,11 @@ function() {
             angular.forEach(a.categoryWiseCount, function(cat, key) {
                         var columnColor = a.chartColors[key % 5];
                         var pieChartData = {};
-                        if(cat.catCount > 0) {
+                        if(cat.cat_count > 0) {
                             pieChartData = {
-                                value: cat.catCount,
+                                value: cat.cat_count,
                                 type:'pie',
-                                name: cat.catName + 's',
+                                name: cat.CAT_NAME,
                                 itemStyle: {
                                     normal: {
                                         color: columnColor,
@@ -1922,7 +1913,28 @@ function() {
     }
 
     angular.module("app.profile").controller("profileController", ["$scope", "$http", "$rootScope", a])
-}();
+}(),
 
 
 //comment
+
+/* Controller signup */
+
+function() {
+    "use strict";
+    function a(a,b,c,d) {
+        a.canSubmit = function() {
+            return a.addSignUpForm.$valid && (a.user.passwordConfirmation == a.user.password);
+        }
+
+        a.submitSignUp = function() {
+            b.post('public/api/registration', a.user).success(function(data) {
+                   d.path("/");
+                }).error(function(error){
+                    c.notify('Error', 'Something went wrong please try again');
+            });
+        }
+    }
+
+    angular.module("app.signUp").controller("signupController", ["$scope", "$http", "$rootScope", "$location", a])
+}();
