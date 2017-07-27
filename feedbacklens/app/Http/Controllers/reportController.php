@@ -14,9 +14,20 @@ class reportController extends Controller
       Log::info($id);
 
 
-         $result = DB::select("select count(fl_feedback.CAT_ID) as cat_count,a.CAT_ID ,b.CAT_NAME from ((select '1' CAT_ID UNION ALL select '2' CAT_ID UNION ALL select '3' CAT_ID UNION ALL select '4') a left join fl_feedback on fl_feedback.CAT_ID = a.CAT_ID )inner JOIN fl_category_master b on b.CAT_ID = a.CAT_ID group by a.CAT_ID,b.CAT_NAME order by a.CAT_ID");
+         $result = DB::select("select count(fl_feedback.CAT_ID) as cat_count,a.CAT_ID ,b.CAT_NAME from ((select '1' CAT_ID UNION ALL select '2' CAT_ID UNION ALL select '3' CAT_ID UNION ALL select '4') a left join fl_feedback on fl_feedback.CAT_ID = a.CAT_ID and fl_feedback.DOMAIN_ID =".$id." )inner JOIN fl_category_master b on b.CAT_ID = a.CAT_ID group by a.CAT_ID,b.CAT_NAME order by a.CAT_ID");
+
+         
+
+
+
 
          return response()->json(array('CategoryCount'=>$result));   
+
+      
+
+
+
+
 
         /* $result = DB::table('fl_feedback')
                      ->join('fl_category_master', 'fl_feedback.CAT_ID', '=', 'fl_category_master.CAT_ID')
@@ -56,7 +67,7 @@ class reportController extends Controller
     {
 
 
-      $result = DB::select("select count(fl_feedback.RATING) as rating_count,a.RATING from (select '1' RATING UNION ALL select '2' RATING UNION ALL select '3' RATING UNION ALL select '4' RATING UNION ALL SELECT '5' RATING) a left join fl_feedback on fl_feedback.RATING = a.RATING  group by a.RATING order by a.RATING");
+      $result = DB::select("select count(fl_feedback.RATING) as rating_count,a.RATING from (select '1' RATING UNION ALL select '2' RATING UNION ALL select '3' RATING UNION ALL select '4' RATING UNION ALL SELECT '5' RATING) a left join fl_feedback on fl_feedback.RATING = a.RATING and fl_feedback.DOMAIN_ID =".$id." group by a.RATING order by a.RATING");
     	/*$result = DB::table('fl_feedback')
                      ->select(DB::raw('count(*) as rating_count,RATING'))
                      ->where('DOMAIN_ID', '=', $id)
@@ -92,7 +103,7 @@ class reportController extends Controller
   
 $resultText = "";
 
-               $resultCategory = DB::select("select count(fl_feedback.CAT_ID) as cat_count,a.CAT_ID ,b.CAT_NAME from ((select '1' CAT_ID UNION ALL select '2' CAT_ID UNION ALL select '3' CAT_ID UNION ALL select '4') a left join fl_feedback on fl_feedback.CAT_ID = a.CAT_ID )inner JOIN fl_category_master b on b.CAT_ID = a.CAT_ID group by a.CAT_ID,b.CAT_NAME order by a.CAT_ID");
+               $resultCategory = DB::select("select count(fl_feedback.CAT_ID) as cat_count,a.CAT_ID ,b.CAT_NAME from ((select '1' CAT_ID UNION ALL select '2' CAT_ID UNION ALL select '3' CAT_ID UNION ALL select '4') a left join fl_feedback on fl_feedback.CAT_ID = a.CAT_ID and fl_feedback.DOMAIN_ID =".$id.")inner JOIN fl_category_master b on b.CAT_ID = a.CAT_ID group by a.CAT_ID,b.CAT_NAME order by a.CAT_ID");
 
 
              $resultSubcategory = DB::table('fl_feedback')
@@ -103,7 +114,7 @@ $resultText = "";
                      ->orderBy('fl_subcategory_master.SUBCAT_ID')
                      ->get();
 
-              $resultRatings = DB::select("select count(fl_feedback.RATING)  as rating_count,a.RATING from (select '1' RATING UNION ALL select '2' RATING UNION ALL select '3' RATING UNION ALL select '4' RATING UNION ALL SELECT '5' RATING) a left join fl_feedback on fl_feedback.RATING = a.RATING  group by a.RATING order by a.RATING");
+              $resultRatings = DB::select("select count(fl_feedback.RATING)  as rating_count,a.RATING from (select '1' RATING UNION ALL select '2' RATING UNION ALL select '3' RATING UNION ALL select '4' RATING UNION ALL SELECT '5' RATING) a left join fl_feedback on fl_feedback.RATING = a.RATING and fl_feedback.DOMAIN_ID =".$id." group by a.RATING order by a.RATING");
 
 
 $feedbacks = \App\feedback::all();
