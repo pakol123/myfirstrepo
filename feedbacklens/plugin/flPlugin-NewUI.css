@@ -1,15 +1,50 @@
 .flPluginBtn {
-    padding: 3px;
     position: fixed;
-    top: 50%;
-    right: 0px;
-    z-index: 100;
+    z-index: 4000;
+    
+    background-color: #42A5F5;
+    border: 1px solid transparent;
+    
+    color: white;
+    font-weight: 600;
+    padding: 4px 4px 4px 4px !important;
+    width: 120px;
+    height: 40px;
+    font-size: 16px;
+    border-radius: 5px 5px 0px 0px;
+
 }
+
+.flPluginBtnPropRight {
+    -ms-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    -webkit-o-transform: rotate(-90deg);
+    top: 50%;
+    right: -40px;
+    
+}
+
+.flPluginBtnPropLeft {
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -webkit-o-transform: rotate(90deg);
+    top: 50%;
+    left: -40px;
+   
+}
+
+.flPluginBtnPropBottomCenter {
+    bottom: 0px;
+    left: 50%;
+    
+}
+
 
 .flPluginModal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 120; /* Sit on top */
+    z-index: 4500; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -19,7 +54,44 @@
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
+/* Modal Content/Box */
+.flPluginModalContent {
+    background-color: transparent;
+    margin: 5% auto; /* 15% from the top and centered */
+    width:400px;
+    /*padding: 20px;
+    border: 0.5px solid transparent;
+    width: 80%; 
+    border-radius: 5px;*/
+}
 
+/*.flPluginInputContainer {
+    display: block;
+    margin: 5% auto;
+    width: 80%;
+}
+
+.flPluginInput {
+    margin: 3% auto;
+    width: 100%;
+    padding: 3px;
+}
+*/
+/* The Close Button */
+/*.flPluginClose {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.flPluginClose:hover,
+.flPluginClose:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+*/
 /* Rate element*/
 .flCir:hover {
         fill: #FFD54F;
@@ -52,63 +124,75 @@
 /*End Rate element*/
 
 
-
 .tableContainer {
     width: 100%;
+    border: 0.5px solid transparent;
     border-collapse: collapse;
+    background-color:white;
+    /*border-radius: 5px;*/
 }
-.closeBtn {
-    padding: 6px;
-    text-align: right;
+.flCloseBtn {
+    float: right;
     vertical-align: top;
+    position: absolute;
+    top:8px;
+    right:10px;
+    font-size: 15px;
+    cursor: pointer;
+    display: inline-block;
 }
 .headingTR {
     color: white;
 }
 .flHeading {
-    padding: 15px 15px 30px 15px;
+    padding: 20px 15px 30px 15px;
     color: white;
-    font-size: 18px;
+    font-size: 25px;
     font-weight: 600;
-   
+    text-align: center;
+    vertical-align: center;
+    position:relative;
 }
 .flRateElementTd {
-    padding: 15px 15px 30px 15px;
+    padding: 15px;
 }
 .flRateElement {
     list-style-type: none;
-    width: 80%;
-    display: block;
-    
+    /*width: 80%;*/
+    display: inline-block;
+
 }    
     
 .flRateElement > li{
-    float: left;
-    margin:3px;
+    float: left !important;
+    /*margin:3px;*/
 }
 
-.catTable {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #EEEEEE;
-}
-.catSection td {
-    border: 1px solid #EEEEEE;
+.catSection > td {
+    border: 1px solid #BDBDBD;
     padding: 15px 5px;
     text-align: center;
     cursor: pointer;
     width: 25%;
 }
 
-.flSelectedCatSection {
-    border: 2px solid #E0E0E0 !important;
-    background-color: #E0E0E0;
-    color: #FFF;
-    
-}
+
 .catSection td:hover {
     background-color: #F5F5F5;
 }
+
+.flSelectedCatSection {
+    /*border: 1px solid #E0E0E0 !important;*/
+    background-color: #E0E0E0;
+    color: #FFF;
+    font-weight: bold;
+}
+
+.flSelectedCatSection:hover {
+    background-color: #E0E0E0;
+    color: #FFF;
+}
+
 .grad {
     background: #42A5F5; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(left top, #42A5F5, #BBDEFB); /* For Safari 5.1 to 6.0 */
@@ -122,43 +206,43 @@
     color: #BDBDBD;
   font-size: 13px;
   vertical-align: middle !important;
-  padding: 8px;
+  
 }
 .flPluginInput::-moz-placeholder { /* Firefox 19+ */
   color: #BDBDBD;
   font-size: 13px;
   vertical-align: middle !important;
-  padding: 8px;
+  
 }
 .flPluginInput:-ms-input-placeholder { /* IE 10+ */
   color: #BDBDBD;
   font-size: 13px;
   vertical-align: middle !important;
-  padding: 8px;
+ 
 }
 .flPluginInput:-moz-placeholder { /* Firefox 18- */
    color: #BDBDBD;
   font-size: 13px;
   vertical-align: middle !important;
-  padding: 8px;
+  
 }
 
 .flPluginInput {
-    width: 95%;
+    width: 99%;
     border: none;
-    padding: 8px;
+    padding: 5px;
     color: #757575;
     border-left: none;
     border-right: none;
 }
 
 .flInputTd {
-    border: 1px solid #F5F5F5;
+    border: 1px solid #BDBDBD;
 }
 
 .flInputTable {
     width: 100%;
-    border: 1px solid #EEEEEE;
+    border: 1px solid #BDBDBD;
     border-collapse: collapse;
 }
 

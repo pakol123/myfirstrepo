@@ -318,7 +318,8 @@ function() {
       // Setting $http intercept - redirectWhenLoggedOut
       e.interceptors.push('redirectWhenLoggedOut');
 
-      d.loginUrl = 'public/api/login';
+      d.loginUrl = 'myfirstrepo/feedbacklens/public/api/login';
+      //d.loginUrl = 'LatestCode/feedbacklens/public/api/login';
 
     }])
 }(),
@@ -429,6 +430,7 @@ function() {
             a.dash.domainId = a.dashdomains[0].DOMAIN_ID.toString();
             a.getCategoryWiseCount();
             a.dash.getFeedBackCommentStr();
+            a.getRatingWiseCount();
 
             a.domainAvgRatings = data.feedbackrating;
             a.feedbackCounts = data.feedbackCount
@@ -458,6 +460,16 @@ function() {
 
                 }).error(function(error){
             });
+        }
+
+        a.ratingWiseFDCounts = [];
+        a.bar1 = {};
+         a.getRatingWiseCount = function() {
+            z.get('public/api/report/rating/'+a.dash.domainId).success(function(data) { 
+                a.bar1.options = {};
+                a.ratingWiseFDCounts = data.ratingCount;
+                a.setBarOptions();
+           });
         }
 
         a.setPieChart = function() {
@@ -586,7 +598,58 @@ function() {
                     });
             }
 
-            
+
+        a.setBarOptions = function() {
+                a.bar1.options = {
+                    tooltip: {
+                        trigger: "axis"
+                    },
+                    legend: {
+                        data: ["Feedbacks"]
+                    },
+                    toolbox: {
+                        show: !0,
+                        feature: {
+                            restore: {
+                                show: !0,
+                                title: "restore"
+                            },
+                            saveAsImage: {
+                                show: !0,
+                                title: "save as image"
+                            }
+                        }
+                    },
+                    calculable: !0,
+                    xAxis: [{
+                        type: "category",
+                        data: ["1", "2", "3", "4", "5"]
+                    }],
+                    yAxis: [{
+                        type: "value"
+                    }],
+                    series: [{
+                        name: "Feedbacks",
+                        type: "bar",
+                        data: [
+                                a.ratingWiseFDCounts[0] ? a.ratingWiseFDCounts[0].rating_count : 0,
+                                a.ratingWiseFDCounts[1] ? a.ratingWiseFDCounts[1].rating_count : 0,
+                                a.ratingWiseFDCounts[2] ? a.ratingWiseFDCounts[2].rating_count : 0,
+                                a.ratingWiseFDCounts[3] ? a.ratingWiseFDCounts[3].rating_count : 0,
+                                a.ratingWiseFDCounts[4] ? a.ratingWiseFDCounts[4].rating_count : 0,
+                            ],
+                        markPoint: {
+                            data: [{
+                                type: "max",
+                                name: "Max"
+                            }, {
+                                type: "min",
+                                name: "Min"
+                            }]
+                        },
+                    }]
+                }
+            }            
     }
     angular.module("app.dashboard").controller("DashboardCtrl", ["$scope", "$http", "$rootScope", a])
 }(),
@@ -1270,7 +1333,7 @@ function() {
         a.subCatUpdate = {};
         a.isIntegrationInfoCollapsed = true;
         a.headTagText = '<head>';
-        a.pluginAPIText = '<link rel="stylesheet" href="http://kolhsys.com/plugin/flPlugin.css"> <script src="http://kolhsys.com/plugin/preview/flPluginMain.js"></script>'
+        a.pluginAPIText = '<link rel="stylesheet" href="http://kolhsys.com/plugin/flPlugin.css"> <script src="http://kolhsys.com/plugin/flPluginMain.js"></script>'
 
         b.getAllDomains(b.currentUser.ORG_ID).success(function(data){
             a.domains = data.domains;
@@ -1305,6 +1368,11 @@ function() {
                 a.isActive = a.showFullPreview = a.plugin.ISACTIVE == 1 ? true : false;
                 original = angular.copy(a.plugin);
 
+                $("#colorpicker").spectrum({
+                    preferredFormat: "hex",
+                    color: data.properties.PLUGIN_COLOR ? data.properties.PLUGIN_COLOR : 'blue'
+                });
+
                 a.loadPlugin();
             });
         }
@@ -1327,7 +1395,6 @@ function() {
 
         a.submitPlPropertyForm = function() {
             //a.plugin.createdBy = b.currentUser.USER_ID;
-            
             var changeReq = {'isactive':a.plugin.ISACTIVE, 'alignment':a.plugin.ALIGNMENT, 'plugin_color':a.plugin.PLUGIN_COLOR, 'domainId': a.domainId, 'modified_by' : b.currentUser.USER_ID};
             c.post('public/api/domain/pluginupdate', changeReq).success(function(data) {
                 b.notify('success', "Successfully updated plugin");
@@ -1628,21 +1695,11 @@ function() {
         a.getFeedBackStats = function() {
             
             z.get('public/api/report/getReportDetails/'+a.dash.domainId).success(function(data) {
-
-                /*Pie Chart*/
+                   a.categoryWiseCount = data.resultCategory;
+                   /*Pie Chart*/
                    var feedbacks = 0;
                    angular.forEach(a.categoryWiseCount, function(cat, key) {
-                        var catFound = false;
-                        angular.forEach(data.resultCategory, function(recCat, key) {
-                            if(recCat.CAT_NAME == cat.catName) {
-                                cat.catCount = recCat.cat_count;
-                                catFound = true;
-                            }
-                        });
-                        if(!catFound)
-                            cat.catCount = 0;
-
-                        feedbacks = feedbacks + cat.catCount;
+                        feedbacks = feedbacks + cat.cat_count;
                    });
                    a.hasFeedBacks = feedbacks > 0 ? true : false;
 
@@ -1695,11 +1752,11 @@ function() {
             angular.forEach(a.categoryWiseCount, function(cat, key) {
                         var columnColor = a.chartColors[key % 5];
                         var pieChartData = {};
-                        if(cat.catCount > 0) {
+                        if(cat.cat_count > 0) {
                             pieChartData = {
-                                value: cat.catCount,
+                                value: cat.cat_count,
                                 type:'pie',
-                                name: cat.catName + 's',
+                                name: cat.CAT_NAME + 's',
                                 itemStyle: {
                                     normal: {
                                         color: columnColor,

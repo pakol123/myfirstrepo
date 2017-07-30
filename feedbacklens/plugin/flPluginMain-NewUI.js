@@ -12,12 +12,11 @@ window.onload = function() {
 
 	opSys = navigator.platform;
 	browser = navigator.appCodeName;
-	getPluginProperties();
+	getPluginProperties('');
 }
 
 function loadPlugin(domainIfoJson) {
 	
-
 	var pageBody = document.getElementsByTagName('body')[0];
 	// Floating button
 	var pluginBtn = b();
@@ -30,123 +29,74 @@ function loadPlugin(domainIfoJson) {
 	var div1 = d();
 	div1.id = 'idFlPluginModal';
 	div1.classList.add('flPluginModal');
-	
+
 	// Plugin container div
 	var div11 =  d();
+
 	div11.classList.add('flPluginModalContent');
 	div11.id ='idFlPluginModalContent';
-	// Close button
-	var spanCloseBtn =  s();
-	spanCloseBtn.innerHTML = '&times;';
-	spanCloseBtn.id = 'idFlPluginClose';
-	spanCloseBtn.classList.add('flPluginClose');
+	
+	// Hidden Input text for rate
+	
+	div1.appendChild(div11);
 
-	div11.appendChild(spanCloseBtn);
+	// Plugin parent div
+	var div2 = d();
+	div2.id = 'idFlPluginModalThankUDiv';
+	div2.classList.add('flPluginModalContent');
 
-	// Plugin Header
-	var flHeader = h3();
-	flHeader.style.textAlign = 'center';
-	flHeader.innerHTML = 'Feedback';
-	div11.appendChild(flHeader);
+	div2.innerHTML = '<table class="tableContainer" style="border: 1px solid white; border-radius: 4px"><tr><td style="padding:30px;10px;color:#64DD17;font-size: 18px; font-weight: 600; text-align: center" align: center>Thank you for your valuable feedback!!<br><br><button style="border: 1px solid #42A5F5; background-color:#42A5F5;color: white; padding: 5px 10px; border-radius: 4px; font-weight:400; font-size: 13px" id="idFlThankClose">Close</button></td></tr></table>';
+	div1.appendChild(div2);
 
-	var div111 =  d();
-	div111.classList.add('flPluginInputContainer');
-	div111.id = 'idFlPluginInputContainer';
+	pageBody.appendChild(div1);
 
-	// Rate element
-	var rateElement = ul();
-	rateElement.classList.add('flRateElement');
+
+	var outerCont = eId('idFlPluginModalContent');
+	outerCont.innerHTML = '<table class="tableContainer"><tr class="headingTR grad"><td class="flHeading" colspan="4">Feedback <span id="idFlPluginClose" class="flCloseBtn">X</span></td></tr><tr><td class="flRateElementTd" colspan="4" align="center"><ul class="flRateElement" id="flRatingUl"></ul></td></tr><tr class="catSection" id="trCats"></tr><tr><td colspan="4" style="padding: 20px 30px"><table class="flInputTable"><tr><td align="center" class="flInputTd"><select class="flPluginInput flSubCategory" id="idFlSubCategory" ></select></td></tr><tr><td class="flInputTd" align="center"><textarea class="flPluginInput" id="idFlComments" rows="5" placeholder="Comments*" maxlength="1000" style="resize: vertical;"></textarea></td></tr><tr><td align="center" class="flInputTd"><input class="flPluginInput flComments" id="idFlEmail" type="email" placeholder="Email (Optional)" maxlength="100"></td></tr></table></td></tr><tr><td class="flInputTd flBtnTd" align="center" colspan="4"><input class="flPluginInput flSubmitButton" type="button" value="Submit" onclick="javascript: flSubmitForm();"style="padding: 8px 5px"></td></tr></table><table class="tableContainer" style="display:none" id="idFlPluginThnkTr"><tr ><td style="padding:30px 15px; color: #64DD17; text-align: center; display: none" colspan="4">Thank you for your valuable feedback!!</td></tr></table>';
+	var rateEmailUl = eId('flRatingUl');
 	var svgCircle = '';
     for(var i=0; i<5; i++){
         svgCircle = svgCircle.concat('<li><svg height="40" width="40"> <polygon fill="#FFF" points="20,4.061834335327148 24.217514038085938,16.195087432861328 37.06020736694336,16.456802368164062 26.824085235595703,24.217281341552734 30.54378890991211,36.51227951049805 20,29.17526626586914 9.45621109008789,36.51227951049805 13.175914764404297,24.217281341552734 2.939790725708008,16.456802368164062 15.782485961914062,16.195087432861328 20,4.061834335327148 24.217514038085938,16.195087432861328" stroke="#FFD54F" stroke-width="2" stroke-linejoin="round" onclick="setRate(this, '+(i+1)+');" id="idCir'+i+'" class="flCir rateCircles" /></svg></li>');
     }
-    rateElement.innerHTML = svgCircle;
+    rateEmailUl.innerHTML = svgCircle;
 
-	div111.appendChild(rateElement);
-
-	
-	// Categories input
-	var flCatInput = sl();
-	flCatInput.classList.add('flPluginInput');
-	flCatInput.id = 'idFlCategory';
-	var flEmptyOpt = o();
-	flEmptyOpt.value = '';
-	flEmptyOpt.innerHTML = 'Select Category *';
-	flCatInput.appendChild(flEmptyOpt);
-	
-	div111.appendChild(flCatInput);
-
-	// Sub Categories input
-	var flSubCatInput = sl();
-	flSubCatInput.classList.add('flPluginInput');
-	flSubCatInput.id = 'idFlSubCategory';
-	var flSubCatEmptyOpt = o();
-	flSubCatEmptyOpt.value = '';
-	flSubCatEmptyOpt.innerHTML = 'Select Sub Category *';
-	flSubCatInput.appendChild(flSubCatEmptyOpt);
-	div111.appendChild(flSubCatInput);
-
-	// Text area to write us
-	var flTextAreaInput = ta();
-	flTextAreaInput.classList.add('flPluginInput');
-	flTextAreaInput.id = 'idFlComments';
-	flTextAreaInput.rows = 4;
-	flTextAreaInput.placeholder = 'Write Us *';
-	flTextAreaInput.style.resize = 'vertical';
-	flTextAreaInput.maxLength = 1000;
-	div111.appendChild(flTextAreaInput);
-
-	// Input text for email
-	var flTextInputEmail = t();
-	flTextInputEmail.classList.add('flPluginInput');
-	flTextInputEmail.id = 'idFlEmail';
-	flTextInputEmail.type = 'email';
-	flTextInputEmail.placeholder = 'Email (Optional)';
-	flTextInputEmail.maxLength = 100;
-	div111.appendChild(flTextInputEmail);
-
-	// Hidden Input text for rate
-	var flTextInputRate = t();
+    /* Rate hidden input */
+    var flTextInputRate = t();
 	//flTextInputRate.classList.add('flPluginInput');
 	flTextInputRate.type = 'hidden';
-	flTextInputRate.id = 'idRate'
-	div111.appendChild(flTextInputRate);
+	flTextInputRate.id = 'idRate';
 
-	// Submit button
-	var flSubmitBtn = t();
-	flSubmitBtn.classList.add('flPluginInput', 'flSubmitButton');
-	flSubmitBtn.type = 'button';
-	flSubmitBtn.value = 'Submit';
-	flSubmitBtn.setAttribute( "onClick", "javascript: flSubmitForm();" );
-	div111.appendChild(flSubmitBtn);
+	outerCont.appendChild(flTextInputRate);
 
-	
-	div11.appendChild(div111);
+	/* cat hidden input */
+	var flTextHiidenCatIn = t();
+	//flTextInputRate.classList.add('flPluginInput');
+	flTextHiidenCatIn.type = 'hidden';
+	flTextHiidenCatIn.id = 'idFlCategory';
 
-	// Plugin container div
-	var div112 =  d();
-	//div112.classList.add('flPluginModalContent');
-	div112.id ='idFlPluginThnkDiv';
-	div112.style.display = 'none';
-	div112.innerHTML = 'Thank you for your valuable feedback';
-	div11.appendChild(div112);
+	outerCont.appendChild(flTextHiidenCatIn);
+
 
 	
-	div1.appendChild(div11);
-	pageBody.appendChild(div1);
 
 	// Binding modal events
 	var modal = eId('idFlPluginModal');
 	var btn = eId("idPluginBtn");
 	var span = eId("idFlPluginClose");
+	var thankSpan = eId("idFlThankClose");
 		
 	btn.onclick = function() {
-		flResetInputs();
-		showThankDiv(false);
+		
 		modal.style.display = "block";
+		showThankDiv(false);
+		flResetInputs();
 	}
 		
 	span.onclick = function() {
+		modal.style.display = "none";
+	}
+
+	thankSpan.onclick = function() {
 		modal.style.display = "none";
 	}
 		
@@ -199,6 +149,7 @@ function flResetInputs() {
 
     // Second parameter of following function is for check if to reset rate elements or set one selected
 	flToggleRateElement(0, true);
+	flSelectCat({}, true, 0);
 }
 
 
@@ -263,11 +214,18 @@ function flToggleRateElement(rate, isReset) {
 }
 
 
-function getPluginProperties() {
+function getPluginProperties(domainNameParam) {
 	var domainIfoJson = {};
 	var xhr = new XMLHttpRequest();
-	var domainName = window.location.hostname;
-	domainName = domainName.replace("www.", "");
+	var domainName = '';
+	
+	if(domainNameParam != '' && domainNameParam.length > 0){
+		domainName = domainNameParam;
+	} else {
+		domainName = window.location.hostname;
+		domainName = domainName.replace("www.", "");
+	}
+	
 	var flReqUrl = 'public/api/domain/fetchData?domainName='.concat(domainName);
 	xhr.open("GET", flReqUrl, true);
 	xhr.onload = function (e) {
@@ -306,17 +264,42 @@ function getPluginProperties() {
 }
 
 function setOptionsToCat(categories) {
-	var catElement = eId('idFlCategory');
+	var catElement = eId('trCats');
+	var catTds = '';
 	for(var i=0; i<categories.length; i++) {
-		var flCatOpt = o();
-		flCatOpt.value = categories[i].CAT_ID;
-		flCatOpt.innerHTML = categories[i].CAT_NAME;
-		catElement.appendChild(flCatOpt);
+		catTds= catTds.concat("<td onclick='flSelectCat(this,false," + categories[i].CAT_ID + ")' id='catTd" + categories[i].CAT_ID + "' class='flCatTd' width='25%'>" + categories[i].CAT_NAME + "</td>");
 	}
+	catElement.innerHTML = catTds;
+}
+
+function flSelectCat(ev, isReset, catId) {
+		var x = document.getElementsByClassName("flCatTd");
+	            
+	    if(isReset){
+	       		for(var i=0; i<x.length; i++){
+	       			x[i].classList.remove('flSelectedCatSection');
+	       		}
+	       } else {    	
+		       for(var i=0; i<x.length; i++) {
+		       		if(ev.id == x[i].id) {
+		            	x[i].classList.add('flSelectedCatSection');
+		            	eId('idFlCategory').value=catId;
+		       		}
+		            else {
+		            	x[i].classList.remove('flSelectedCatSection');
+		            }
+		       }
+	       }
+
+
 }
 
 function setOptionsToSubCat(subCategories) {
 	var catElement = eId('idFlSubCategory');
+	var flSubCatOpt1 = o();
+		flSubCatOpt1.value = '';
+		flSubCatOpt1.innerHTML = 'Select Sub Category';
+		catElement.appendChild(flSubCatOpt1);
 	for(var i=0; i<subCategories.length; i++) {
 		var flSubCatOpt = o();
 		flSubCatOpt.value = subCategories[i].SUBCAT_ID;
@@ -365,8 +348,8 @@ function postFeedback() {
 }
 
 function showThankDiv(display) {
-	eId('idFlPluginInputContainer').style.display = display ? 'none' : 'block';
-	eId('idFlPluginThnkDiv').style.display =  display ? 'block' : 'none';
+	eId('idFlPluginModalContent').style.display = display ? 'none' : 'block';
+	eId('idFlPluginModalThankUDiv').style.display =  display ? 'block' : 'none';
 }
 
 function b() {

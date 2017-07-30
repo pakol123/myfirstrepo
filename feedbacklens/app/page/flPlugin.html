@@ -79,13 +79,15 @@
 			                    </div>
 			                    <div class="form-group">
 			                        <label for="pluginColor" class="col-sm-4">Button Color</label>
-			                        <span class="ui-select custSelect col-sm-8">
+			                        <!-- <span class="ui-select custSelect col-sm-8">
 			                            <select data-ng-model="plugin.PLUGIN_COLOR" requred>
 			                                <option value="#EF5350">Red</option>
 			                                <option value="#FFA726">Orange</option>
 			                                <option value="#42A5F5">Blue</option>
 			                            </select>
-			                        </span>
+
+			                        </span> -->
+			                        <input id="colorpicker" data-ng-model="plugin.PLUGIN_COLOR">
 			                    </div>
 			                    <div class="divider divider-lg"></div>
 			                    <button type="submit" class="btn btn-primary btn-w-md" data-ng-disabled="!canSubmitPlProperties()">Submit</button>
@@ -138,31 +140,55 @@
 	    <div class="column col-md-6" ng-show="domainId != ''">
 			<section class="panel panel-default">
 				<div class="panel-heading" style="position: relative;"><strong><span class="glyphicon glyphicon-th"></span> Preview</strong>
-					&nbsp;&nbsp;<span style="font-size: 16px; color: {{color.info}};float: right; cursor: pointer" ng-click="openPluginPreview()" ng-show="showFullPreview"><i class="glyphicon glyphicon-fullscreen"></i></span>
+					<!-- &nbsp;&nbsp;<span style="font-size: 16px; color: {{color.info}};float: right; cursor: pointer" ng-click="openPluginPreview()" ng-show="showFullPreview"><i class="glyphicon glyphicon-fullscreen"></i></span> -->
 				</div>
 			    <div class="panel-body">
 			    	<!-- <div id="idFlPluginModal" class="flPluginModal"> -->
 				   <div class="flPluginModalContent" >
-				      <span class="flPluginClose">×</span>
-				      <h3 style="text-align: center;">Feedback</h3>
-				      <div class="flPluginInputContainer">
-				         <ul class="flRateElement">
-				            <li ng-repeat="rt in [1,2,3,4,5]">
-				               <svg height="40" width="40">
-				               	  <polygon fill="#FFF" points="20,4.061834335327148 24.217514038085938,16.195087432861328 37.06020736694336,16.456802368164062 26.824085235595703,24.217281341552734 30.54378890991211,36.51227951049805 20,29.17526626586914 9.45621109008789,36.51227951049805 13.175914764404297,24.217281341552734 2.939790725708008,16.456802368164062 15.782485961914062,16.195087432861328 20,4.061834335327148 24.217514038085938,16.195087432861328" stroke="#FFD54F" stroke-width="2" stroke-linejoin="round" ng-click="toggleRateElement(rt, false, 'flSampleCir');" id="idCir{{rt}}" class="flCir flSampleCir" />
-				               </svg>
-				            </li>
-				         </ul>
-				         <select class="flPluginInput"">
-				            <option value="">Select Category *</option>
-				            <option value="1" ng-repeat="cat in categories">{{cat.CAT_NAME}}</option>
-				         </select>
-				         <select class="flPluginInput">
-				            <option value="">Select Sub Category *</option>
-				            <option value="1" ng-repeat="subCat in subCategories" ng-if="subCat.pivot.ISACTIVE == 1">{{subCat.SUBCAT_NAME}}</option>
-				         </select>
-				         <textarea class="flPluginInput" rows="4" placeholder="Write Us *" style="resize: vertical;" maxlength="1000"></textarea>
-				         <input class="flPluginInput" type="email" placeholder="Email (Optional)"><input class="flPluginInput flSubmitButton" type="button" value="Submit" onclick="javascript:;" maxlength="100">
+				      <table class="tableContainer" style="border: 1px solid #E0E0E0"><tbody><tr class="headingTR grad"><td class="flHeading" colspan="4">Feedback <span class="flCloseBtn">X</span></td></tr><tr><td class="flRateElementTd" colspan="4" align="center"><ul class="flRateElement" style="padding-left: 0px;"><li ng-repeat="nmb in [1,2,3,4,5]"><svg height="40" width="40"> <polygon fill="#FFF" points="20,4.061834335327148 24.217514038085938,16.195087432861328 37.06020736694336,16.456802368164062 26.824085235595703,24.217281341552734 30.54378890991211,36.51227951049805 20,29.17526626586914 9.45621109008789,36.51227951049805 13.175914764404297,24.217281341552734 2.939790725708008,16.456802368164062 15.782485961914062,16.195087432861328 20,4.061834335327148 24.217514038085938,16.195087432861328" stroke="#FFD54F" stroke-width="2" stroke-linejoin="round" class="flCir rateCircles"></polygon></svg></li>
+				      </ul>
+				      </td>
+				      </tr>
+				      <tr class="catSection" id="trCats">
+				      <td onclick="flSelectCat(this,false,1)" id="catTd1" class="flCatTd" width="25%">Problem</td>
+				      <td onclick="flSelectCat(this,false,2)" id="catTd2" class="flCatTd" width="25%">Suggestion</td>
+				      <td onclick="flSelectCat(this,false,3)" id="catTd3" class="flCatTd" width="25%">Complaint</td>
+				      <td onclick="flSelectCat(this,false,4)" id="catTd4" class="flCatTd flSelectedCatSection" width="25%">Others</td>
+				      </tr>
+				      <tr>
+				      <td colspan="4" style="padding: 20px 30px">
+				      <table class="flInputTable">
+				      <tbody>
+				      <tr>
+				      <td align="center" class="flInputTd">
+				      <select class="flPluginInput flSubCategory">
+				      <option value="">Select Sub Category</option>
+				      <option value="1">Performance Related</option>
+				      <option value="2">Service Related</option>
+				      <option value="3">Content Related</option>
+				      <option value="4">Others</option>
+				      <option value="5">Art related</option>
+				      </select>
+				      </td>
+				      </tr>
+				      <tr>
+				      <td class="flInputTd" align="center">
+				      <textarea class="flPluginInput" rows="5" placeholder="Comments*" maxlength="1000" style="resize: vertical;">
+				      	
+				      </textarea>
+				      </td>
+				      </tr>
+				      <tr>
+				      <td align="center" class="flInputTd">
+				      <input class="flPluginInput" type="email" placeholder="Email (Optional)" maxlength="100"></td>
+				      </tr>
+				      </tbody>
+				      </table>
+				      </td>
+				      </tr>
+				      <tr>
+				      <td class="flInputTd flBtnTd" align="center" colspan="4">
+				      <input class="flPluginInput flSubmitButton" type="button" value="Submit" style="padding: 8px 5px"></td></tr></tbody></table>
 				      </div>
 				   </div>
 				</div>

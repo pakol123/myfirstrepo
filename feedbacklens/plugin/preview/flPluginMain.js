@@ -112,7 +112,12 @@ function loadPlugin(domainIfoJson) {
 	//div112.classList.add('flPluginModalContent');
 	div112.id ='idFlPluginThnkDiv';
 	div112.style.display = 'none';
-	div112.innerHTML = 'Thank you for your valuable feedback';
+	div112.style.textAlign = 'center';
+	div112.style.color = '#64DD17';
+	div112.style.fontWeight = 'bold';
+	div112.style.paddingTop = '20px';
+	div112.style.paddingBottom = '20px';
+	div112.innerHTML = 'Thank you for your valuable feedback!!';
 	div11.appendChild(div112);
 
 	
@@ -152,10 +157,9 @@ function setRate(ev, rate) {
 
 function flSubmitForm() {
 	if(flIsValidaeInputs()) {
-		alert("All Valid");
 		postFeedback();
 	} else {
-		alert("Not Valid");
+		alert("Enter Valid Inputs");
 	}
 }
 
@@ -183,6 +187,8 @@ function flResetInputs() {
 
     // Second parameter of following function is for check if to reset rate elements or set one selected
 	flToggleRateElement(0, true, 'rateCircles');
+
+	showThankDiv(false);
 }
 
 
