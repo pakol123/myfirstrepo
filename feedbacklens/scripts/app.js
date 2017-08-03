@@ -1334,6 +1334,9 @@ function() {
         a.isIntegrationInfoCollapsed = true;
         a.headTagText = '<head>';
         a.pluginAPIText = '<link rel="stylesheet" href="http://kolhsys.com/plugin/flPlugin.css"> <script src="http://kolhsys.com/plugin/flPluginMain.js"></script>'
+        a.plugin.isNewTab = '0';
+        a.plugin.pluginTitle = 'Title';
+        a.showUploadFileError = false;
 
         b.getAllDomains(b.currentUser.ORG_ID).success(function(data){
             a.domains = data.domains;
@@ -1395,7 +1398,7 @@ function() {
 
         a.submitPlPropertyForm = function() {
             //a.plugin.createdBy = b.currentUser.USER_ID;
-            var changeReq = {'isactive':a.plugin.ISACTIVE, 'alignment':a.plugin.ALIGNMENT, 'plugin_color':a.plugin.PLUGIN_COLOR, 'domainId': a.domainId, 'modified_by' : b.currentUser.USER_ID};
+            var changeReq = {'isactive':a.plugin.ISACTIVE, 'alignment':a.plugin.ALIGNMENT, 'plugin_color':a.plugin.PLUGIN_COLOR, 'domainId': a.domainId, 'modified_by' : b.currentUser.USER_ID, 'labelText': a.plugin.pluginTitle, 'isnewtab': a.plugin.isNewTab};
             c.post('public/api/domain/pluginupdate', changeReq).success(function(data) {
                 b.notify('success', "Successfully updated plugin");
                 a.getSubCategories(a.domainId);
@@ -1475,17 +1478,71 @@ function() {
             flToggleRateElement(rt, isReset, startClass);
         }
 
+        
+        a.openUploadLogoModal = function() {
+            var e = h.open({
+                animation: true,
+                templateUrl: 'uploadLogo.html',
+                controller: "ModalInstanceCtrl",
+                size: 'sm',
+                resolve: {
+                    dmId: function() {
+                        return a.domainId
+                    }
+                }
+            });
+            e.result.then(function() {
+                
+            }, function() {
+                
+            });
+        }
+
+        
+
     } // End of plugin controller function
 
-     function b(a, b) {
+     function b(a, b, c, d) {
+        a.uploadLogoFile = function(){
+            var file = a.myFile;
+            
+            if(file) {
+                if(file.size <= 4000000){
+                    a.showUploadFileError = false;
+                    var uploadUrl = "public/api/plugin/uploadLogo";
+                    c.uploadFileToUrl(file, uploadUrl, d);
+                    b.close();
+                } else {
+                    a.uploadError = "File size should be less than 4MB";
+                    a.showUploadFileError = true;
+                }
+            } else {
+                a.uploadError = "Select file to upload";
+                a.showUploadFileError = true;
+            }
+        };
+
         a.ok = function() {
-            b.close()
+             a.uploadLogoFile();
+            
         }, a.cancel = function() {
             b.dismiss("cancel")
         }
+
+        a.showImage = function(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+        
+                reader.onload = function(e) {
+                    $("#idUploadLogoInput").attr('src', e.target.result);
+                };
+        
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
     }
 
-    angular.module('app.plugin').controller("pluginController", ["$scope", "$rootScope", "$http", "logger", "$compile", "$templateCache", "$uibModal", a]).controller("ModalInstanceCtrl", ["$scope", "$uibModalInstance", b])
+    angular.module('app.plugin').controller("pluginController", ["$scope", "$rootScope", "$http", "logger", "$compile", "$templateCache", "$uibModal", a]).controller("ModalInstanceCtrl", ["$scope", "$uibModalInstance","fileUpload","dmId", b])
 }(),
 
 // End plugin controller
@@ -1998,4 +2055,50 @@ function() {
     }
 
     angular.module("app.signUp").controller("signupController", ["$scope", "$http", "$rootScope", "$location", a])
+}(),
+
+// File Upload directive and Service
+
+function() {
+    "use strict";
+    function a(a) {
+       return {
+               restrict: 'A',
+               link: function(scope, element, attrs) {
+                  var model = a(attrs.fileModel);
+                  var modelSetter = model.assign;
+                  
+                  element.bind('change', function(){
+                     scope.$apply(function(){
+                        modelSetter(scope, element[0].files[0]);
+                       
+                     });
+                  });
+               }
+            };
+    }
+
+    angular.module("app.plugin").directive("fileModel", ["$parse", a])
+}(),
+
+function() {
+    "use strict";
+    function a(a) {
+      this.uploadFileToUrl = function(file, uploadUrl, domainId){
+               var fd = new FormData();
+               fd.append('logoFile', file);
+               fd.append('domainId', domainId);
+            
+               a.post(uploadUrl, fd, {
+                  transformRequest: angular.identity,
+                  headers: {'Content-Type': undefined}
+               }).success(function(response){
+                    console.log(response);
+               }).error(function(){
+               });
+            }
+    }
+
+    angular.module("app.plugin").service("fileUpload", ["$http", a])
 }();
+

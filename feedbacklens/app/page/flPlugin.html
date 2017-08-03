@@ -3,6 +3,44 @@
 		background-color: {{color.warning}} !important;
 		color: white !important;
 	}
+
+	
+	/*****************************************
+	  upload button styles
+	******************************************/
+	.file-upload {
+		position: relative;
+		display: inline-block;
+		height: 150px;
+		
+		cursor: pointer;
+	}
+
+	.file-upload__label {
+	  /*display: block;*/
+	  /*padding: 1em 2em;*/
+	 /* color: #fff;*/
+	  /*background: #222;
+	  border-radius: .4em;*/
+	  
+	 height: 100%;
+	  border: 2px dashed #CCCCCC;
+	  cursor: pointer;
+	}
+	    
+	.file-upload__input {
+		cursor: pointer;
+	    position: absolute;
+	    left: 0;
+	    top: 0;
+	    right: 0;
+	    bottom: 0;
+	    font-size: 1;
+	    width:100%;
+	    height: 100%;
+	    opacity: 0;
+	}
+
 </style>
 
 <div class="page page-general" class="column" data-ng-controller="pluginController">
@@ -11,7 +49,7 @@
         <div class="col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading" ng-click="isIntegrationInfoCollapsed = !isIntegrationInfoCollapsed">
-                    Click here to know how to integrate plugin API in your website?
+                    Click here to know how to integrate plugin API in your website
                 </div>
                 <div class="panel-body" uib-collapse="isIntegrationInfoCollapsed">
                 	<h4>So simple, just put the follwing line as it is in '{{headTagText}}' tag of your website:</h4>
@@ -89,6 +127,19 @@
 			                        </span> -->
 			                        <input id="colorpicker" data-ng-model="plugin.PLUGIN_COLOR">
 			                    </div>
+			                    <div class="form-group">
+			                        <label for="pluginTitle" class="col-sm-4">Plugin Title</label>
+			                        <input type="text" ng-model="plugin.pluginTitle" class="form-control" maxlength="30" style="display: inline-block; width: 60%">
+			                    </div>
+			                    <div class="form-group">
+			                    	<label for="pluginNewTab" class="col-sm-4">Open In New Tab?</label>
+			                    	<dl class="dl-horizontal">
+				                        <dd>
+				                            <label class="ui-radio"><input name="radio1" type="radio" ng-model="plugin.isNewTab" ng-value="1" ><span>Yes</span></label>
+				                            <label class="ui-radio"><input name="radio1" type="radio" ng-model="plugin.isNewTab" ng-value="0" checked><span>No</span></label>
+				                        </dd>
+				                    </dl>
+			                    </div>
 			                    <div class="divider divider-lg"></div>
 			                    <button type="submit" class="btn btn-primary btn-w-md" data-ng-disabled="!canSubmitPlProperties()">Submit</button>
 			                </form>
@@ -145,7 +196,9 @@
 			    <div class="panel-body">
 			    	<!-- <div id="idFlPluginModal" class="flPluginModal"> -->
 				   <div class="flPluginModalContent" >
-				      <table class="tableContainer" style="border: 1px solid #E0E0E0"><tbody><tr class="headingTR grad"><td class="flHeading" colspan="4">Feedback <span class="flCloseBtn">X</span></td></tr><tr><td class="flRateElementTd" colspan="4" align="center"><ul class="flRateElement" style="padding-left: 0px;"><li ng-repeat="nmb in [1,2,3,4,5]"><svg height="40" width="40"> <polygon fill="#FFF" points="20,4.061834335327148 24.217514038085938,16.195087432861328 37.06020736694336,16.456802368164062 26.824085235595703,24.217281341552734 30.54378890991211,36.51227951049805 20,29.17526626586914 9.45621109008789,36.51227951049805 13.175914764404297,24.217281341552734 2.939790725708008,16.456802368164062 15.782485961914062,16.195087432861328 20,4.061834335327148 24.217514038085938,16.195087432861328" stroke="#FFD54F" stroke-width="2" stroke-linejoin="round" class="flCir rateCircles"></polygon></svg></li>
+				      <table class="tableContainer" style="border: 1px solid #E0E0E0"><tbody><tr class="headingTR grad"><td class="flHeading" colspan="4">
+				      <img src="images/g1.jpg" height="50px" ng-click="openUploadLogoModal()"><br/>
+				      <span ng-bind="plugin.pluginTitle"></span><span class="flCloseBtn">X</span></td></tr><tr><td class="flRateElementTd" colspan="4" align="center"><ul class="flRateElement" style="padding-left: 0px;"><li ng-repeat="nmb in [1,2,3,4,5]"><svg height="40" width="40"> <polygon fill="#FFF" points="20,4.061834335327148 24.217514038085938,16.195087432861328 37.06020736694336,16.456802368164062 26.824085235595703,24.217281341552734 30.54378890991211,36.51227951049805 20,29.17526626586914 9.45621109008789,36.51227951049805 13.175914764404297,24.217281341552734 2.939790725708008,16.456802368164062 15.782485961914062,16.195087432861328 20,4.061834335327148 24.217514038085938,16.195087432861328" stroke="#FFD54F" stroke-width="2" stroke-linejoin="round" class="flCir rateCircles"></polygon></svg></li>
 				      </ul>
 				      </td>
 				      </tr>
@@ -196,6 +249,36 @@
 		</div>
 	</div>
 
+	<script type="text/ng-template" id="uploadLogo.html">
+		<div class="modal-header">
+			<h4>Upload Logo</h4>
+		</div>
+		<div class="modal-body">
+			<table style="width: 100%">
+				<tr>
+					<td>
+						<div class="callout callout-danger" ng-show="showUploadFileError">
+                        	<span class="ti-close" style="cursor: pointer; float:right" ng-click="showUploadFileError = false"></span>
+                        	<p style="width: 80%; margin-right: 0px">{{uploadError}}!</p>
+                    	</div>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" style="padding:20px">
+						<span style="color: #BBBBBB">Click below to browse image file or you can drag and drop image file.</span><br/><br/>
+						<div class="file-upload">
+					    	<img for="upload" src="images/uploadBack.png" class="file-upload__label" id="idUploadLogoInput"/>
+					    	<input id="upload" class="file-upload__input" type="file" name="file-upload" file-model = "myFile" onchange='angular.element(this).scope().showImage(this)' accept="image/*">
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="ok()">Upload</button>
+			<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+		</div>
+	</script>
 	
 
  </div>
