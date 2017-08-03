@@ -1368,6 +1368,8 @@ function() {
                 a.plugin.ALIGNMENT = data.properties.ALIGNMENT ? data.properties.ALIGNMENT.toString() : '';
                 a.plugin.PLUGIN_COLOR = data.properties.PLUGIN_COLOR ? data.properties.PLUGIN_COLOR.toString() : '';
                 a.plugin.ISACTIVE = data.properties.ISACTIVE;
+                a.plugin.LABELTEXT = data.properties.LABELTEXT;
+                a.plugin.ISNEWTAB = data.properties.ISNEWTAB;
                 a.isActive = a.showFullPreview = a.plugin.ISACTIVE == 1 ? true : false;
                 original = angular.copy(a.plugin);
 
@@ -1398,7 +1400,7 @@ function() {
 
         a.submitPlPropertyForm = function() {
             //a.plugin.createdBy = b.currentUser.USER_ID;
-            var changeReq = {'isactive':a.plugin.ISACTIVE, 'alignment':a.plugin.ALIGNMENT, 'plugin_color':a.plugin.PLUGIN_COLOR, 'domainId': a.domainId, 'modified_by' : b.currentUser.USER_ID, 'labelText': a.plugin.pluginTitle, 'isnewtab': a.plugin.isNewTab};
+            var changeReq = {'isactive':a.plugin.ISACTIVE, 'alignment':a.plugin.ALIGNMENT, 'plugin_color':a.plugin.PLUGIN_COLOR, 'domainId': a.domainId, 'modified_by' : b.currentUser.USER_ID, 'labeltext': a.plugin.LABELTEXT, 'isnewtab': a.plugin.ISNEWTAB};
             c.post('public/api/domain/pluginupdate', changeReq).success(function(data) {
                 b.notify('success', "Successfully updated plugin");
                 a.getSubCategories(a.domainId);

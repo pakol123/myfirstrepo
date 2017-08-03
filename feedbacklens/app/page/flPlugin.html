@@ -129,14 +129,14 @@
 			                    </div>
 			                    <div class="form-group">
 			                        <label for="pluginTitle" class="col-sm-4">Plugin Title</label>
-			                        <input type="text" ng-model="plugin.pluginTitle" class="form-control" maxlength="30" style="display: inline-block; width: 60%">
+			                        <input type="text" ng-model="plugin.LABELTEXT" class="form-control" maxlength="30" style="display: inline-block; width: 60%">
 			                    </div>
 			                    <div class="form-group">
 			                    	<label for="pluginNewTab" class="col-sm-4">Open In New Tab?</label>
 			                    	<dl class="dl-horizontal">
 				                        <dd>
-				                            <label class="ui-radio"><input name="radio1" type="radio" ng-model="plugin.isNewTab" ng-value="1" ><span>Yes</span></label>
-				                            <label class="ui-radio"><input name="radio1" type="radio" ng-model="plugin.isNewTab" ng-value="0" checked><span>No</span></label>
+				                            <label class="ui-radio"><input name="radio1" type="radio" ng-model="plugin.ISNEWTAB" ng-value="1" ><span>Yes</span></label>
+				                            <label class="ui-radio"><input name="radio1" type="radio" ng-model="plugin.ISNEWTAB" ng-value="0" checked><span>No</span></label>
 				                        </dd>
 				                    </dl>
 			                    </div>
@@ -198,7 +198,7 @@
 				   <div class="flPluginModalContent" >
 				      <table class="tableContainer" style="border: 1px solid #E0E0E0"><tbody><tr class="headingTR grad"><td class="flHeading" colspan="4">
 				      <img src="images/g1.jpg" height="50px" ng-click="openUploadLogoModal()"><br/>
-				      <span ng-bind="plugin.pluginTitle"></span><span class="flCloseBtn">X</span></td></tr><tr><td class="flRateElementTd" colspan="4" align="center"><ul class="flRateElement" style="padding-left: 0px;"><li ng-repeat="nmb in [1,2,3,4,5]"><svg height="40" width="40"> <polygon fill="#FFF" points="20,4.061834335327148 24.217514038085938,16.195087432861328 37.06020736694336,16.456802368164062 26.824085235595703,24.217281341552734 30.54378890991211,36.51227951049805 20,29.17526626586914 9.45621109008789,36.51227951049805 13.175914764404297,24.217281341552734 2.939790725708008,16.456802368164062 15.782485961914062,16.195087432861328 20,4.061834335327148 24.217514038085938,16.195087432861328" stroke="#FFD54F" stroke-width="2" stroke-linejoin="round" class="flCir rateCircles"></polygon></svg></li>
+				      <span ng-bind="plugin.LABELTEXT"></span><span class="flCloseBtn">X</span></td></tr><tr><td class="flRateElementTd" colspan="4" align="center"><ul class="flRateElement" style="padding-left: 0px;"><li ng-repeat="nmb in [1,2,3,4,5]"><svg height="40" width="40"> <polygon fill="#FFF" points="20,4.061834335327148 24.217514038085938,16.195087432861328 37.06020736694336,16.456802368164062 26.824085235595703,24.217281341552734 30.54378890991211,36.51227951049805 20,29.17526626586914 9.45621109008789,36.51227951049805 13.175914764404297,24.217281341552734 2.939790725708008,16.456802368164062 15.782485961914062,16.195087432861328 20,4.061834335327148 24.217514038085938,16.195087432861328" stroke="#FFD54F" stroke-width="2" stroke-linejoin="round" class="flCir rateCircles"></polygon></svg></li>
 				      </ul>
 				      </td>
 				      </tr>
