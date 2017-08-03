@@ -25,7 +25,7 @@ class registrationController extends Controller
 
   public function validateEmailandPhone()
 {
-    if(count(\App\user::where('EMAIL',request('email'))->get()) == 1)
+    if(count(\App\User::where('EMAIL',request('email'))->get()) == 1)
   {
   return 1;
   }

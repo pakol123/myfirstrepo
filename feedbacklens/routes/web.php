@@ -67,6 +67,7 @@ Route::post('api/feedback/sendFeedBack','feedbackController@create');
 
 
 Route::post('api/plugin/updateSubCat' , 'pluginController@updatePluginSubcategories');
+Route::post('api/plugin/uploadLogo' , 'pluginController@uploadLogo');
 Route::get('api/feedback/getFeedback' , 'feedbackController@getFeedback');
 Route::get('api/feedback/filter/{id}' , 'feedbackController@filterFeedback');
 Route::get('api/feedback/export/{id}','feedbackController@exportAsFile');

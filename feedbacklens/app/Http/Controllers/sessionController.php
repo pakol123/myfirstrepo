@@ -51,7 +51,8 @@ $count = DB::table('fl_domain')
 
 // $idd = $id->filteredPlans;
 //echo $idd[0]->NO_OF_DOMAINS;
- 
+
+//dd($id->plans()->where('IS_ACTIVE',1)); 
   return response()->json(array('user'=>$user,'no_of_domains'=>$count,'role_name'=>$user->role->ROLE_NAME));
 }
 

@@ -22,6 +22,16 @@ class pluginController extends Controller
 
 	}
 
+	public function uploadLogo(Request $request)
+	{
+       //$file = $request->file('logo');
+	   $plugininst = \App\Domain::find(Request('domainId'))->plugin;
+	   $plugininst->LOGOPATH = 	Request('domainId').'logo.jpg';
+	   $plugininst->save();
+       $path = $request->photo->storeAs('images', Request('domainId').'logo.jpg');
+
+	}
+
 	public function update(Request $request)
 	{
 

@@ -27,6 +27,8 @@ class plugin extends Model
       $plugin->PLUGIN_COLOR = "#000000";
       $plugin->ISACTIVE = false;
       $plugin->DOMAIN_ID = domain::latest()->first()->DOMAIN_ID;
+      $plugin->ISNEWTAB = 0;
+      $plugin->LABELTEXT = "Feedback";
       $plugin->CREATED_BY = 1;
         
         return $plugin;
