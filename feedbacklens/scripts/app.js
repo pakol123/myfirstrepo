@@ -1370,6 +1370,7 @@ function() {
                 a.plugin.ISACTIVE = data.properties.ISACTIVE;
                 a.plugin.LABELTEXT = data.properties.LABELTEXT;
                 a.plugin.ISNEWTAB = data.properties.ISNEWTAB;
+                a.plugin.LOGOPATH = data.properties.LOGOPATH;
                 a.isActive = a.showFullPreview = a.plugin.ISACTIVE == 1 ? true : false;
                 original = angular.copy(a.plugin);
 
@@ -1504,7 +1505,7 @@ function() {
 
     } // End of plugin controller function
 
-     function b(a, b, c, d) {
+     function b(a, b, c, d, e) {
         a.uploadLogoFile = function(){
             var file = a.myFile;
             
@@ -1513,6 +1514,7 @@ function() {
                     a.showUploadFileError = false;
                     var uploadUrl = "public/api/plugin/uploadLogo";
                     c.uploadFileToUrl(file, uploadUrl, d);
+                    e.notify('success', 'Logo uploaded successfully!');
                     b.close();
                 } else {
                     a.uploadError = "File size should be less than 4MB";
@@ -1544,7 +1546,7 @@ function() {
         }
     }
 
-    angular.module('app.plugin').controller("pluginController", ["$scope", "$rootScope", "$http", "logger", "$compile", "$templateCache", "$uibModal", a]).controller("ModalInstanceCtrl", ["$scope", "$uibModalInstance","fileUpload","dmId", b])
+    angular.module('app.plugin').controller("pluginController", ["$scope", "$rootScope", "$http", "logger", "$compile", "$templateCache", "$uibModal", a]).controller("ModalInstanceCtrl", ["$scope", "$uibModalInstance","fileUpload","dmId","$rootScope", b])
 }(),
 
 // End plugin controller

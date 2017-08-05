@@ -22,8 +22,7 @@ function loadPlugin(domainIfoJson) {
 	var pluginBtn = b();
 	pluginBtn.id = 'idPluginBtn';
 	pluginBtn.classList.add('flPluginBtn');
-	pluginBtn.innerHTML = '';
-	//pluginBtn.target = '_blank';
+	pluginBtn.innerHTML = 'Feedback';
 	pageBody.appendChild(pluginBtn);
 
 	// Plugin parent div
@@ -42,68 +41,18 @@ function loadPlugin(domainIfoJson) {
 	div1.appendChild(div11);
 
 	// Plugin parent div
-	/*var div2 = d();
+	var div2 = d();
 	div2.id = 'idFlPluginModalThankUDiv';
 	div2.classList.add('flPluginModalContent');
 
-	div2.innerHTML = '<table class="tableContainer" style="border: 1px solid white; border-radius: 4px; height: 522px"><tr><td style="padding:30px;10px;color:#64DD17;font-size: 18px; font-weight: 600; text-align: center" align: center>Thank you for your valuable feedback!!<br><br><button style="border: 1px solid #42A5F5; background-color:#42A5F5;color: white; padding: 5px 10px; border-radius: 4px; font-weight:400; font-size: 13px" id="idFlThankClose">Close</button></td></tr></table>';
-	div1.appendChild(div2);*/
+	div2.innerHTML = '<table class="tableContainer" style="border: 1px solid white; border-radius: 4px"><tr><td style="padding:30px;10px;color:#64DD17;font-size: 18px; font-weight: 600; text-align: center" align: center>Thank you for your valuable feedback!!<br><br><button style="border: 1px solid #42A5F5; background-color:#42A5F5;color: white; padding: 5px 10px; border-radius: 4px; font-weight:400; font-size: 13px" id="idFlThankClose">Close</button></td></tr></table>';
+	div1.appendChild(div2);
 
 	pageBody.appendChild(div1);
 
 
 	var outerCont = eId('idFlPluginModalContent');
-	outerCont.innerHTML = '<div class="mfp-content" style="font-family: Segoe,Helvetica,Arial,sans-serif; font-weight:400; color: black !important">'
-							+'<div id="hp-feedback-form" class="hp-feedback-modal-wrapper" role="document" tabindex="0">'
-						            +'<div class="feedbwWrapper cf">'
-						               +'<div class="feedbwHeadLeft"><img id="logo" alt="FeedbackLens" src="public/'+domainIfoJson.pluginconfig.properties.LOGOPATH+'" onerror="this.src=\'images/feedbackLogo.png\'" height="40px"></div>'
-						               +'<div class="feedbwHeadRight"></div>'
-						            +'</div>'
-						            +'<div id="idFlPluginModalInitialForm">'
-										+'<p id="feedbRatSentence" role="region" aria-live="text" aria-relevant="polite" style="color:black">Rate your level of satisfaction:</p>'
-							            +'<div>'
-							               +'<ul class="flRateElement" id="flRatingUl"></ul>'
-							            +'</div>'
-							            +'<p class="feedbRatSentence" id="feedbwRatSelect-label" style="color:black; padding-bottom: 6px">What category would you like to give web site feedback on?</p>'
-							            +'<select aria-labelledby="feedbwRatSelect-label" class="feedbwRatSelect" id="idFlSubCategory" onchange="">'
-							            +'</select>'
-							            +'<br><br>'
-							            +'<p id="feedbRatSentence" role="region" aria-live="text" aria-relevant="polite"></p>'
-							            +'<div class="feedbwRatRowWrapper cf" role="radiogroup" aria-labelledby="feedbRatSentence">'
-							               +'<div class="option-column"><label for="xsatisfLevel-option1" style="font-weight: 400">Problem </label><input id="xsatisfLevel-option1" name="flMainCat" value="1" type="radio" onchange="flSelectCat(1)"></div>'
-							               +'<div class="option-column"><label for="xsatisfLevel-option2" style="font-weight: 400">Suggetion </label><input id="xsatisfLevel-option2" name="flMainCat" value="2" type="radio" onchange="flSelectCat(2)"></div>'
-							               +'<div class="option-column"><label for="xsatisfLevel-option3" style="font-weight: 400">Complaint </label><input id="xsatisfLevel-option3" name="flMainCat" value="3" type="radio" onchange="flSelectCat(3)"></div>'
-							               +'<div class="option-column"><label for="xsatisfLevel-option4" style="font-weight: 400">Others </label><input id="xsatisfLevel-option4" name="flMainCat" value="3" type="radio" onchange="flSelectCat(4)"></div>'
-							            +'</div>'
-							            +'<p class="feedbwRatParaOne" id="feedbwRatTextArea-label" style="color:black">Comments:</p>'
-							            +'<div class="feedbwWrapperBottom cf">'
-							               +'<div class="feedbwBottomLeft"><textarea maxlength="500" class="feedbwRatTextArea" id="idFlComments" aria-labelledby="feedbwRatTextArea-label" style="resize: vertical;"></textarea></div>'
-							               +'<div class="feedbwBottomRight" style="margin-left: 20px"><span href="Javascript:void();" style="cursor:pointer; background-color: '+domainIfoJson.pluginconfig.properties.PLUGIN_COLOR+'" id="feedbwSubmit" class="feedbwbtn feedbwbtn-blue" onclick="javascript: flGoToNextForm();"><span>Next</span></span></div>'
-						            	+'</div>'
-					            	+'</div>'
-					            	+'<div id="idFlPluginEmailDiv" style="display: none; ">'
-						            	+'<table class="tableContainer">'
-							            	+'<tr><td align="left">'
-								            	+'<p class="feedbRatSentence" style="color:black; padding-bottom: 8px">Your Email</p>'
-								            	+'<input class="feedbwRatSelect" style="width: 100%" id="idFlEmail" value="" placeholder="Optional">'
-							            	+'</td></tr>'
-							            	+'<tr>'
-							            		+'<td style="padding: 20px 0px 0px 0px" align="right">'
-							            			+'<span href="Javascript:void();" style="cursor:pointer;background-color: '+domainIfoJson.pluginconfig.properties.PLUGIN_COLOR+'" id="feedbwSubmit" class="feedbwbtn feedbwbtn-blue" onclick="javascript: flSubmitForm();"><span>Submit</span></span>'
-							            		+'</td>'
-							            	+'</tr>'
-						            	+'</table>'
-						            	+'<div>'
-							               +'<div class="feedbwBottomRight" style="margin-left: 20px"></div>'
-						            	+'</div>'
-						            +'</div>'
-						            +'<div id="idFlPluginModalThankUDiv" style="display: none; text-align: center; padding-top:5%; padding-bottom:5%"><table class="tableContainer" ><tr><td style="padding:30px;10px;color:#64DD17;font-size: 18px; font-weight: 600; text-align: center" align: center>Thank you for your valuable feedback!!<br><br><button style="border: 1px solid #42A5F5; background-color:#42A5F5;color: white; padding: 5px 10px; border-radius: 4px; font-weight:400; font-size: 13px" id="idFlThankClose">Close</button></td></tr></table></div>'
-						            +'<button title="Close (Esc)" type="button" class="mfp-close" id="idFlPluginClose" style="color: black;">×</button>'
-						         +'</div>'
-								 +'<input type="hidden" id="idRate" value="">'
-								 +'<input type="hidden" id="idFlCategory" value="">'
-					      +'</div>';
-
+	outerCont.innerHTML = '<table class="tableContainer"><tr class="headingTR grad"><td class="flHeading" colspan="4">Feedback <span id="idFlPluginClose" class="flCloseBtn">X</span></td></tr><tr><td class="flRateElementTd" colspan="4" align="center"><ul class="flRateElement" id="flRatingUl"></ul></td></tr><tr class="catSection" id="trCats"></tr><tr><td colspan="4" style="padding: 20px 30px"><table class="flInputTable"><tr><td align="center" class="flInputTd"><select class="flPluginInput flSubCategory" id="idFlSubCategory" ></select></td></tr><tr><td class="flInputTd" align="center"><textarea class="flPluginInput" id="idFlComments" rows="5" placeholder="Comments*" maxlength="1000" ></textarea></td></tr><tr><td align="center" class="flInputTd"><input class="flPluginInput flComments" id="idFlEmail" type="email" placeholder="Email (Optional)" maxlength="100"></td></tr></table></td></tr><tr><td class="flInputTd flBtnTd" align="center" colspan="4"><input class="flPluginInput flSubmitButton" type="button" value="Submit" onclick="javascript: flSubmitForm();"style="padding: 8px 5px"></td></tr></table><table class="tableContainer" style="display:none" id="idFlPluginThnkTr"><tr ><td style="padding:30px 15px; color: #64DD17; text-align: center; display: none" colspan="4">Thank you for your valuable feedback!!</td></tr></table>';
 	var rateEmailUl = eId('flRatingUl');
 	var svgCircle = '';
     for(var i=0; i<5; i++){
@@ -126,6 +75,8 @@ function loadPlugin(domainIfoJson) {
 	flTextHiidenCatIn.id = 'idFlCategory';
 
 	outerCont.appendChild(flTextHiidenCatIn);
+
+
 	
 
 	// Binding modal events
@@ -136,10 +87,9 @@ function loadPlugin(domainIfoJson) {
 		
 	btn.onclick = function() {
 		
+		modal.style.display = "block";
 		showThankDiv(false);
 		flResetInputs();
-		modal.style.display = "block";
-		//window.open('/#idFlPluginModal', '');
 	}
 		
 	span.onclick = function() {
@@ -157,23 +107,8 @@ function loadPlugin(domainIfoJson) {
 	}
 
 	// Set Categories and subcategories
-	//setOptionsToCat(domainIfoJson.pluginconfig.cat);
+	setOptionsToCat(domainIfoJson.pluginconfig.cat);
 	setOptionsToSubCat(domainIfoJson.pluginconfig.subcat);
-}
-
-function flClearCatRadioes() {
-	var ele = document.getElementsByName("flMainCat");
-   for(var i=0;i<ele.length;i++)
-      ele[i].checked = false;
-}
-function flGoToNextForm() {
-	if(flIsValidaeInputs()) {
-		eId('idFlPluginModalInitialForm').style.display = 'none';
-		eId('idFlPluginModalThankUDiv').style.display =  'none';
-		eId('idFlPluginEmailDiv').style.display =  'block';
-	} else {
-		alert("Not Valid");
-	}
 }
 
 function setRate(ev, rate) {
@@ -182,14 +117,12 @@ function setRate(ev, rate) {
 }
 
 function flSubmitForm() {
-	if(!flIsEmptyField(eId('idFlEmail'))) {
-		if(!validateEmail(eId('idFlEmail').value)) {
-			alert("Enter Valid Email");
-			return false;
-		}
+	if(flIsValidaeInputs()) {
+		alert("All Valid");
+		postFeedback();
+	} else {
+		alert("Not Valid");
 	}
-	
-	postFeedback();
 }
 
 function flGetAllInputElements() {
@@ -216,7 +149,7 @@ function flResetInputs() {
 
     // Second parameter of following function is for check if to reset rate elements or set one selected
 	flToggleRateElement(0, true);
-	flClearCatRadioes();
+	flSelectCat({}, true, 0);
 }
 
 
@@ -233,6 +166,11 @@ function flIsValidaeInputs() {
 
 	if(flIsEmptyField(inputFields.selectedSubCat)) {
 		return false;
+	}
+
+	if(!flIsEmptyField(inputFields.email)) {
+		if(!validateEmail(inputFields.email.value))
+			return false;
 	}
 
 	if(flIsEmptyField(inputFields.comments)) {
@@ -300,12 +238,6 @@ function getPluginProperties(domainNameParam) {
 			      	if(domainIfoJson.pluginconfig.properties.ISACTIVE == 1) {
 				    	loadPlugin(domainIfoJson);
 				    	domainId = domainIfoJson.domain.DOMAIN_ID;
-
-				    	if(domainIfoJson.pluginconfig.properties.LABELTEXT && domainIfoJson.pluginconfig.properties.LABELTEXT != '' && domainIfoJson.pluginconfig.properties.LABELTEXT.length > 0)
-				    		eId('idPluginBtn').innerHTML = domainIfoJson.pluginconfig.properties.LABELTEXT;
-				    	else
-				    		eId('idPluginBtn').innerHTML = 'Feedback';
-
 				    	//alert(JSON.stringify(domainIfoJson));   
 				    	if(domainIfoJson.pluginconfig.properties.ALIGNMENT.toLowerCase() == 'left')
     						eId('idPluginBtn').classList.add('flPluginBtnPropLeft');
@@ -340,9 +272,26 @@ function setOptionsToCat(categories) {
 	catElement.innerHTML = catTds;
 }
 
-function flSelectCat(catId) {
-	
-	eId('idFlCategory').value=catId;
+function flSelectCat(ev, isReset, catId) {
+		var x = document.getElementsByClassName("flCatTd");
+	            
+	    if(isReset){
+	       		for(var i=0; i<x.length; i++){
+	       			x[i].classList.remove('flSelectedCatSection');
+	       		}
+	       } else {    	
+		       for(var i=0; i<x.length; i++) {
+		       		if(ev.id == x[i].id) {
+		            	x[i].classList.add('flSelectedCatSection');
+		            	eId('idFlCategory').value=catId;
+		       		}
+		            else {
+		            	x[i].classList.remove('flSelectedCatSection');
+		            }
+		       }
+	       }
+
+
 }
 
 function setOptionsToSubCat(subCategories) {
@@ -360,7 +309,6 @@ function setOptionsToSubCat(subCategories) {
 }
 
 function postFeedback() {
-
 	var http = new XMLHttpRequest();
 	var url = "public/api/feedback/sendFeedBack?";
 	var params = "";
@@ -383,9 +331,7 @@ function postFeedback() {
 	params = params.concat('ip='+myIp+'&');
 	params = params.concat('browser='+browser+'&');
 	params = params.concat('country='+country+'&');
-
-	if(inputFields.email.value != '' && inputFields.email.value.length > 0)
-		params = params.concat('email='+inputFields.email.value);
+	params = params.concat('email='+inputFields.email.value);
 
 	http.open("POST", url, true);
 
@@ -402,9 +348,8 @@ function postFeedback() {
 }
 
 function showThankDiv(display) {
-	eId('idFlPluginModalInitialForm').style.display = display ? 'none' : 'block';
+	eId('idFlPluginModalContent').style.display = display ? 'none' : 'block';
 	eId('idFlPluginModalThankUDiv').style.display =  display ? 'block' : 'none';
-	eId('idFlPluginEmailDiv').style.display =  'none';
 }
 
 function b() {
@@ -441,10 +386,6 @@ function ta() {
 
 function t() {
 	return document.createElement("INPUT");
-}
-
-function L() {
-	return document.createElement("A");
 }
 
 function eId(eId) {

@@ -13,7 +13,7 @@ class feedbackController extends Controller
 
 public function create(Request $request)
 {
-
+    Log::info($request);
     /*$domainName = Request('domainUrl');
     $domainId = DB::table('fl_domain')
                      ->select(DB::raw('DOMAIN_ID '))
