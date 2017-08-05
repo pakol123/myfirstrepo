@@ -605,15 +605,18 @@ img.mfp-img {
  * @author  v-marklo
  * @version 1.0 (12 NOV 2015)
  */
-        .option-column {
+.option-column {
     width: 25%;
     float: left;
     text-align: center;
     background-color: #f8f8f8;
     padding-top: 25px;
     padding-bottom: 25px;
-    font-size:15px;
+    font-size:16px;
+    font-weight: 600 !important;
+    text-transform: uppercase;
 }
+
 .option-column span{
     display: block;
 }
@@ -704,7 +707,7 @@ img.mfp-img {
 }
 .feedbwRatSelect {
     padding: 7px;
-    /*width: 425px;*/
+    width: 400px;
     font-family: #{$primary-font-family};
     font-size: 16px;
 }

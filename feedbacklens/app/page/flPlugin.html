@@ -89,21 +89,6 @@
         </div>
     </div>
     <div class="divider divider-md"></div>
-    <div class="row" ng-show="domainId != ''">
-    	<div class="col-md-12">
-	    	<section class="panel panel-default">
-				<div class="panel-heading" ><strong><span class="glyphicon glyphicon-th"></span> {{domainNameIn}}</strong></div>
-				<div class="panel-body">
-			        
-			            <object type="text/html" data="index.html" style="overflow:none;height:500px; width: 100%">
-			    		</object>
-			       
-		        </div>
-	        </section>
-         </div>
-    </div>
-    <div class="divider divider-md"></div>   
-		               
 		            
 	<!-- Plugin Properties Section -->
 	<div class="row">
@@ -210,8 +195,22 @@
 		                </div>
 		        </section>
 	    </div>
-
+    
 	</div>
+
+	 <div class="row" ng-show="domainId != ''">
+	    	<div class="col-md-12">
+		    	<section class="panel panel-default">
+					<div class="panel-heading" ><strong><span class="glyphicon glyphicon-th"></span> {{domainNameIn}}</strong></div>
+					<div class="panel-body">
+				        
+				            <object type="text/html" id="webPageArea" data="index.html" style="overflow:none;height:500px; width: 100%">
+				    		</object>
+				       
+			        </div>
+		        </section>
+	         </div>
+    </div>
 	<script type="text/ng-template" id="uploadLogo.html">
 		<div class="modal-header">
 			<h4>Upload Logo</h4>
@@ -230,7 +229,7 @@
 					<td align="center" style="padding:20px">
 						<span style="color: #BBBBBB">Click below to browse image file or you can drag and drop image file.</span><br/><br/>
 						<div class="file-upload">
-					    	<img for="upload" src="images/uploadBack.png" class="file-upload__label" id="idUploadLogoInput"/>
+					    	<img for="upload" ng-src="{{logoImg}}" class="file-upload__label" id="idUploadLogoInput" onerror="this.src=\'images/feedbackLogo.png\'"/>
 					    	<input id="upload" class="file-upload__input" type="file" name="file-upload" file-model = "myFile" onchange='angular.element(this).scope().showImage(this)' accept="image/*">
 						</div>
 					</td>

@@ -1356,6 +1356,7 @@ function() {
 
             if(a.domainId > 0)
                 a.getSubCategories(a.domainId);
+
         }).error(function(error){
 
         });
@@ -1379,7 +1380,8 @@ function() {
                     color: data.properties.PLUGIN_COLOR ? data.properties.PLUGIN_COLOR : 'blue'
                 });
 
-                a.loadPlugin();
+                //a.loadPlugin();
+               a.changeDomain();
             });
         }
 
@@ -1394,8 +1396,8 @@ function() {
 
         a.onSelectDomain = function () {
             if(a.domainId != '') {
-                a.getSubCategories(a.domainId);
                 a.domainNameIn = $("#domainNamesList option:selected").html();
+                a.getSubCategories(a.domainId);
             }
         }
 
@@ -1405,6 +1407,7 @@ function() {
             c.post('public/api/domain/pluginupdate', changeReq).success(function(data) {
                 b.notify('success', "Successfully updated plugin");
                 a.getSubCategories(a.domainId);
+
             }).error(function(error){
                 b.notify('error', "Failed to update plugin");
             });
@@ -1489,8 +1492,8 @@ function() {
                 controller: "ModalInstanceCtrl",
                 size: 'sm',
                 resolve: {
-                    dmId: function() {
-                        return a.domainId
+                    domainInfo: function() {
+                        return {'domainId':a.domainId, 'pluginProp': a.plugin};
                     }
                 }
             });
@@ -1501,11 +1504,28 @@ function() {
             });
         }
 
-        
+        a.changeDomain = function() {
+            if(a.domainNameIn && a.domainNameIn != '') {
+                var newURL = "http://www."+a.domainNameIn;
+                //document.getElementById("webPageArea").object.location.href = newURL;
+
+                var varObject = document.getElementById("webPageArea");
+                varObject.setAttribute('data', newURL);
+
+                var clone = varObject.cloneNode(true);
+                var parent = varObject.parentNode;
+
+                parent.removeChild(varObject);
+                parent.appendChild(clone );
+
+            }
+        }
 
     } // End of plugin controller function
 
      function b(a, b, c, d, e) {
+        a.logoImg = 'public/' + d.pluginProp.LOGOPATH;
+
         a.uploadLogoFile = function(){
             var file = a.myFile;
             
@@ -1513,7 +1533,7 @@ function() {
                 if(file.size <= 4000000){
                     a.showUploadFileError = false;
                     var uploadUrl = "public/api/plugin/uploadLogo";
-                    c.uploadFileToUrl(file, uploadUrl, d);
+                    c.uploadFileToUrl(file, uploadUrl, d.domainId);
                     e.notify('success', 'Logo uploaded successfully!');
                     b.close();
                 } else {
@@ -1546,7 +1566,8 @@ function() {
         }
     }
 
-    angular.module('app.plugin').controller("pluginController", ["$scope", "$rootScope", "$http", "logger", "$compile", "$templateCache", "$uibModal", a]).controller("ModalInstanceCtrl", ["$scope", "$uibModalInstance","fileUpload","dmId","$rootScope", b])
+
+    angular.module('app.plugin').controller("pluginController", ["$scope", "$rootScope", "$http", "logger", "$compile", "$templateCache", "$uibModal", a]).controller("ModalInstanceCtrl", ["$scope", "$uibModalInstance","fileUpload","domainInfo","$rootScope", b])
 }(),
 
 // End plugin controller

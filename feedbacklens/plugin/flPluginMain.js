@@ -1,4 +1,4 @@
-var hostUrl = 'localhost/myfirstrepo/feedbacklens/public/api/';
+var hostUrl = 'http://www.kolhsys.com/LatestCode/feedbacklens/public/api/';
 var domainId;
 var myIp = '';
 var opSys  = '';
@@ -97,7 +97,7 @@ function loadPlugin(domainIfoJson) {
 							               +'<div class="feedbwBottomRight" style="margin-left: 20px"></div>'
 						            	+'</div>'
 						            +'</div>'
-						            +'<div id="idFlPluginModalThankUDiv" style="display: none; text-align: center; padding-top:5%; padding-bottom:5%"><table class="tableContainer" ><tr><td style="padding:30px;10px;color:#64DD17;font-size: 18px; font-weight: 600; text-align: center" align: center>Thank you for your valuable feedback!!<br><br><button style="border: 1px solid #42A5F5; background-color:#42A5F5;color: white; padding: 5px 10px; border-radius: 4px; font-weight:400; font-size: 13px" id="idFlThankClose">Close</button></td></tr></table></div>'
+						            +'<div id="idFlPluginModalThankUDiv" style="display: none; text-align: center; padding-top:5%; padding-bottom:5%"><table class="tableContainer" ><tr><td style="padding:30px;10px;color:black;font-size: 20px; font-weight: 400; text-align: center" align: center>Thank you for your valuable feedback!!<br><br><span href="Javascript:void();" style="cursor:pointer; background-color: '+domainIfoJson.pluginconfig.properties.PLUGIN_COLOR+'" class="feedbwbtn feedbwbtn-blue" id="idFlThankClose"><span>Close</span></span></td></tr></table></div>'
 						            +'<button title="Close (Esc)" type="button" class="mfp-close" id="idFlPluginClose" style="color: black;">×</button>'
 						         +'</div>'
 								 +'<input type="hidden" id="idRate" value="">'
@@ -288,7 +288,7 @@ function getPluginProperties(domainNameParam) {
 		domainName = domainName.replace("www.", "");
 	}
 	
-	var flReqUrl = 'public/api/domain/fetchData?domainName='.concat(domainName);
+	var flReqUrl = hostUrl + "domain/fetchData?domainName='.concat(domainName);
 	xhr.open("GET", flReqUrl, true);
 	xhr.onload = function (e) {
 	  if (xhr.readyState === 4) {
@@ -362,7 +362,7 @@ function setOptionsToSubCat(subCategories) {
 function postFeedback() {
 
 	var http = new XMLHttpRequest();
-	var url = "public/api/feedback/sendFeedBack?";
+	var url = hostUrl + "feedback/sendFeedBack?";
 	var params = "";
 	var inputFields = flGetAllInputElements();
 
