@@ -1,11 +1,12 @@
-var hostUrl = 'http://www.kolhsys.com/LatestCode/feedbacklens/public/api/';
+//var hostUrl = 'http://www.kolhsys.com/LatestCode/feedbacklens/public/api/';
+var hostUrl = 'public/api/';
 var domainId;
 var myIp = '';
 var opSys  = '';
 var browser = '';
+var eventArr = [];
 
 window.onload = function() {
-
 	$.get("http://ipinfo.io", function(response) {
     	myIp = response.ip;
 	}, "jsonp");
@@ -16,7 +17,6 @@ window.onload = function() {
 }
 
 function loadPlugin(domainIfoJson) {
-	
 	var pageBody = document.getElementsByTagName('body')[0];
 	// Floating button
 	var pluginBtn = b();
@@ -64,7 +64,7 @@ function loadPlugin(domainIfoJson) {
 							            +'<div>'
 							               +'<ul class="flRateElement" id="flRatingUl"></ul>'
 							            +'</div>'
-							            +'<p class="feedbRatSentence" id="feedbwRatSelect-label" style="color:black; padding-bottom: 6px">What category would you like to give web site feedback on?</p>'
+							            +'<p class="feedbRatSentence" id="feedbwRatSelect-label" style="color:black; padding-bottom: 6px">What sub category would you like to give web site feedback on?</p>'
 							            +'<select aria-labelledby="feedbwRatSelect-label" class="feedbwRatSelect" id="idFlSubCategory" onchange="">'
 							            +'</select>'
 							            +'<br><br>'
@@ -107,7 +107,7 @@ function loadPlugin(domainIfoJson) {
 	var rateEmailUl = eId('flRatingUl');
 	var svgCircle = '';
     for(var i=0; i<5; i++){
-        svgCircle = svgCircle.concat('<li><svg height="40" width="40"> <polygon fill="#FFF" points="20,4.061834335327148 24.217514038085938,16.195087432861328 37.06020736694336,16.456802368164062 26.824085235595703,24.217281341552734 30.54378890991211,36.51227951049805 20,29.17526626586914 9.45621109008789,36.51227951049805 13.175914764404297,24.217281341552734 2.939790725708008,16.456802368164062 15.782485961914062,16.195087432861328 20,4.061834335327148 24.217514038085938,16.195087432861328" stroke="#FFD54F" stroke-width="2" stroke-linejoin="round" onclick="setRate(this, '+(i+1)+');" id="idCir'+i+'" class="flCir rateCircles" /></svg></li>');
+        svgCircle = svgCircle.concat('<li><svg height="40" width="40"> <polygon fill="#FFF" points="20,4.061834335327148 24.217514038085938,16.195087432861328 37.06020736694336,16.456802368164062 26.824085235595703,24.217281341552734 30.54378890991211,36.51227951049805 20,29.17526626586914 9.45621109008789,36.51227951049805 13.175914764404297,24.217281341552734 2.939790725708008,16.456802368164062 15.782485961914062,16.195087432861328 20,4.061834335327148 24.217514038085938,16.195087432861328" stroke="#FFD54F" stroke-width="2" stroke-linejoin="round" onclick="setRate(this, '+(i+1)+');" id="idCir'+i+'" class="flCir rateCircles" onmouseenter="fillOutPrevStars(this, '+i+');" onmouseout="resetPrevStars(this);"/></svg></li>');
     }
     rateEmailUl.innerHTML = svgCircle;
 
@@ -127,7 +127,6 @@ function loadPlugin(domainIfoJson) {
 
 	outerCont.appendChild(flTextHiidenCatIn);
 	
-
 	// Binding modal events
 	var modal = eId('idFlPluginModal');
 	var btn = eId("idPluginBtn");
@@ -161,22 +160,51 @@ function loadPlugin(domainIfoJson) {
 	setOptionsToSubCat(domainIfoJson.pluginconfig.subcat);
 }
 
+function fillOutPrevStars(ev, rate) {
+	eventArr.pop();
+	eventArr.push('out');
+	var x = document.getElementsByClassName("rateCircles");
+            
+	for(var i=eId('idRate').value != '' ? eId('idRate').value : 0;i<x.length; i++) {
+	    if(i < rate)
+	      	x[i].classList.add('flClsBlue');
+	    else
+	       	x[i].classList.remove('flClsBlue');
+    }
+}
+
+function resetPrevStars(ev) {
+	var lastEvent = eventArr.pop();
+	eventArr.push('enter');
+	if(lastEvent != 'click')
+	{
+		var x = document.getElementsByClassName("rateCircles");
+	            
+		for(var i=eId('idRate').value != '' ? eId('idRate').value : 0; i<x.length; i++) {
+		    x[i].classList.remove('flClsBlue');
+	    }
+	}
+}
+
 function flClearCatRadioes() {
 	var ele = document.getElementsByName("flMainCat");
    for(var i=0;i<ele.length;i++)
       ele[i].checked = false;
 }
+
 function flGoToNextForm() {
 	if(flIsValidaeInputs()) {
 		eId('idFlPluginModalInitialForm').style.display = 'none';
 		eId('idFlPluginModalThankUDiv').style.display =  'none';
 		eId('idFlPluginEmailDiv').style.display =  'block';
 	} else {
-		alert("Not Valid");
+		return false;
 	}
 }
 
 function setRate(ev, rate) {
+	eventArr.pop();
+	eventArr.push('click');
     flToggleRateElement(rate, false);
     eId("idRate").value = rate;
 }
@@ -224,18 +252,23 @@ function flIsValidaeInputs() {
 	var inputFields = flGetAllInputElements();
 
 	if(flIsEmptyField(inputFields.selectedRate)) {
+		alert("Please select rate");
+		return false;
+	}
+
+
+	if(flIsEmptyField(inputFields.selectedSubCat)) {
+		alert("Please choose sub category");
 		return false;
 	}
 
 	if(flIsEmptyField(inputFields.selectedCat)) {
-		return false;
-	}
-
-	if(flIsEmptyField(inputFields.selectedSubCat)) {
+		alert("Please choose category");
 		return false;
 	}
 
 	if(flIsEmptyField(inputFields.comments)) {
+		alert("Please write some comments");
 		return false;
 	}
 
@@ -259,6 +292,7 @@ function flIsEmptyField(element) {
 }
 
 function flToggleRateElement(rate, isReset) {
+	
 	var x = document.getElementsByClassName("rateCircles");
             
     if(isReset){
@@ -288,7 +322,7 @@ function getPluginProperties(domainNameParam) {
 		domainName = domainName.replace("www.", "");
 	}
 	
-	var flReqUrl = hostUrl + "domain/fetchData?domainName='.concat(domainName);
+	var flReqUrl = hostUrl + 'domain/fetchData?domainName='.concat(domainName);
 	xhr.open("GET", flReqUrl, true);
 	xhr.onload = function (e) {
 	  if (xhr.readyState === 4) {

@@ -1489,7 +1489,7 @@ function() {
             var e = h.open({
                 animation: true,
                 templateUrl: 'uploadLogo.html',
-                controller: "ModalInstanceCtrl",
+                controller: "LogoModalInstanceCtrl",
                 size: 'sm',
                 resolve: {
                     domainInfo: function() {
@@ -1566,8 +1566,15 @@ function() {
         }
     }
 
+    function c(a, b) {
+        a.ok = function() {
+            b.close();
+        }, a.cancel = function() {
+            b.dismiss("cancel")
+        }
+    }
 
-    angular.module('app.plugin').controller("pluginController", ["$scope", "$rootScope", "$http", "logger", "$compile", "$templateCache", "$uibModal", a]).controller("ModalInstanceCtrl", ["$scope", "$uibModalInstance","fileUpload","domainInfo","$rootScope", b])
+    angular.module('app.plugin').controller("pluginController", ["$scope", "$rootScope", "$http", "logger", "$compile", "$templateCache", "$uibModal", a]).controller("ModalInstanceCtrl", ["$scope", "$uibModalInstance", c]).controller("LogoModalInstanceCtrl", ["$scope", "$uibModalInstance","fileUpload","domainInfo","$rootScope", b])
 }(),
 
 // End plugin controller
